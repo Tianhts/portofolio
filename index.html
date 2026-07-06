@@ -1114,7 +1114,7 @@
   <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" id="scr-top"><i
       class="fas fa-arrow-up"></i></a>
 
-  <!-- SPOTIFY (HTML5 Audio Player - Wonderwall) -->
+  <!-- SPOTIFY -->
   <div id="sp-widget">
     <div style="display:flex;align-items:center;gap:10px;justify-content:space-between;">
       <div style="display:flex;align-items:center;gap:10px;">
@@ -1125,22 +1125,17 @@
         <div style="overflow:hidden;">
           <p
             style="color:var(--text);font-weight:600;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-            Wonderwall</p>
-          <p style="color:var(--muted);font-size:10px;">Oasis • Player</p>
+            La La Lost You</p>
+          <p style="color:var(--muted);font-size:10px;">NIKI • Spotify</p>
         </div>
       </div>
       <button onclick="toggleSpotify()" id="sp-btn"
-        style="flex-shrink:0;padding:5px 12px;background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--text);border-radius:8px;font-size:11px;font-weight:600;font-family:inherit;cursor:auto !important;">Buka</button>
+        style="flex-shrink:0;padding:5px 12px;background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--text);border-radius:8px;font-size:11px;font-weight:600;font-family:inherit;cursor:none;">Buka</button>
     </div>
     <div id="sp-wrap" style="display:none;margin-top:10px;">
-      <!-- HTML5 Player yang disesuaikan dengan tema gelap website Anda -->
-      <audio controls
-        style="width: 100%; height: 40px; border-radius: 8px; outline: none; background: #111118; margin-top: 4px;">
-        <!-- Tautan audio langsung Wonderwall Oasis dengan penanda waktu mulai 44 detik (#t=44) -->
-        <source src="https://archive.org/download/OasisWonderwall_201808/Oasis%20-%20Wonderwall.mp3#t=44"
-          type="audio/mpeg">
-        Browser Anda tidak mendukung elemen pemutar audio ini.
-      </audio>
+      <iframe style="border-radius:10px;" src="https://open.spotify.com/embed/track/0e2wfbDK7ppotqyUWD7qs8" width="100%"
+        height="152" frameborder="0" allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture"
+        loading="lazy"></iframe>
     </div>
   </div>
 
