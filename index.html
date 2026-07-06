@@ -1114,31 +1114,31 @@
   <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" id="scr-top"><i
       class="fas fa-arrow-up"></i></a>
 
-<!-- SPOTIFY -->
-<div id="sp-widget">
-  <div style="display:flex;align-items:center;gap:10px;justify-content:space-between;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <div
-        style="width:34px;height:34px;background:rgba(29,185,84,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-        <i class="fab fa-spotify" style="color:#1DB954;font-size:15px;"></i>
+ <!-- SPOTIFY -->
+  <div id="sp-widget">
+    <div style="display:flex;align-items:center;gap:10px;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div
+          style="width:34px;height:34px;background:rgba(29,185,84,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="fab fa-spotify" style="color:#1DB954;font-size:15px;"></i>
+        </div>
+        <div style="overflow:hidden;">
+          <p
+            style="color:var(--text);font-weight:600;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            Wonderwall</p>
+          <p style="color:var(--muted);font-size:10px;">Oasis • Spotify</p>
+        </div>
       </div>
-      <div style="overflow:hidden;">
-        <p
-          style="color:var(--text);font-weight:600;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-          Wonderwall</p>
-        <p style="color:var(--muted);font-size:10px;">Oasis • Spotify</p>
-      </div>
+      <button onclick="toggleSpotify()" id="sp-btn"
+        style="flex-shrink:0;padding:5px 12px;background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--text);border-radius:8px;font-size:11px;font-weight:600;font-family:inherit;cursor:none;">Buka</button>
     </div>
-    <button onclick="toggleSpotify()" id="sp-btn"
-      style="flex-shrink:0;padding:5px 12px;background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--text);border-radius:8px;font-size:11px;font-weight:600;font-family:inherit;cursor:none;">Buka</button>
+    <div id="sp-wrap" style="display:none;margin-top:10px;">
+      <!-- Menggunakan ID track resmi Wonderwall dari Oasis -->
+      <iframe style="border-radius:10px;" src="https://open.spotify.com/embed/track/77dhv6X7p3V7996vOi69D0" width="100%"
+        height="152" frameborder="0" allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture"
+        loading="lazy"></iframe>
+    </div>
   </div>
-  <div id="sp-wrap" style="display:none;margin-top:10px;">
-    <!-- Menggunakan ID track resmi Wonderwall dari Oasis -->
-    <iframe style="border-radius:10px;" src="https://open.spotify.com/embed/track/75JFxv2mR699PqnSTgVRS0" width="100%"
-      height="152" frameborder="0" allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture"
-      loading="lazy"></iframe>
-  </div>
-</div>
 
   <!-- ══ HOME ══ -->
   <div id="pg-home" class="pg on">
