@@ -7,8 +7,8 @@
   --duration-fast: 200ms;
   --duration-normal: 320ms;
   --duration-slow: 600ms;
-  --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
-  --skill-glow: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%);
+  --accent-soft: color-mix(in srgb, var(--accent) 8%, transparent);
+  --skill-glow: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%);
 }
 
 /* Shared surfaces and route visibility */
@@ -191,7 +191,7 @@
   grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 34px 20px;
   width: 100%;
-  max-width: var(--content-width, 1120px);
+  max-width: var(--content-width, 960px);
   margin-inline: auto;
 }
 

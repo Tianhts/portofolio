@@ -1,5 +1,5 @@
 /* Desktop header and fixed quick navigation. */
-#top-nav { position: fixed; top: 28px; left: 50%; transform: translateX(-50%); z-index: 700; display: flex; align-items: center; justify-content: space-between; width: min(1152px, calc(100% - 48px)); height: var(--top-nav-h); padding: 0 28px; border: 1px solid var(--border); border-radius: 23px; background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); transition: transform 450ms var(--ease-out), opacity 300ms, background-color var(--duration-normal); }
+#top-nav { position: fixed; top: 28px; left: 50%; transform: translateX(-50%); z-index: 700; display: flex; align-items: center; justify-content: space-between; width: min(var(--content-width), calc(100% - 2 * var(--page-gutter))); height: var(--top-nav-h); padding: 0 28px; border: 1px solid var(--border); border-radius: 23px; background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); transition: transform 450ms var(--ease-out), opacity 300ms, background-color var(--duration-normal); }
 #top-nav.hidden { transform: translateX(-50%) translateY(calc(-100% - 40px)); opacity: 0; pointer-events: none; }
 .tn-links, .tn-right { display: flex; align-items: center; }
 .tn-links { gap: 30px; }

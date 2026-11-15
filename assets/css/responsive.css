@@ -10,9 +10,8 @@
   .work-category { display: none; }
 }
 @media (max-width: 760px) {
-  :root { --top-nav-h: 64px; }
-  .container { width: calc(100% - 40px); }
-  #top-nav { top: 18px; width: calc(100% - 32px); padding-inline: 20px; border-radius: 19px; }
+  :root { --top-nav-h: 64px; --page-gutter: 20px; }
+  #top-nav { top: 18px; padding-inline: 20px; border-radius: 19px; }
   .tn-links { gap: 24px; }
   .tn-link { font-size: 14px; }
   .tn-right { gap: 1px; }
@@ -85,7 +84,7 @@
   .footer-bottom { font-size: 10px; }
 }
 @media (max-width: 359px) {
-  .container { width: calc(100% - 32px); }
+  :root { --page-gutter: 16px; }
   .bn-item { width: 40px; }
   .bn-icon { width: 39px; height: 39px; font-size: 17px; }
   .tn-links { gap: 18px; }

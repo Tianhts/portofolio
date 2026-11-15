@@ -10,13 +10,13 @@ Pertahankan identitas **Septian Hutasoit**, foto, proyek, serta tautan yang suda
 | --- | --- |
 | Latar | Hampir hitam, `#0c0f11` |
 | Permukaan | Abu gelap, `#191e24`, garis pembatas tipis |
-| Aksen | Mint, `#65f8bd`, untuk status aktif dan aksi utama |
+| Aksen | Mint lembut, `#8fc7ad`, untuk status aktif dan aksi utama |
 | Tipografi | Plus Jakarta Sans; judul kuat, paragraf lega, metadata lebih tenang |
-| Lebar konten | 1.120 px pada desktop, padding adaptif pada mobile; detail proyek memakai area tambahan untuk sidebar |
+| Lebar konten | Maksimal 960 px, rata tengah dengan ruang kiri–kanan seimbang; header dan detail proyek mengikuti batas yang sama |
 | Bentuk | Kartu dan navigasi bersudut membulat, bayangan ringan |
 | Kepadatan | Ruang antarseksi lebih luas dengan hierarki judul yang konsisten |
 
-Token aktif ada di `assets/css/base.css`: latar `#0c0f11`, permukaan `#191e24`, aksen `#65f8bd`, dan lebar konten 1.120 px. Tema terang tetap tersedia melalui tombol tema.
+Token aktif ada di `assets/css/base.css`: latar `#0c0f11`, permukaan `#191e24`, aksen `#8fc7ad`, dan lebar konten 960 px. Margin minimum mengikuti token `--page-gutter`: 32 px pada desktop, 20 px pada mobile, dan 16 px pada layar paling kecil. Tema terang tetap tersedia melalui tombol tema.
 
 ## Susunan halaman
 
