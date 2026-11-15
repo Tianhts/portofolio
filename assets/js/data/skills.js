@@ -108,6 +108,12 @@ export const skillRows = [
       "border": "rgba(29,99,237,.4)"
     },
     {
+      "name": "Cloudflare",
+      "icon": "devicon-cloudflare-plain colored",
+      "background": "rgba(243,128,32,.15)",
+      "border": "rgba(243,128,32,.4)"
+    },
+    {
       "name": "Bootstrap",
       "icon": "devicon-bootstrap-plain colored",
       "background": "rgba(121,82,179,.15)",
