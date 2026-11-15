@@ -5,7 +5,7 @@ import { pathToFileURL } from 'node:url';
 
 let smokeRuns = 0;
 
-// Check the real controller with a finite animation clock and stationary hit areas.
+// Exercise the real controller against centered flex layout, including growth.
 export async function checkDock() {
   const names = ['document', 'window', 'requestAnimationFrame', 'cancelAnimationFrame', 'MutationObserver'];
   const originals = new Map(names.map(name => [name, Object.getOwnPropertyDescriptor(globalThis, name)]));
@@ -13,6 +13,7 @@ export async function checkDock() {
   const mutations = [];
   let nextFrame = 0;
   let time = performance.now();
+  let mobile = false;
 
   function eventTarget() {
     const listeners = new Map();
@@ -37,16 +38,32 @@ export async function checkDock() {
   function rect(left, top, width, height) {
     return { left, top, width, height, right: left + width, bottom: top + height };
   }
+  const baseWidth = () => mobile ? 299 : 363;
+  const itemSize = () => mobile ? 44 : 48;
+  const iconSize = () => mobile ? 40 : 44;
+  const dockHeight = () => mobile ? 60 : 64;
+  const offsets = () => mobile ? [8, 54, 100, 155, 201, 247] : [13, 67, 121, 194, 248, 302];
+  const growth = item => Number.parseFloat(item.element.style.getPropertyValue('--dock-growth')) || 0;
+  const dockWidth = () => baseWidth() + items.reduce((sum, item) => sum + growth(item), 0);
   const items = Array.from({ length: 6 }, (_, index) => {
-    const bounds = rect(118 + index * 58, 709, 52, 52);
-    const icon = { style: style(), offsetWidth: 48, getBoundingClientRect: () => bounds };
+    const icon = { style: style(), get offsetWidth() { return iconSize(); } };
     const element = {
       ...eventTarget(), style: style(),
-      getBoundingClientRect: () => bounds,
+      get offsetWidth() { return itemSize() + growth(items[index]); },
+      getBoundingClientRect() {
+        const left = (window.innerWidth - dockWidth()) / 2 + offsets()[index]
+          + items.slice(0, index).reduce((sum, item) => sum + growth(item), 0);
+        return rect(left, 700 + (dockHeight() - itemSize()) / 2, itemSize() + growth(items[index]), itemSize());
+      },
       querySelector: selector => selector === '.bn-icon' ? icon : null,
       matches: selector => selector === ':focus-visible' && document.activeElement === element,
     };
-    return { element, icon, bounds };
+    icon.getBoundingClientRect = () => {
+      const bounds = element.getBoundingClientRect();
+      const size = iconSize() * (Number.parseFloat(icon.style.getPropertyValue('--dock-scale')) || 1);
+      return rect(bounds.left + (bounds.width - size) / 2, 700 + (dockHeight() - size) / 2, size, size);
+    };
+    return { element, icon };
   });
   const classes = new Set(['show']);
   const dock = {
@@ -57,16 +74,18 @@ export async function checkDock() {
       remove: name => classes.delete(name),
     },
     querySelectorAll: selector => selector === '.bn-item' ? items.map(item => item.element) : [],
-    getBoundingClientRect: () => rect(100, 700, 390, 70),
+    get offsetWidth() { return dockWidth(); },
+    getBoundingClientRect: () => rect((window.innerWidth - dockWidth()) / 2, 700, dockWidth(), dockHeight()),
     contains: element => items.some(item => item.element === element || item.icon === element),
   };
   const fine = { ...eventTarget(), matches: true };
   const reduced = { ...eventTarget(), matches: false };
   const num = (element, property, fallback = 0) => Number.parseFloat(element.style.getPropertyValue(property)) || fallback;
-  const move = index => dock.dispatch('pointermove', {
-    pointerType: 'mouse', clientX: items[index].bounds.left + 26, clientY: 735,
-    target: items[index].element,
+  const pointerAt = index => ({
+    pointerType: 'mouse', clientX: (window.innerWidth - baseWidth()) / 2 + offsets()[index] + itemSize() / 2,
+    clientY: 700 + dockHeight() / 2, target: items[index].element,
   });
+  const move = index => dock.dispatch('pointermove', pointerAt(index));
   function tick() {
     time += 1000 / 60;
     const pending = [...frames];
@@ -78,12 +97,12 @@ export async function checkDock() {
     assert.equal(frames.size, 0, 'Dock must stop requesting frames once its animation settles');
   }
   function neutral() {
-    for (const property of ['--dock-spread', '--dock-rise', '--dock-sway']) {
-      assert.equal(num(dock, property), 0, `Inactive dock must reset ${property}`);
-    }
-    for (const { icon } of items) {
+    assert.equal(dockWidth(), baseWidth(), 'Inactive dock must return to its resting width');
+    for (const item of items) {
+      const { icon } = item;
+      assert.equal(growth(item), 0);
       assert.equal(num(icon, '--dock-scale', 1), 1);
-      assert.equal(num(icon, '--dock-lift'), 0);
+      assert.equal(icon.style.getPropertyValue('--dock-lift'), '', 'Magnification must not lift icons vertically');
     }
   }
   function preference(media, value) {
@@ -94,7 +113,7 @@ export async function checkDock() {
   try {
     globalThis.document = { ...eventTarget(), hidden: false, activeElement: null, getElementById: id => id === 'bot-nav' ? dock : null };
     globalThis.window = {
-      ...eventTarget(),
+      ...eventTarget(), innerWidth: 1280,
       matchMedia: query => query.includes('prefers-reduced-motion') ? reduced : fine,
     };
     globalThis.requestAnimationFrame = callback => { frames.set(++nextFrame, callback); return nextFrame; };
@@ -112,28 +131,37 @@ export async function checkDock() {
     settle();
     neutral();
 
+    const restingBounds = dock.getBoundingClientRect();
     move(2);
     tick();
     assert(num(items[2].icon, '--dock-scale') > 1, 'Pointer proximity must animate the icon');
-    assert(num(items[2].icon, '--dock-scale') < 1.24, 'The first frame must interpolate rather than jump');
-    const initialSpread = num(dock, '--dock-spread');
-    assert(initialSpread > 0, 'The navbar skin must expand with the first visible icon growth');
+    assert(num(items[2].icon, '--dock-scale') < 1.32, 'The first frame must interpolate rather than jump');
+    const initialWidth = dockWidth();
+    assert(initialWidth > baseWidth(), 'The first visible icon growth must increase actual navbar width');
     settle();
-    assert(num(items[2].icon, '--dock-scale') <= 1.2401, 'Hover magnification must stay compact');
-    assert(num(items[2].icon, '--dock-lift') >= -5.001, 'Hover lift must stay compact');
-    assert(num(dock, '--dock-spread') > initialSpread, 'The skin must continue growing with eased magnification');
-    assert(num(dock, '--dock-rise') > 0, 'The skin must grow upward around the lifted icons');
-    move(0);
-    settle();
-    assert(num(dock, '--dock-sway') < 0, 'The navbar skin must follow the leftmost button');
-    move(5);
-    settle();
-    assert(num(dock, '--dock-sway') > 0, 'The navbar skin must follow the rightmost button');
-    assert(Math.abs(num(dock, '--dock-sway')) <= 3.001, 'The skin must sway gently');
-    assert.equal(items[2].element.style.getPropertyValue('transform'), '', 'Clickable hit areas must remain stationary');
+    assert(num(items[2].icon, '--dock-scale') <= 1.3201, 'Hover magnification must stay compact');
+    assert(dockWidth() > initialWidth, 'The flex width must continue growing with eased magnification');
+    assert(dockWidth() - baseWidth() > 20 && dockWidth() - baseWidth() <= 44.001,
+      `Center hover must widen the compact dock by 20-44px; got ${(dockWidth() - baseWidth()).toFixed(3)}px`);
+    assert.equal(dock.getBoundingClientRect().top, restingBounds.top, 'Hover must not move the navbar vertically');
+    assert.equal(dock.getBoundingClientRect().height, restingBounds.height, 'Hover must not enlarge navbar height');
     dock.dispatch('pointerleave');
     settle();
     neutral();
+
+    for (const index of [0, 5]) {
+      const pointer = pointerAt(index);
+      dock.dispatch('pointermove', pointer); settle();
+      const expected = items.map(growth);
+      for (let repeat = 0; repeat < 12; repeat++) {
+        dock.dispatch('pointermove', pointer); settle();
+        items.forEach((item, itemIndex) => {
+          assert(Math.abs(growth(item) - expected[itemIndex]) <= .005,
+            `Fixed pointer at edge ${index} must not feed flex layout changes back into hover targets`);
+        });
+      }
+      dock.dispatch('pointerleave'); settle(); neutral();
+    }
 
     move(0); move(2); move(5);
     assert.equal(frames.size, 1, 'Rapid pointer movement must reuse one animation loop');
@@ -149,7 +177,7 @@ export async function checkDock() {
     dock.dispatch('focusin');
     settle();
     assert(num(items[1].icon, '--dock-scale') > 1, 'Keyboard focus must receive the dock effect');
-    assert(num(dock, '--dock-spread') > 0 && num(dock, '--dock-rise') > 0);
+    assert(dockWidth() > baseWidth(), 'Keyboard focus must expand the actual navbar');
     document.activeElement = null;
     dock.dispatch('focusout');
     await Promise.resolve();
@@ -188,20 +216,35 @@ export async function checkDock() {
       for (const callback of mutations) callback([{ type: 'attributes', target: dock }]);
       settle();
     }
+
+    mobile = true;
+    window.innerWidth = 320;
+    window.dispatch('resize'); settle(); neutral();
+    preference(fine, false); settle();
+    move(2); settle(); neutral();
+    preference(fine, true); settle();
+    move(2); settle();
+    assert(dockWidth() <= 300.001, 'Fine-pointer animation must fit inside a 320px viewport with side margins');
+    assert.equal(dock.getBoundingClientRect().height, 60);
+    dock.dispatch('pointerleave'); settle(); neutral();
+    window.innerWidth = baseWidth() + 20;
+    window.dispatch('resize'); settle();
+    move(2); settle(); neutral();
+    assert.equal(frames.size, 0, 'A zero growth budget must settle without an idle animation loop');
     const [navigation, responsive] = await Promise.all([
       readFile(new URL('../assets/css/navigation.css', import.meta.url), 'utf8'),
       readFile(new URL('../assets/css/responsive.css', import.meta.url), 'utf8'),
     ]);
-    assert(!/#bot-nav::after/.test(navigation + responsive), 'The dock must not retain the old spotlight overlay');
-    const skin = navigation.match(/#bot-nav::before\s*\{([^}]+)\}/)?.[1];
-    assert(skin, 'The full navbar skin must be present');
-    assert(/\bbackground\s*:/.test(skin) && /\bborder\s*:/.test(skin) && /\bbackdrop-filter\s*:/.test(skin),
-      'The expanding skin must carry the navbar background, border, and backdrop blur');
-    assert(/\binset\s*:/.test(skin) || ['top', 'right', 'bottom', 'left'].every(side => new RegExp(`\\b${side}\\s*:`).test(skin)),
-      'The skin must cover the full navbar rather than a small spotlight box');
-    assert(!/#bot-nav::before[^{}]*\{[^}]*display\s*:\s*none/.test(navigation + responsive),
-      'Reduced motion must preserve the visible navbar skin');
-    console.log('OK: compact dock - expanding navbar skin, pointer/focus effects, reset states, reduced motion, touch, finite animation frames.');
+    assert(!/#bot-nav::(?:before|after)/.test(navigation + responsive), 'The actual navbar must replace the old overlay skins');
+    const bar = navigation.match(/#bot-nav\s*\{([^}]+)\}/)?.[1];
+    assert(bar && /\bbackground\s*:\s*var\(--nav-bg\)/.test(bar) && /\bborder\s*:/.test(bar) && /\bbackdrop-filter\s*:/.test(bar),
+      'The actual navbar must carry its background, border, and backdrop blur');
+    assert(/\bheight\s*:\s*64px/.test(bar), 'Desktop navbar must keep its compact fixed height');
+    assert(/#bot-nav\s*\{[^}]*\bheight\s*:\s*60px/.test(responsive), 'Mobile navbar must keep its compact fixed height');
+    const itemRule = navigation.match(/\.bn-item\s*\{([^}]+)\}/)?.[1];
+    assert(itemRule && /\bwidth\s*:\s*calc\(/.test(itemRule) && itemRule.includes('--dock-growth'),
+      'Item growth must participate in actual flex width');
+    console.log('OK: compact dock - real flex growth, fixed height, stable edge hover, mobile budget, focus/reset states, finite animation frames.');
   } finally {
     for (const [name, descriptor] of originals) {
       if (descriptor) Object.defineProperty(globalThis, name, descriptor);

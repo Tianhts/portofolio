@@ -1,6 +1,8 @@
 let initialized = false;
 
-// The rounded navbar surface grows around magnified icons; hit areas stay still.
+const MAGNIFICATION = .32;
+
+// Grow the real flex layout sideways while keeping the navbar at one height.
 export function initDock() {
   if (initialized) return;
   const dock = document.getElementById('bot-nav');
@@ -8,7 +10,8 @@ export function initDock() {
   const items = [...dock.querySelectorAll('.bn-item')].map(element => ({
     element,
     icon: element.querySelector('.bn-icon'),
-    size: 48,
+    size: 44,
+    growth: 0,
     current: 0,
     target: 0,
   })).filter(item => item.icon);
@@ -20,7 +23,6 @@ export function initDock() {
   let previousTime = 0;
   let pointer = null;
   let windowActive = true;
-  const surface = { current: 0, target: 0 };
 
   function canAnimate() {
     return finePointer.matches && !reducedMotion.matches && !document.hidden
@@ -28,41 +30,25 @@ export function initDock() {
   }
 
   function paintIcon(item) {
-    item.icon.style.setProperty('--dock-scale', (1 + item.current * .24).toFixed(4));
-    item.icon.style.setProperty('--dock-lift', `${(-item.current * 5).toFixed(3)}px`);
-  }
-
-  function paintSurface() {
-    let spread = 0;
-    let rise = 0;
-    let peak = 0;
-    for (const item of items) {
-      const growth = item.current * item.size * .24;
-      spread += growth / 2;
-      rise = Math.max(rise, growth + item.current * 5);
-      peak = Math.max(peak, item.current);
-    }
-    dock.style.setProperty('--dock-spread', `${spread.toFixed(3)}px`);
-    dock.style.setProperty('--dock-rise', `${rise.toFixed(3)}px`);
-    dock.style.setProperty('--dock-sway', `${(surface.current * peak * 3).toFixed(3)}px`);
+    item.growth = Number((item.current * item.size * MAGNIFICATION).toFixed(3));
+    item.element.style.setProperty('--dock-growth', `${item.growth}px`);
+    item.icon.style.setProperty('--dock-scale', (1 + item.current * MAGNIFICATION).toFixed(4));
   }
 
   function reset() {
     cancelAnimationFrame(frame);
     frame = 0;
     previousTime = 0;
-    surface.current = surface.target = 0;
     items.forEach(item => {
       item.current = item.target = 0;
       paintIcon(item);
     });
-    paintSurface();
   }
 
   function draw(time) {
     if (!canAnimate()) { reset(); return; }
     const elapsed = previousTime ? Math.min(48, time - previousTime) : 16.67;
-    const easing = 1 - Math.exp(-elapsed / 85);
+    const easing = 1 - Math.exp(-elapsed / 100);
     previousTime = time;
     let moving = false;
 
@@ -77,8 +63,6 @@ export function initDock() {
       item.current = approach(item.current, item.target, .001);
       paintIcon(item);
     }
-    surface.current = approach(surface.current, surface.target, .001);
-    paintSurface();
     frame = moving ? requestAnimationFrame(draw) : 0;
     if (!moving) previousTime = 0;
   }
@@ -86,26 +70,41 @@ export function initDock() {
   function updateTargets() {
     if (!canAnimate()) { pointer = null; reset(); return; }
     const dockBounds = dock.getBoundingClientRect();
-    let nearest = null;
-    let nearestDistance = Infinity;
-    let focusedItem = null;
-    for (const item of items) {
+    // Measure before writing. Reconstruct the resting centers so flex expansion
+    // cannot move the hover targets and make the dock shake under a still cursor.
+    const measurements = items.map(item => ({
+      item,
+      bounds: item.element.getBoundingClientRect(),
+      size: item.icon.offsetWidth || 44,
+    }));
+    const totalGrowth = items.reduce((total, item) => total + item.growth, 0);
+    const first = measurements[0].bounds;
+    const last = measurements[measurements.length - 1].bounds;
+    const inset = first.left - dockBounds.left;
+    const baselineWidth = last.right - first.left + inset * 2 - totalGrowth;
+    const viewport = window.innerWidth || Infinity;
+    const budget = Math.max(0, viewport - 20 - baselineWidth);
+    let growthBefore = 0;
+
+    for (const { item, bounds, size } of measurements) {
       const focused = item.element === document.activeElement;
-      const bounds = item.element.getBoundingClientRect();
-      item.size = item.icon.offsetWidth || 48;
-      const centerX = bounds.left + bounds.width / 2;
+      item.size = size;
+      const centerX = bounds.left + bounds.width / 2
+        + (dockBounds.width - baselineWidth) / 2 - growthBefore - item.growth / 2;
       const distance = pointer ? Math.abs(pointer.x - centerX) : Infinity;
-      const proximity = Math.max(0, 1 - distance / 96);
-      item.target = Math.max(focused ? .8 : 0, proximity * proximity);
-      const position = { x: centerX - dockBounds.left };
-      if (focused) focusedItem = position;
-      if (distance < nearestDistance) {
-        nearestDistance = distance;
-        nearest = position;
-      }
+      const proximity = Math.max(0, 1 - distance / 144);
+      item.target = Math.max(focused ? .8 : 0, proximity);
+      growthBefore += item.growth;
     }
-    const target = pointer ? nearest : focusedItem;
-    surface.target = target ? Math.max(-1, Math.min(1, target.x / dockBounds.width * 2 - 1)) : 0;
+    const wanted = items.reduce((total, item) => total + item.target * item.size * MAGNIFICATION, 0);
+    const limit = wanted ? Math.min(1, budget / wanted) : 1;
+    items.forEach(item => { item.target *= limit; });
+
+    // A viewport resize can reduce the available width during an animation.
+    const currentWidth = items.reduce((total, item) => total + item.current * item.size * MAGNIFICATION, 0);
+    if (currentWidth > budget) {
+      items.forEach(item => { item.current *= budget / currentWidth; paintIcon(item); });
+    }
     if (!frame) {
       frame = requestAnimationFrame(draw);
     }
