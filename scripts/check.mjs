@@ -15,6 +15,15 @@ assert(!/<style\b|\sstyle=|\son\w+=/i.test(html), 'HTML masih berisi inline styl
 assert(!/<script(?![^>]*\bsrc=)[^>]*>/i.test(html), 'HTML masih berisi inline script');
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 assert.equal(new Set(ids).size, ids.length, 'Ada ID HTML duplikat');
+for (const match of html.matchAll(/<a\b[^>]*>/g)) {
+  const page = match[0].match(/\bdata-page="([^"]+)"/)?.[1];
+  if (!page) continue;
+  const href = match[0].match(/\bhref="([^"]+)"/)?.[1];
+  assert.equal(href, `#${page}`, `Navigasi ${page} harus memakai hash #${page}`);
+}
+for (const match of html.matchAll(/<img\b[^>]*>/g)) {
+  assert(/\s(?:src|srcset)="[^"]+"/.test(match[0]), 'Elemen img harus memiliki src atau srcset');
+}
 for (const match of html.matchAll(/\b(?:src|href)="([^"]+)"/g)) {
   const path = match[1];
   if (/^(?:https?:|data:|mailto:|#)/.test(path)) continue;

@@ -25,9 +25,9 @@
   <header>
     <nav id="top-nav" aria-label="Main navigation">
       <div class="tn-links">
-        <a href="home" data-page="home" class="tn-link on" id="tn-home" aria-current="page">Home</a>
-        <a href="projects" data-page="projects" class="tn-link" id="tn-projects">Projects</a>
-        <a href="about" data-page="about" class="tn-link" id="tn-about">About</a>
+        <a href="#home" data-page="home" class="tn-link on" id="tn-home" aria-current="page">Home</a>
+        <a href="#projects" data-page="projects" class="tn-link" id="tn-projects">Projects</a>
+        <a href="#about" data-page="about" class="tn-link" id="tn-about">About</a>
       </div>
       <div class="tn-right">
         <a href="https://github.com/Septianhutasoit" target="_blank" rel="noopener noreferrer" class="tn-ico" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
@@ -40,9 +40,9 @@
   </header>
 
   <nav id="bot-nav" aria-label="Quick navigation">
-    <a href="home" data-page="home" class="bn-item on" id="bn-home" aria-label="Home" aria-current="page"><span class="bn-icon"><i class="fas fa-house" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">Home</span></a>
-    <a href="projects" data-page="projects" class="bn-item" id="bn-projects" aria-label="Projects"><span class="bn-icon"><i class="far fa-folder-open" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">Projects</span></a>
-    <a href="about" data-page="about" class="bn-item" id="bn-about" aria-label="About"><span class="bn-icon"><i class="far fa-user" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">About</span></a>
+    <a href="#home" data-page="home" class="bn-item on" id="bn-home" aria-label="Home" aria-current="page"><span class="bn-icon"><i class="fas fa-house" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">Home</span></a>
+    <a href="#projects" data-page="projects" class="bn-item" id="bn-projects" aria-label="Projects"><span class="bn-icon"><i class="far fa-folder-open" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">Projects</span></a>
+    <a href="#about" data-page="about" class="bn-item" id="bn-about" aria-label="About"><span class="bn-icon"><i class="far fa-user" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">About</span></a>
     <span class="bn-sep" aria-hidden="true"></span>
     <a href="https://github.com/Septianhutasoit" target="_blank" rel="noopener noreferrer" class="bn-item" aria-label="GitHub"><span class="bn-icon"><i class="fab fa-github" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">GitHub</span></a>
     <a href="https://www.linkedin.com/in/septian-a-hutasoit/" target="_blank" rel="noopener noreferrer" class="bn-item" aria-label="LinkedIn"><span class="bn-icon"><i class="fab fa-linkedin-in" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">LinkedIn</span></a>
@@ -56,10 +56,10 @@
       <section class="hero-section container" aria-labelledby="home-title">
         <div class="hero-profile-wrap" data-intro>
           <img src="assets/img/profile.jpg" alt="Septian Hutasoit" width="148" height="148" class="hero-profile" fetchpriority="high" data-image-fallback="profile" />
-          <span class="profile-status" aria-label="Available for projects"></span>
+          <span class="profile-status" role="img" aria-label="Available for projects"></span>
         </div>
         <div class="hero-copy">
-          <h1 id="home-title" class="hero-title" data-intro>Hi, I&#39;m Septian Hutasoit <span class="wave" aria-label="hello">&#128075;</span></h1>
+          <h1 id="home-title" class="hero-title" data-intro>Hi, I&#39;m Septian Hutasoit <span class="wave" role="img" aria-label="hello">&#128075;</span></h1>
           <p class="hero-role" data-intro><span id="role-txt">Software Engineer</span><span class="role-separator">&middot;</span> Fullstack <span class="role-separator">&middot;</span> AI &amp; Automation</p>
           <div class="hero-meta" data-intro>
             <span class="location-pill"><i class="fas fa-location-dot" aria-hidden="true"></i> Indonesia</span>
@@ -133,7 +133,7 @@
           <div class="about-photo-wrap" data-intro>
             <button id="about-photo-switch" class="about-photo-frame" type="button" aria-label="Foto profil Septian Hutasoit" disabled>
               <img id="about-photo-image" src="assets/img/profile.jpg" alt="Septian Hutasoit" class="about-photo" width="320" height="320" loading="lazy" data-image-fallback="profile" />
-              <img id="about-photo-next" alt="" class="about-photo" width="320" height="320" aria-hidden="true" hidden />
+              <img id="about-photo-next" src="assets/img/profile.png" loading="lazy" alt="" class="about-photo" width="320" height="320" aria-hidden="true" hidden />
               <span class="about-photo-hint" aria-hidden="true" hidden><i class="fas fa-arrows-rotate"></i></span>
             </button>
             <p class="photo-caption"><span class="status-dot" aria-hidden="true"></span><span id="about-photo-caption">A little about the person behind the code.</span></p>
@@ -150,17 +150,17 @@
 
   <footer class="site-footer container">
     <div class="footer-main"><a href="#home" data-page="home" class="footer-brand">Septian Hutasoit<span class="text-accent">.</span></a><p>Building ideas into useful experiences.</p><div class="footer-socials"><a href="https://github.com/Septianhutasoit" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a><a href="https://www.linkedin.com/in/septian-a-hutasoit/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a><a href="https://www.instagram.com/tianhts_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a><a href="mailto:septianhts95@gmail.com" aria-label="Email"><i class="far fa-envelope" aria-hidden="true"></i></a></div></div>
-    <aside id="sp-widget" aria-label="Music on repeat: Fix You by Coldplay">
+    <aside id="sp-widget" aria-label="Music on repeat: Mess Is Mine by Vance Joy">
       <div class="spotify-header">
         <span class="spotify-symbol"><i class="fab fa-spotify" aria-hidden="true"></i></span>
-        <div class="spotify-track"><span class="spotify-eyebrow">ON REPEAT</span><p>Fix You <span>&mdash; Coldplay</span></p></div>
+        <div class="spotify-track"><span class="spotify-eyebrow">ON REPEAT</span><p>Mess Is Mine <span>&mdash; Vance Joy</span></p></div>
         <button type="button" id="sp-btn" aria-controls="sp-wrap" aria-expanded="false">Buka pemutar</button>
       </div>
       <div id="sp-wrap" hidden>
-        <iframe id="sp-frame" title="Spotify &mdash; Fix You by Coldplay" data-src="https://open.spotify.com/embed/track/7LVHVU3tWfcxj5aiPFEW4Q?utm_source=oembed" width="100%" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <iframe id="sp-frame" title="Spotify &mdash; Mess Is Mine by Vance Joy" data-src="https://open.spotify.com/embed/track/7BVwi9cIzSc6tpyxsp47vJ?utm_source=oembed" width="100%" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
         <p class="spotify-help">Gunakan tombol Play/Pause di pemutar Spotify.</p>
       </div>
-      <a class="spotify-external" href="https://open.spotify.com/track/7LVHVU3tWfcxj5aiPFEW4Q" target="_blank" rel="noopener noreferrer">Buka di Spotify <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+      <a class="spotify-external" href="https://open.spotify.com/track/7BVwi9cIzSc6tpyxsp47vJ" target="_blank" rel="noopener noreferrer">Buka di Spotify <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
     </aside>
     <div class="footer-bottom"><p>&copy; <span id="footer-year">2026</span> Septian Hutasoit</p><a href="mailto:septianhts95@gmail.com">Let&#39;s connect <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
   </footer>
