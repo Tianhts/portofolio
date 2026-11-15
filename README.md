@@ -77,7 +77,7 @@ Pertahankan jalur gambar sebagai `assets/img/...`, relatif terhadap `index.html`
 
 Navigasi memakai hash `#home`, `#projects`, `#about`, dan `#project/<slug>`, sehingga tautan detail bisa dibagikan dan tombol Back/Forward browser tetap berfungsi. Slug berasal dari nama proyek. `initProjectDetail()` dipanggil sebelum `initNavigation()` agar detail dapat dibuka langsung dari URL.
 
-Konten dibatasi maksimal 800 px dan berada di tengah. Pada desktop, kartu proyek memakai tiga kolom: enam proyek beranda menjadi dua baris, sedangkan delapan proyek lengkap menjadi tiga baris. Tablet memakai dua kolom dan mobile satu kolom.
+Konten dibatasi maksimal 800 px dan berada di tengah. Home dan Semua Proyek memakai dua kartu per baris pada desktop dan tablet agar kartu lebih lega. Enam proyek beranda menjadi tiga baris, sedangkan delapan proyek lengkap menjadi empat baris. Mobile memakai satu kartu per baris.
 
 Tech stack merender seluruh data sekali dalam grid delapan kolom desktop, enam kolom tablet, dan empat/tiga kolom pada layar kecil. Kotak ikon berukuran 64 px dan label berada di bawahnya. Widget Spotify dan seluruh tautan kontak tetap tersedia pada footer.
 

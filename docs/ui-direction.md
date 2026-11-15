@@ -22,7 +22,7 @@ Token aktif ada di `assets/css/base.css`: latar `#0c0f11`, permukaan `#191e24`, 
 
 **Home:** header dengan Home, Projects, dan About; foto, nama, peran, lokasi, serta status ketersediaan; ringkasan About; bidang proyek yang dikerjakan; tech stack; proyek pilihan; kontak. Bagian bidang proyek bersumber dari proyek yang tersedia, tanpa menambahkan riwayat pekerjaan atau pendidikan.
 
-**Projects:** pembuka singkat dan grid kartu. Setiap kartu menampilkan gambar, nama proyek, ringkasan, serta tag teknologi. Desktop memakai tiga kolom: enam proyek beranda menjadi dua baris, dan delapan proyek lengkap menjadi tiga baris (3 + 3 + 2). Tablet memakai dua kolom dan mobile satu kolom. Kartu membuka halaman detail dengan hash tersendiri.
+**Projects:** pembuka singkat dan grid kartu. Setiap kartu menampilkan gambar, nama proyek, ringkasan, serta tag teknologi. Home dan Semua Proyek memakai dua kartu per baris pada desktop dan tablet agar kartu lebih lega. Enam proyek beranda menjadi tiga baris dan delapan proyek lengkap menjadi empat baris. Mobile memakai satu kartu per baris. Kartu membuka halaman detail dengan hash tersendiri.
 
 **Detail proyek:** tautan kembali, judul, aksi Visit Website dan Source Code saat tautannya tersedia, gambar utama, Overview, Gallery, The Problem, How I Built It, dan Tech Stack. Daftar isi menempel di kanan pada desktop. Galeri memiliki thumbnail, navigasi gambar, penghitung, dan viewer layar penuh dengan Escape, tombol panah, serta pengelolaan fokus keyboard.
 
