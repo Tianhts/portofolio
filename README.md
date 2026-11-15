@@ -20,6 +20,8 @@ npm run check
 
 Perintah pemeriksaan memvalidasi struktur dan referensi lokal. Pemeriksaan visual serta interaksi tetap perlu dilakukan di browser.
 
+Tiga gambar galeri ChatBot AI Klinik dari data lama belum tersedia. Pemeriksaan akan melaporkannya; modal memakai cover proyek sebagai pengganti.
+
 ## Struktur kode
 
 ```text
@@ -36,6 +38,7 @@ assets/
     animations.css         Keyframe dan animasi reveal
     responsive.css         Penyesuaian ukuran layar
     pages.css              Styling markup halaman
+    interactions.css       Styling komponen dinamis, hover, dan reduced motion
   js/
     app.js                 Inisialisasi aplikasi
     data/                  Data proyek dan skill

@@ -13,6 +13,11 @@ assert(!/<style\b|\sstyle=|\son\w+=/i.test(html), 'HTML masih berisi inline styl
 assert(!/<script(?![^>]*\bsrc=)[^>]*>/i.test(html), 'HTML masih berisi inline script');
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 assert.equal(new Set(ids).size, ids.length, 'Ada ID HTML duplikat');
+for (const match of html.matchAll(/\b(?:src|href)="([^"]+)"/g)) {
+  const path = match[1];
+  if (/^(?:https?:|data:|mailto:|#)/.test(path)) continue;
+  await access(resolve(root, path));
+}
 
 async function walk(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
