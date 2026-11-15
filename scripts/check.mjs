@@ -5,7 +5,9 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { projects } from '../assets/js/data/projects.js';
 import { skillRows } from '../assets/js/data/skills.js';
+import { projectDetails, projectSlug } from '../assets/js/data/project-details.js';
 import { createPreviewServer } from './serve.mjs';
+import { checkNavigation } from './navigation-smoke.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const html = await readFile(resolve(root, 'index.html'), 'utf8');
@@ -25,6 +27,16 @@ async function walk(directory) {
 }
 
 const jsFiles = (await walk(resolve(root, 'assets/js'))).filter(path => path.endsWith('.js'));
+const activeModules = new Set();
+async function followImports(file) {
+  if (activeModules.has(file)) return;
+  activeModules.add(file);
+  const source = await readFile(file, 'utf8');
+  for (const match of source.matchAll(/\bfrom\s+['"]([^'"]+)['"]/g)) {
+    await followImports(resolve(dirname(file), match[1]));
+  }
+}
+await followImports(resolve(root, 'assets/js/app.js'));
 for (const file of jsFiles) {
   execFileSync(process.execPath, ['--check', file], { stdio: 'pipe' });
   const source = await readFile(file, 'utf8');
@@ -32,7 +44,7 @@ for (const file of jsFiles) {
     await access(resolve(dirname(file), match[1]));
   }
   for (const match of source.matchAll(/getElementById\(['"]([^'"]+)['"]\)/g)) {
-    assert(ids.includes(match[1]), `Elemen #${match[1]} tidak ada di HTML`);
+    if (activeModules.has(file)) assert(ids.includes(match[1]), `Elemen #${match[1]} tidak ada di HTML`);
   }
 }
 
@@ -49,6 +61,20 @@ for (const project of projects) {
   await access(resolve(root, project.cover));
 }
 assert(skillRows.every(row => row.length && row.every(skill => skill.name && skill.icon)));
+assert.equal(projectDetails.length, projects.length, 'Jumlah detail tidak sesuai proyek');
+assert.equal(new Set(projects.map(projectSlug)).size, projects.length, 'Slug proyek harus unik');
+for (const [index, project] of projects.entries()) {
+  const details = projectDetails[index];
+  assert(details.problem && details.approach && details.highlights.length, `Detail proyek ${project.name} belum lengkap`);
+  for (const image of [project.cover, ...(details.gallery ?? project.images)]) {
+    await access(resolve(root, image));
+  }
+}
+for (const match of html.matchAll(/<a\b[^>]*data-project="(\d+)"[^>]*>/g)) {
+  const project = projects[Number(match[1])];
+  assert(project, 'Indeks proyek tidak valid');
+  assert(match[0].includes(`#project/${projectSlug(project)}`), 'Tautan proyek tidak sesuai slug');
+}
 
 const server = createPreviewServer();
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
@@ -69,11 +95,12 @@ try {
 }
 
 let missingGallery = 0;
+await checkNavigation();
 for (const project of projects) {
   for (const image of project.images) {
     try { await access(resolve(root, image)); }
-    catch { missingGallery++; console.warn(`Galeri memakai cover sebagai fallback: ${image}`); }
+    catch { missingGallery++; }
   }
 }
 console.log(`OK: ${jsFiles.length} modul JS, ${cssFiles.length} file CSS, ${projects.length} proyek, ${skillRows.flat().length} skill; struktur, import, syntax, dan server HTTP valid.`);
-if (missingGallery) console.log(`${missingGallery} gambar galeri lama belum tersedia; modal menampilkan cover pengganti.`);
+if (missingGallery) console.log(`${missingGallery} jalur gambar lama belum tersedia; galeri detail menggunakan aset yang tersedia.`);

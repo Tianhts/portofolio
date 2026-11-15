@@ -4,439 +4,143 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>septianhts | Software Engineer</title>
+  <title>Septian Hutasoit &mdash; Software Engineer</title>
+  <meta name="description" content="Portfolio Septian Hutasoit. Software engineering, fullstack development, dan AI &mdash; dari ide menjadi produk yang dapat digunakan." />
+  <meta name="theme-color" content="#0c0f11" />
   <link rel="icon" type="image/svg+xml"
     href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111118'/%3E%3C!-- hoodie body --%3E%3Cellipse cx='32' cy='54' rx='18' ry='10' fill='%231a2a1a'/%3E%3Cpath d='M14 64 Q14 44 32 44 Q50 44 50 64Z' fill='%231e3a1e'/%3E%3C!-- hood --%3E%3Cpath d='M18 30 Q16 18 32 14 Q48 18 46 30 Q46 44 32 44 Q18 44 18 30Z' fill='%231e3a1e'/%3E%3C!-- hood shadow inner --%3E%3Cellipse cx='32' cy='32' rx='10' ry='11' fill='%230a1a0a'/%3E%3C!-- glowing face --%3E%3Cellipse cx='32' cy='31' rx='7' ry='8' fill='%2322c55e' opacity='0.18'/%3E%3C!-- eyes --%3E%3Cellipse cx='28.5' cy='30' rx='1.5' ry='1' fill='%2322c55e'/%3E%3Cellipse cx='35.5' cy='30' rx='1.5' ry='1' fill='%2322c55e'/%3E%3C!-- glow lines (code) --%3E%3Ctext x='4' y='12' font-size='4' fill='%2322c55e' opacity='0.35' font-family='monospace'%3E01%3C/text%3E%3Ctext x='50' y='12' font-size='4' fill='%2322c55e' opacity='0.35' font-family='monospace'%3E10%3C/text%3E%3Ctext x='2' y='20' font-size='4' fill='%2322c55e' opacity='0.25' font-family='monospace'%3E1010%3C/text%3E%3Ctext x='46' y='20' font-size='4' fill='%2322c55e' opacity='0.25' font-family='monospace'%3E0101%3C/text%3E%3C/svg%3E" />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+  <script src="assets/js/intro-boot.js"></script>
   <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div id="c-dot" aria-hidden="true"></div>
+  <div id="c-ring" aria-hidden="true"></div>
 
-  <div id="c-dot"></div>
-  <div id="c-ring"></div>
-
-  <!-- TOP NAV — n8n style floating bar -->
-  <nav id="top-nav">
-    <a href="#home" data-page="home" class="tn-logo">
-      <!-- Hoodie hacker logo -->
-      <div class="tn-logo-icon brand-logo">
-        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="38" height="38">
-          <rect width="64" height="64" rx="11" fill="#0d1f0d" />
-          <!-- bg code glow -->
-          <text x="3" y="11" font-size="5" fill="#22c55e" opacity="0.3" font-family="monospace">01 10</text>
-          <text x="38" y="11" font-size="5" fill="#22c55e" opacity="0.3" font-family="monospace">10 01</text>
-          <text x="1" y="19" font-size="4.5" fill="#22c55e" opacity="0.2" font-family="monospace">1010 0101</text>
-          <text x="1" y="56" font-size="4.5" fill="#22c55e" opacity="0.2" font-family="monospace">0110 1001</text>
-          <!-- hoodie body -->
-          <path d="M13 64 Q13 46 32 46 Q51 46 51 64Z" fill="#1a3320" />
-          <!-- hoodie sleeves -->
-          <path d="M13 64 Q8 52 10 42 Q14 36 20 38 Q18 46 18 52Z" fill="#162b1e" />
-          <path d="M51 64 Q56 52 54 42 Q50 36 44 38 Q46 46 46 52Z" fill="#162b1e" />
-          <!-- hood outer -->
-          <path d="M17 32 Q15 16 32 12 Q49 16 47 32 Q47 46 32 46 Q17 46 17 32Z" fill="#1a3320" />
-          <!-- hood shadow/depth -->
-          <path d="M20 33 Q19 20 32 17 Q45 20 44 33 Q44 44 32 44 Q20 44 20 33Z" fill="#0f2415" />
-          <!-- face glow area -->
-          <ellipse cx="32" cy="33" rx="9" ry="10" fill="#22c55e" opacity="0.08" />
-          <!-- eyes glowing -->
-          <ellipse cx="28" cy="31" rx="2" ry="1.4" fill="#22c55e" opacity="0.9" />
-          <ellipse cx="36" cy="31" rx="2" ry="1.4" fill="#22c55e" opacity="0.9" />
-          <!-- inner eye highlight -->
-          <ellipse cx="28" cy="31" rx="1" ry=".7" fill="#6aff9e" opacity="0.7" />
-          <ellipse cx="36" cy="31" rx="1" ry=".7" fill="#6aff9e" opacity="0.7" />
-          <!-- nose hint -->
-          <path d="M31 34 Q32 36 33 34" stroke="#22c55e" stroke-width=".8" fill="none" opacity="0.5" />
-          <!-- laptop -->
-          <rect x="18" y="48" width="28" height="14" rx="3" fill="#0a120a" />
-          <rect x="20" y="50" width="24" height="10" rx="2" fill="#0f200f" />
-          <rect x="22" y="52" width="20" height="6" rx="1" fill="#071507" />
-          <!-- laptop screen glow -->
-          <rect x="22" y="52" width="20" height="6" rx="1" fill="#22c55e" opacity="0.12" />
-          <!-- screen code lines -->
-          <line x1="24" y1="54" x2="34" y2="54" stroke="#22c55e" stroke-width=".8" opacity="0.7" />
-          <line x1="24" y1="56" x2="30" y2="56" stroke="#22c55e" stroke-width=".8" opacity="0.5" />
-        </svg>
+  <header>
+    <nav id="top-nav" aria-label="Main navigation">
+      <div class="tn-links">
+        <a href="#home" data-page="home" class="tn-link on" id="tn-home" aria-current="page">Home</a>
+        <a href="#projects" data-page="projects" class="tn-link" id="tn-projects">Projects</a>
+        <a href="#about" data-page="about" class="tn-link" id="tn-about">About</a>
       </div>
+      <div class="tn-right">
+        <a href="https://github.com/Septianhutasoit" target="_blank" rel="noopener noreferrer" class="tn-ico" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
+        <a href="https://www.linkedin.com/in/septian-a-hutasoit/" target="_blank" rel="noopener noreferrer" class="tn-ico" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+        <a href="mailto:septianhts95@gmail.com" class="tn-ico nav-email" aria-label="Email"><i class="far fa-envelope" aria-hidden="true"></i></a>
+        <span class="tn-sep" aria-hidden="true"></span>
+        <button type="button" class="tn-ico" data-action="toggle-theme" aria-label="Aktifkan tema terang"><i class="fas fa-sun" id="th-icon" aria-hidden="true"></i></button>
+      </div>
+    </nav>
+  </header>
 
-    </a>
-    <div class="tn-links">
-      <a href="#home" data-page="home" class="tn-link on" id="tn-home" aria-current="page">
-        <i class="fas fa-house"></i>Home
-      </a>
-      <a href="#projects" data-page="projects" class="tn-link" id="tn-projects">
-        <i class="fas fa-table-cells-large"></i>Projects
-      </a>
-      <a href="#about" data-page="about" class="tn-link" id="tn-about">
-        <i class="fas fa-user"></i>About
-      </a>
-    </div>
-    <div class="tn-right">
-      <a href="https://github.com/Septianhutasoit" target="_blank" class="tn-ico" title="GitHub"><i
-          class="fab fa-github"></i></a>
-      <a href="https://www.linkedin.com/in/septian-a-hutasoit/" target="_blank" class="tn-ico" title="LinkedIn"><i
-          class="fab fa-linkedin-in"></i></a>
-      <a href="mailto:septianhts95@gmail.com" class="tn-ico" title="Email"><i class="fas fa-envelope"></i></a>
-      <div class="tn-sep"></div>
-      <button class="tn-ico" data-action="toggle-theme"><i class="fas fa-sun" id="th-icon"></i></button>
-      <a href="mailto:septianhts95@gmail.com" class="tn-cta nav-hire-spacing">Hire Me</a>
-    </div>
+  <nav id="bot-nav" aria-label="Quick navigation">
+    <a href="#home" data-page="home" class="bn-item on" id="bn-home" aria-label="Home" aria-current="page"><span class="bn-icon"><i class="fas fa-house" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">Home</span></a>
+    <a href="#projects" data-page="projects" class="bn-item" id="bn-projects" aria-label="Projects"><span class="bn-icon"><i class="far fa-folder-open" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">Projects</span></a>
+    <a href="#about" data-page="about" class="bn-item" id="bn-about" aria-label="About"><span class="bn-icon"><i class="far fa-user" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">About</span></a>
+    <span class="bn-sep" aria-hidden="true"></span>
+    <a href="https://github.com/Septianhutasoit" target="_blank" rel="noopener noreferrer" class="bn-item" aria-label="GitHub"><span class="bn-icon"><i class="fab fa-github" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">GitHub</span></a>
+    <a href="https://www.linkedin.com/in/septian-a-hutasoit/" target="_blank" rel="noopener noreferrer" class="bn-item" aria-label="LinkedIn"><span class="bn-icon"><i class="fab fa-linkedin-in" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">LinkedIn</span></a>
+    <button type="button" class="bn-item" data-action="toggle-theme" aria-label="Aktifkan tema terang"><span class="bn-icon"><i class="fas fa-sun" id="bth-icon" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">Theme</span></button>
   </nav>
 
-  <!-- BOTTOM PILL NAV -->
-  <div id="bot-nav">
-    <a href="#home" data-page="home" class="bn-item on" id="bn-home" data-tip="Home" aria-current="page" aria-label="Home">
-      <i class="fas fa-house"></i>
-    </a>
-    <a href="#projects" data-page="projects" class="bn-item" id="bn-projects" data-tip="Projects" aria-label="Projects">
-      <i class="fas fa-table-cells-large"></i>
-    </a>
-    <a href="#about" data-page="about" class="bn-item" id="bn-about" data-tip="About" aria-label="About">
-      <i class="fas fa-user"></i>
-    </a>
-    <div class="bn-sep"></div>
-    <a href="https://github.com/Septianhutasoit" target="_blank" class="bn-item" data-tip="GitHub" aria-label="GitHub">
-      <i class="fab fa-github"></i>
-    </a>
-    <a href="https://www.linkedin.com/in/septian-a-hutasoit/" target="_blank" class="bn-item" data-tip="LinkedIn" aria-label="LinkedIn">
-      <i class="fab fa-linkedin-in"></i>
-    </a>
-    <a href="https://www.instagram.com/tianhts_/" target="_blank" class="bn-item" data-tip="Instagram" aria-label="Instagram">
-      <i class="fab fa-instagram"></i>
-    </a>
-    <div class="bn-sep"></div>
-    <a href="mailto:septianhts95@gmail.com" class="bn-item" data-tip="Email" aria-label="Email">
-      <i class="fas fa-envelope"></i>
-    </a>
-    <button data-action="toggle-theme" class="bn-item" data-tip="Theme" aria-label="Theme">
-      <i class="fas fa-sun" id="bth-icon"></i>
-    </button>
-  </div>
+  <a href="#" data-action="scroll-top" id="scr-top" aria-label="Back to top"><i class="fas fa-arrow-up" aria-hidden="true"></i></a>
 
-  <a href="#" data-action="scroll-top" id="scr-top" aria-label="Kembali ke atas"><i
-      class="fas fa-arrow-up"></i></a>
+  <main id="main-content" tabindex="-1">
+    <div id="pg-home" class="pg on">
+      <section class="hero-section container" aria-labelledby="home-title">
+        <div class="hero-profile-wrap" data-intro>
+          <img src="assets/img/profile.jpg" alt="Septian Hutasoit" width="148" height="148" class="hero-profile" fetchpriority="high" data-image-fallback="profile" />
+          <span class="profile-status" aria-label="Available for projects"></span>
+        </div>
+        <div class="hero-copy">
+          <h1 id="home-title" class="hero-title" data-intro>Hi, I&#39;m Septian Hutasoit <span class="wave" aria-label="hello">&#128075;</span></h1>
+          <p class="hero-role" data-intro><span id="role-txt">Software Engineer</span><span class="role-separator">&middot;</span> Fullstack <span class="role-separator">&middot;</span> AI &amp; Automation</p>
+          <div class="hero-meta" data-intro>
+            <span class="location-pill"><i class="fas fa-location-dot" aria-hidden="true"></i> Indonesia</span>
+            <span class="availability"><span class="status-dot" aria-hidden="true"></span> Available for projects</span>
+          </div>
+        </div>
+      </section>
 
-  <!-- SPOTIFY -->
-  <div id="sp-widget">
-    <div class="spotify-header">
-      <div class="spotify-track">
-        <div class="spotify-badge">
-          <i class="fab fa-spotify spotify-icon"></i>
+      <section class="home-about container section" aria-labelledby="home-about-title">
+        <div class="section-heading" data-aos><h2 id="home-about-title">About</h2><a href="#about" data-page="about" class="text-link">More about me <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
+        <div class="about-summary" data-aos>
+          <p>Hello! You can call me <strong>Septian</strong>. I&#39;m passionate about <strong class="text-underline">fullstack development, AI, and software systems</strong> &mdash; turning ideas into products with clean interfaces and thoughtful architecture.</p>
+          <p>My projects span healthcare, e-commerce, and automation. I enjoy connecting the pieces, from the backend and database to the experience people use every day.</p>
+          <a href="#projects" data-page="projects" class="inline-note"><i class="fas fa-code" aria-hidden="true"></i><span>Explore the things I&#39;ve built</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
         </div>
-        <div class="spotify-text">
-          <p class="spotify-title">
-            La La Lost You</p>
-          <p class="spotify-artist">NIKI • Spotify</p>
+      </section>
+
+      <section class="work-section container section" aria-labelledby="work-title">
+        <div class="section-heading" data-aos><div><h2 id="work-title">What I work on</h2><p class="section-subtitle">A few areas I&#39;ve been building in.</p></div><span class="eyebrow section-note">FROM MY PROJECTS</span></div>
+        <div class="work-timeline">
+          <article class="work-item" data-aos>
+            <div class="work-icon"><i class="far fa-hospital" aria-hidden="true"></i></div>
+            <div class="work-content"><div class="work-heading"><h3>Healthcare &amp; digital care</h3><span class="work-category">WEB APPLICATIONS</span></div><p class="work-role">Nauli Dental Care &mdash; Kawan Pulih</p><p>Clinic booking, doctor schedules, and digital information for patients &mdash; making care easier to access through the web.</p><div class="work-bottom"><div class="tag-list"><span class="tag">Laravel</span><span class="tag">Next.js</span><span class="tag">MySQL</span></div><a href="#project/nauli-dental-care" data-project="0" class="text-link" aria-label="Explore Nauli Dental Care">Explore <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div>
+          </article>
+          <article class="work-item" data-aos>
+            <div class="work-icon"><i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i></div>
+            <div class="work-content"><div class="work-heading"><h3>AI &amp; workflow automation</h3><span class="work-category">INTELLIGENT SYSTEMS</span></div><p class="work-role">Support Ticket Triage &mdash; Clinic AI Chatbot</p><p>AI-assisted support classification, real-time dashboards, and connected workflows that turn information into useful actions.</p><div class="work-bottom"><div class="tag-list"><span class="tag">FastAPI</span><span class="tag">Python</span><span class="tag">n8n</span></div><a href="#project/ai-support-ticket-triage" data-project="6" class="text-link" aria-label="Explore AI Support Ticket Triage">Explore <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div>
+          </article>
+          <article class="work-item" data-aos>
+            <div class="work-icon"><i class="fas fa-bag-shopping" aria-hidden="true"></i></div>
+            <div class="work-content"><div class="work-heading"><h3>Commerce &amp; web experiences</h3><span class="work-category">FULLSTACK DEVELOPMENT</span></div><p class="work-role">Delshoop &mdash; Aksara Batak</p><p>From product catalogs and shopping carts to multilingual cultural learning &mdash; practical web experiences built around their users.</p><div class="work-bottom"><div class="tag-list"><span class="tag">React</span><span class="tag">Laravel</span><span class="tag">PostgreSQL</span></div><a href="#project/delshoop-e-commerce" data-project="1" class="text-link" aria-label="Explore Delshoop">Explore <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div>
+          </article>
         </div>
-      </div>
-      <button data-action="toggle-spotify" id="sp-btn" class="spotify-toggle">Buka</button>
+      </section>
+
+      <section class="skills-section container section" aria-labelledby="skills-title">
+        <div class="section-heading" data-aos><div><h2 id="skills-title">Tech Stack</h2><p class="section-subtitle">My tech tools of choice.</p></div><span class="eyebrow section-note">TOOLS I BUILD WITH</span></div>
+        <div id="skills-grid" class="skills-grid" data-aos></div>
+      </section>
+
+      <section class="featured-section container section" aria-labelledby="featured-title">
+        <div class="section-heading-centered" data-aos><p class="eyebrow">FEATURED PROJECTS</p><h2 id="featured-title">Check out my latest work</h2><p>I&#39;ve worked on a variety of projects, from useful websites to connected web applications. Take a closer look.</p></div>
+        <div id="feat-grid" class="project-grid"></div>
+        <div class="section-action" data-aos><a href="#projects" data-page="projects" class="button button-secondary">View all projects <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div>
+      </section>
+
+      <section class="contact-section container section" aria-labelledby="contact-title">
+        <div class="contact-content" data-aos><p class="eyebrow">HAVE SOMETHING IN MIND?</p><h2 id="contact-title">Let&#39;s build something <span class="text-accent">meaningful.</span></h2><p>Punya ide produk, proyek, atau kesempatan berkolaborasi?<br />I&#39;d love to hear about it.</p><a href="mailto:septianhts95@gmail.com" class="button button-primary">Let&#39;s talk <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
+      </section>
     </div>
-    <div id="sp-wrap" class="spotify-panel">
-      <iframe src="https://open.spotify.com/embed/track/0e2wfbDK7ppotqyUWD7qs8" width="100%"
-        height="152" frameborder="0" allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture"
-        loading="lazy" class="spotify-embed" title="Pemutar Spotify ? La La Lost You"></iframe>
-    </div>
-  </div>
 
-  <!-- ══ HOME ══ -->
-  <div id="pg-home" class="pg on">
-    <!-- HERO -->
-    <section class="hero-section">
-      <canvas id="hero-cv"></canvas>
-      <div class="blob hero-blob-start"></div>
-      <div class="blob hero-blob-end">
-      </div>
-      <div class="hero-container">
-        <div class="hero-g hero-grid">
-          <div data-aos>
-            <div class="hero-availability">
-              <span class="hero-status-dot">
-                <span class="hero-status-pulse"></span>
-                <span class="hero-status-core"></span>
-              </span>
-              <span class="hero-availability-label">Available
-                for Fullstack Projects</span>
-            </div>
-            <h1 class="hero-title">
-              Software<br /><span class="tg">Engineer.</span></h1>
-            <p class="hero-description">
-              I'm <strong class="text-primary">Septian Hutasoit</strong>,
-              <span id="role-txt" class="text-primary">Software Developer</span><span class="rcursor"></span>
-              — building efficient, scalable systems with clean interfaces.
-            </p>
-            <div class="hero-actions">
-              <a href="#projects" data-page="projects"
-               
-               
-                class="button-primary hover-glow">View Projects</a>
-              <a href="https://github.com/Septianhutasoit" target="_blank"
-               
-               
-                class="button-secondary hover-surface"><i class="fab fa-github"></i> GitHub</a>
-            </div>
-            <div class="hero-stats">
-              <div>
-                <p class="hero-stat-value">8+</p>
-                <p class="hero-stat-label">Projects</p>
-              </div>
-              <div>
-                <p class="hero-stat-value">2+</p>
-                <p class="hero-stat-label">Years Exp</p>
-              </div>
-              <div>
-                <p class="hero-stat-accent">FS</p>
-                <p class="hero-stat-label">Fullstack</p>
-              </div>
-            </div>
-          </div>
-          <div class="hero-r hero-portrait-column">
-            <div class="float hero-portrait-frame">
-              <div class="p-glow"></div>
-              <img src="assets/img/profile.jpg" alt="Septian"
-               
-                data-image-fallback="profile" class="hero-profile" />
-              <div class="hero-status-card">
-                <p class="hero-status-label">Status</p>
-                <p class="hero-status-value">
-                  <span class="hero-status-indicator"></span>Open
-                  to work
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FEATURED PROJECTS -->
-    <section class="featured-section">
-      <div class="content-container">
-        <div
-         
-          data-aos class="featured-heading">
-          <div>
-            <p class="section-eyebrow">
-              Selected Work</p>
-            <h2 class="featured-title">Check out my <span
-                class="tg">latest work</span></h2>
-            <p class="featured-description">From simple websites to complex web apps. Click
-              to explore.</p>
-          </div>
-          <a href="#projects" data-page="projects"
-           
-            class="featured-link hover-accent">View all <i
-              class="fas fa-arrow-right icon-small"></i></a>
-        </div>
-        <div id="feat-grid" class="project-grid">
-        </div>
-      </div>
-    </section>
-
-    <!-- SKILLS — with fade edges -->
-    <section class="skills-section">
-      <div data-aos class="skills-heading">
-        <p class="skills-eyebrow">
-          Tech Stack</p>
-        <h2 class="skills-title">Technology <span
-            class="tg">Used</span></h2>
-      </div>
-      <div class="skills-wrap">
-        <div class="skills-rows">
-          <div class="s-row">
-            <div class="s-track sl" id="sr1"></div>
-          </div>
-          <div class="s-row">
-            <div class="s-track sr" id="sr2"></div>
-          </div>
-          <div class="s-row">
-            <div class="s-track sl" id="sr3"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="contact-section">
-      <div class="contact-glow">
-      </div>
-      <div data-aos class="contact-container">
-        <p class="contact-eyebrow">
-          Contact</p>
-        <h2 class="contact-title">Let's ship
-          <span class="tg">something real.</span>
-        </h2>
-        <p class="contact-description">
-          Punya ide produk yang butuh backend rapi & UI enak dipakai? Kirim konteksnya, kita breakdown bareng.</p>
-        <a href="mailto:septianhts95@gmail.com"
-         
-          class="contact-button hover-scale">
-          <i class="fas fa-envelope"></i> septianhts95@gmail.com
-        </a>
-        <div class="contact-socials">
-          <a href="https://www.instagram.com/tianhts_/" class="tn-ico social-circle"><i class="fab fa-instagram"></i></a>
-          <a href="https://www.linkedin.com/in/septian-a-hutasoit/" class="tn-ico social-circle"><i class="fab fa-linkedin-in"></i></a>
-          <a href="https://github.com/Septianhutasoit" class="tn-ico social-circle"><i class="fab fa-github"></i></a>
-        </div>
-        <p class="copyright">&copy; 2025 Septian Hutasoit. Built as
-          a fullstack product.</p>
-      </div>
-    </section>
-  </div>
-
-  <!-- ══ PROJECTS PAGE ══ -->
-  <div id="pg-projects" class="pg">
-    <div class="projects-container">
-      <div
-       
-        data-aos class="projects-heading">
-        <div>
-          <a href="#home" data-page="home"
-           
-            class="projects-back hover-text"><i
-              class="fas fa-arrow-left icon-small"></i> Back to home</a>
-          <p class="section-eyebrow">
-            PORTFOLIO</p>
-          <h1 class="projects-title">Project Showcase</h1>
-          <p class="projects-description">A collection of projects I've worked on. Click to
-            see them.</p>
-        </div>
-        <a href="https://github.com/Septianhutasoit" target="_blank"
-         
-          class="projects-github hover-surface"><i
-            class="fab fa-github"></i> View GitHub</a>
-      </div>
-      <div id="all-grid" class="project-grid"></div>
-    </div>
-  </div>
-
-  <!-- ══ ABOUT PAGE ══ -->
-  <div id="pg-about" class="pg">
-    <div class="about-container">
-      <a href="#home" data-page="home"
-       
-        class="about-back hover-text"><i
-          class="fas fa-arrow-left icon-small"></i> Back to home</a>
-      <div data-aos class="about-header">
-        <img src="assets/img/profile.jpg" alt="Septian"
-         
-          data-image-fallback="profile" class="about-profile" />
-        <div>
-          <h1 class="about-title">Septian Hutasoit</h1>
-          <p class="about-role">Software Engineer & AI/ML Enthusiast</p>
-          <div class="about-socials">
-            <a href="https://github.com/Septianhutasoit" target="_blank" class="tn-ico"><i class="fab fa-github about-social-icon"></i></a>
-            <a href="https://www.linkedin.com/in/septian-a-hutasoit/" target="_blank" class="tn-ico"><i
-                class="fab fa-linkedin-in about-social-icon"></i></a>
-            <a href="mailto:septianhts95@gmail.com" class="tn-ico"><i class="fas fa-envelope about-social-icon"></i></a>
-          </div>
-        </div>
-      </div>
-      <div data-aos class="about-cards">
-        <div class="glass about-card">
-          <h3 class="about-bio-heading">
-            <i class="fas fa-user section-icon"></i> About Me
-          </h3>
-          <p class="about-bio">A tech developer passionate about Software
-            Engineering, Web Development,  Engineer, Cloud, and Backend Developer — building scalable systems with clean
-            architecture and great UX.</p>
-        </div>
-        <div class="glass about-card">
-          <h3 class="about-card-heading">
-            <i class="fas fa-code section-icon"></i> Core Stack
-          </h3>
-          <div class="about-stack-grid">
-            <div class="glass about-stack-item"><i
-                class="devicon-laravel-original colored about-stack-icon"></i>
-              <p class="about-stack-label">
-                Laravel</p>
-            </div>
-            <div class="glass about-stack-item"><i
-                class="devicon-react-original colored about-stack-icon"></i>
-              <p class="about-stack-label">
-                React</p>
-            </div>
-            <div class="glass about-stack-item"><i
-                class="devicon-nextjs-plain about-stack-icon-adaptive"></i>
-              <p class="about-stack-label">
-                Next.js</p>
-            </div>
-            <div class="glass about-stack-item"><i
-                class="devicon-python-plain colored about-stack-icon"></i>
-              <p class="about-stack-label">
-                Python</p>
-            </div>
-            <div class="glass about-stack-item"><i
-                class="devicon-nodejs-plain colored about-stack-icon"></i>
-              <p class="about-stack-label">
-                Node.js</p>
-            </div>
-            <div class="glass about-stack-item"><i
-                class="devicon-docker-plain colored about-stack-icon"></i>
-              <p class="about-stack-label">
-                Docker</p>
-            </div>
-          </div>
-        </div>
-        <div class="glass about-card">
-          <h3 class="about-card-heading">
-            <i class="fas fa-envelope section-icon"></i> Get in Touch
-          </h3>
-          <a href="mailto:septianhts95@gmail.com" class="about-contact"><i
-              class="fas fa-paper-plane"></i> septianhts95@gmail.com</a>
-        </div>
+    <div id="pg-projects" class="pg">
+      <div class="container page-container">
+        <a href="#home" data-page="home" class="back-link" data-intro><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to home</a>
+        <div class="page-heading" data-intro><p class="eyebrow">IDEAS, BUILT INTO REALITY</p><h1>My <span class="text-accent">Projects</span></h1><p>A collection of what I&#39;ve been building.<br />Explore the story, process, and technology behind each project.</p></div>
+        <div class="projects-bar" data-intro><span><span class="status-dot" aria-hidden="true"></span> <span id="project-count">8</span> projects &amp; counting</span><a href="https://github.com/Septianhutasoit" target="_blank" rel="noopener noreferrer" class="text-link">More on GitHub <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
+        <div id="all-grid" class="project-grid"></div>
       </div>
     </div>
-  </div>
 
-  <!-- MODAL -->
-  <div id="modal" aria-hidden="true">
-    <div id="mb" data-action="close-modal"></div>
-    <div id="mbox">
-      <div id="mi" role="dialog" aria-modal="true" aria-labelledby="m-title" tabindex="-1">
-        <div class="mi-img">
-          <img id="m-img" alt="" class="modal-image" />
-          <button id="m-prev"
-           
-            data-gallery-step="-1" class="gallery-prev" aria-label="Gambar sebelumnya"><i class="fas fa-chevron-left"></i></button>
-          <button id="m-next"
-           
-            data-gallery-step="1" class="gallery-next" aria-label="Gambar berikutnya"><i class="fas fa-chevron-right"></i></button>
-          <div id="m-dots" class="gallery-dots"></div>
-          <button data-action="close-modal" class="mi-m-back modal-back"
-            aria-label="Tutup detail proyek"><i
-              class="fas fa-arrow-left"></i></button>
-        </div>
-        <div class="mi-info">
-          <div class="modal-heading">
-            <div>
-              <span id="m-sub" class="modal-category"></span>
-              <h3 id="m-title" class="modal-title">
-              </h3>
-            </div>
-            <button data-action="close-modal" class="mi-d-close tn-ico modal-close"
-              aria-label="Tutup detail proyek"><i class="fas fa-times"></i></button>
-          </div>
-          <p id="m-desc" class="modal-description"></p>
-          <div class="modal-stack">
-            <p class="modal-stack-label">
-              Tech Stack</p>
-            <div id="m-tags" class="modal-tags"></div>
-          </div>
-          <div class="modal-actions">
-            <a id="m-demo" href="#" class="modal-demo">Live
-              Demo</a>
-            <a id="m-code" href="#" class="modal-code">Source
-              Code</a>
-          </div>
-        </div>
+    <div id="pg-about" class="pg">
+      <div class="container page-container">
+        <a href="#home" data-page="home" class="back-link" data-intro><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to home</a>
+        <div class="page-heading" data-intro><p class="eyebrow">A STORY OF BUILDING AND DISCOVERY</p><h1>About <span class="text-accent">Me</span></h1></div>
+        <section class="about-layout" aria-labelledby="about-name">
+          <div class="about-photo-wrap" data-intro><div class="about-photo-back" aria-hidden="true"></div><img src="assets/img/profile.jpg" alt="Septian Hutasoit" class="about-photo" width="400" height="520" loading="lazy" data-image-fallback="profile" /><span class="photo-caption"><span class="status-dot" aria-hidden="true"></span> A little about the person behind the code.</span></div>
+          <div class="about-biography" data-intro><h2 id="about-name">Septian Hutasoit</h2><p class="about-byline">Software Engineer &mdash; Fullstack Developer <span class="about-location"><i class="fas fa-location-dot" aria-hidden="true"></i> Indonesia</span></p><div class="about-prose"><p>Hello! You can call me <strong>Septian</strong>. I&#39;m a developer interested in <strong class="text-underline">software engineering, web development, and AI</strong>. I enjoy building useful products with clean architecture and interfaces that feel good to use.</p><p>My work brings together the frontend, backend, and database. I build with tools such as <strong>Laravel, React, Next.js, Python, and FastAPI</strong>, and explore how AI and workflow automation can connect them.</p><p>Through clinic systems, e-commerce applications, and AI-assisted tools, I keep learning how to turn an idea into a working experience &mdash; one thoughtful detail at a time.</p></div><div class="about-actions"><a href="#projects" data-page="projects" class="button button-primary">Explore my work <i class="fas fa-arrow-right" aria-hidden="true"></i></a><a href="mailto:septianhts95@gmail.com" class="button button-secondary"><i class="far fa-envelope" aria-hidden="true"></i> Get in touch</a></div></div>
+        </section>
+        <section class="about-principles section" aria-labelledby="approach-title"><div class="section-heading" data-aos><div><h2 id="approach-title">How I like to build</h2><p class="section-subtitle">A few things I care about along the way.</p></div></div><div class="principles-grid"><article data-aos><span class="principle-number">01 /</span><h3>Start with the problem</h3><p>Understand what people need before choosing the tools and shaping the interface.</p></article><article data-aos><span class="principle-number">02 /</span><h3>Connect the whole system</h3><p>Think through the journey from data and backend logic to the details people interact with.</p></article><article data-aos><span class="principle-number">03 /</span><h3>Keep learning by building</h3><p>Explore new ideas through practical projects, then improve them one step at a time.</p></article></div></section>
       </div>
     </div>
-  </div>
 
+    <section id="pg-project" class="pg" aria-label="Detail proyek"><div id="project-detail"></div></section>
+  </main>
+
+  <footer class="site-footer container">
+    <div class="footer-main"><a href="#home" data-page="home" class="footer-brand">Septian Hutasoit<span class="text-accent">.</span></a><p>Building ideas into useful experiences.</p><div class="footer-socials"><a href="https://github.com/Septianhutasoit" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a><a href="https://www.linkedin.com/in/septian-a-hutasoit/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a><a href="https://www.instagram.com/tianhts_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a><a href="mailto:septianhts95@gmail.com" aria-label="Email"><i class="far fa-envelope" aria-hidden="true"></i></a></div></div>
+    <aside id="sp-widget" aria-label="Music on repeat"><div class="spotify-header"><span class="spotify-symbol"><i class="fab fa-spotify" aria-hidden="true"></i></span><div class="spotify-track"><span class="spotify-eyebrow">ON REPEAT</span><p>La La Lost You <span>&mdash; NIKI</span></p></div><button type="button" id="sp-btn" aria-controls="sp-wrap" aria-expanded="false">Buka</button></div><div id="sp-wrap"><iframe title="Spotify &mdash; La La Lost You by NIKI" src="https://open.spotify.com/embed/track/0e2wfbDK7ppotqyUWD7qs8" width="100%" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div></aside>
+    <div class="footer-bottom"><p>&copy; <span id="footer-year">2026</span> Septian Hutasoit</p><a href="mailto:septianhts95@gmail.com">Let&#39;s connect <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
+  </footer>
+  <noscript><p class="noscript-note container">Aktifkan JavaScript untuk menampilkan daftar proyek, tech stack, dan navigasi halaman.</p></noscript>
   <script type="module" src="assets/js/app.js"></script>
 </body>
-
 </html>

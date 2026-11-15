@@ -66,7 +66,7 @@ export function initCursor() {
     dot.style.height = hovering ? '14px' : '7px';
     ring.style.width = hovering ? '40px' : '26px';
     ring.style.height = hovering ? '40px' : '26px';
-    ring.style.borderColor = hovering ? 'rgba(34,197,94,.85)' : 'rgba(34,197,94,.5)';
+    ring.style.borderColor = hovering ? 'var(--accent)' : 'var(--border)';
   }, { passive: true });
 
   document.addEventListener('mousedown', () => {

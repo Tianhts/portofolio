@@ -1,6 +1,6 @@
 # Septian Hutasoit — Portfolio
 
-Website portofolio dengan HTML, CSS, dan JavaScript native. Kode dipisahkan menjadi modul agar konten, komponen, dan animasi dapat dikembangkan secara terpisah. Tahap ini menyiapkan fondasi kode; arah pembaruan UI berdasarkan referensi tersedia di [docs/ui-direction.md](docs/ui-direction.md).
+Website portofolio dengan HTML, CSS, dan JavaScript native. UI memakai tema gelap dengan aksen mint, container yang konsisten, grid tech stack, serta halaman detail proyek. Efek masuk blur, animasi dock, dan scroll reveal dipisahkan menjadi modul. Catatan desain tersedia di [docs/ui-direction.md](docs/ui-direction.md).
 
 ## Menjalankan secara lokal
 
@@ -18,9 +18,9 @@ Jalankan melalui HTTP karena JavaScript menggunakan ES modules. Membuka `index.h
 npm run check
 ```
 
-Perintah pemeriksaan memvalidasi struktur dan referensi lokal. Pemeriksaan visual serta interaksi tetap perlu dilakukan di browser.
+Perintah pemeriksaan memvalidasi struktur, sintaks, import, aset detail proyek, dan server HTTP. Smoke test navigasi memeriksa deep link seluruh proyek, status aktif, history, modifier click, serta dock desktop/mobile. Pemeriksaan visual tetap perlu dilakukan di browser.
 
-Tiga gambar galeri ChatBot AI Klinik dari data lama belum tersedia. Pemeriksaan akan melaporkannya; modal memakai cover proyek sebagai pengganti.
+Tiga jalur gambar ChatBot AI Klinik dari data lama belum tersedia. Data asli tetap disimpan; halaman detail menggunakan cover yang tersedia. Gambar galeri lain tetap bisa dibuka dalam viewer layar penuh.
 
 ## Struktur kode
 
@@ -34,25 +34,28 @@ assets/
     navigation.css         Header, dock, dan tombol kembali ke atas
     components.css         Kartu proyek, tag, dan tech stack
     hero.css               Elemen visual hero
-    overlays.css           Modal proyek dan widget Spotify
+    overlays.css           Widget Spotify
     animations.css         Keyframe dan animasi reveal
     responsive.css         Penyesuaian ukuran layar
     pages.css              Styling markup halaman
     interactions.css       Styling komponen dinamis, hover, dan reduced motion
+    project-detail.css     Halaman studi kasus, galeri, dan viewer gambar
   js/
     app.js                 Inisialisasi aplikasi
+    intro-boot.js          Persiapan intro dan fallback visibilitas
     data/                  Data proyek dan skill
     components/            Render kartu proyek dan daftar skill
-    features/              Navigasi, modal, tema, dan Spotify
-    animations/            Kursor, partikel, typewriter, reveal, interaksi
+    features/              Navigasi, detail proyek, tema, dan Spotify
+    animations/            Intro blur, dock, kursor, typewriter, reveal, interaksi
     utils/                 Pemetaan ikon teknologi
   img/                     Foto profil dan gambar proyek
   audio/                   Aset audio
 scripts/
   serve.mjs                Server lokal tanpa dependensi
   check.mjs                Pemeriksaan struktur proyek
+  navigation-smoke.mjs     Pengujian perilaku navigasi tanpa dependensi browser
 docs/
-  ui-direction.md          Rancangan arah UI dan animasi berikutnya
+  ui-direction.md          Catatan UI dan perilaku animasi
 ```
 
 ## Mengembangkan portofolio
@@ -60,16 +63,23 @@ docs/
 | Perubahan | Lokasi utama |
 | --- | --- |
 | Judul, deskripsi, gambar, dan tautan proyek | `assets/js/data/projects.js` |
+| Masalah, pendekatan, highlight, dan susunan galeri proyek | `assets/js/data/project-details.js` |
 | Nama, ikon, dan warna skill | `assets/js/data/skills.js` |
 | Susunan kartu proyek dan skill | `assets/js/components/` |
 | Konten hero, About, dan kontak | `index.html` |
 | Warna tema dan styling dasar | `assets/css/base.css` |
 | Styling halaman | `assets/css/pages.css` |
 | Header dan dock | `assets/css/navigation.css`, `assets/js/features/navigation.js` |
-| Galeri dan modal detail proyek | `assets/js/features/modal.js`, `assets/css/overlays.css` |
+| Halaman detail dan viewer galeri | `assets/js/features/project-detail.js`, `assets/css/project-detail.css` |
 | Efek dan animasi | `assets/js/animations/`, `assets/css/animations.css` |
 
 Pertahankan jalur gambar sebagai `assets/img/...`, relatif terhadap `index.html`. Tambahkan event listener pada modul fitur; atribut `data-*` menghubungkan markup dengan perilakunya.
+
+Navigasi memakai hash `#home`, `#projects`, `#about`, dan `#project/<slug>`, sehingga tautan detail bisa dibagikan dan tombol Back/Forward browser tetap berfungsi. Slug berasal dari nama proyek. `initProjectDetail()` dipanggil sebelum `initNavigation()` agar detail dapat dibuka langsung dari URL.
+
+Tech stack merender seluruh data sekali dalam grid delapan kolom desktop, enam kolom tablet, dan empat/tiga kolom pada layar kecil. Kotak ikon berukuran 80 px dan label berada di bawahnya. Widget Spotify dan seluruh tautan kontak tetap tersedia pada footer.
+
+Intro berjalan setelah struktur aplikasi siap dengan stagger singkat. Fallback 1,8 detik menjaga konten tetap terlihat bila modul gagal dimuat. Animasi menghormati `prefers-reduced-motion`; pembesaran dock hanya aktif pada pointer yang sesuai.
 
 Font Plus Jakarta Sans dimuat dari Google Fonts, sementara Font Awesome dan Devicon dimuat melalui CDN. Font dan ikon eksternal memerlukan koneksi internet. Animasi reveal dibuat dengan `IntersectionObserver`, tanpa library AOS; styling menggunakan CSS native, tanpa Tailwind runtime.
 

@@ -1,6 +1,6 @@
 # Arah UI portofolio
 
-Dokumen ini adalah rancangan tahap berikutnya berdasarkan gambar referensi. Modularisasi kode dikerjakan lebih dahulu. Susunan dan efek yang dijelaskan di sini belum merupakan hasil redesign yang sudah diterapkan.
+Dokumen ini mencatat UI yang diterapkan berdasarkan gambar referensi. Konten tetap menggunakan identitas Septian Hutasoit dan data proyek yang tersedia. Home, Projects, About, detail proyek, grid tech stack, dock, serta intro blur sudah diimplementasikan.
 
 ## Karakter visual
 
@@ -8,33 +8,35 @@ Pertahankan identitas **Septian Hutasoit**, foto, proyek, serta tautan yang suda
 
 | Elemen | Arah desain |
 | --- | --- |
-| Latar | Hampir hitam, usulan `#0c0f11` |
-| Permukaan | Abu gelap, usulan `#191e24`, garis pembatas tipis |
-| Aksen | Mint, usulan `#62efbc`, untuk status aktif dan aksi utama |
+| Latar | Hampir hitam, `#0c0f11` |
+| Permukaan | Abu gelap, `#191e24`, garis pembatas tipis |
+| Aksen | Mint, `#65f8bd`, untuk status aktif dan aksi utama |
 | Tipografi | Plus Jakarta Sans; judul kuat, paragraf lega, metadata lebih tenang |
-| Lebar konten | Sekitar 1.080–1.152 px pada desktop, padding adaptif pada mobile |
+| Lebar konten | 1.120 px pada desktop, padding adaptif pada mobile; detail proyek memakai area tambahan untuk sidebar |
 | Bentuk | Kartu dan navigasi bersudut membulat, bayangan ringan |
 | Kepadatan | Ruang antarseksi lebih luas dengan hierarki judul yang konsisten |
 
-Warna tersebut merupakan usulan token untuk tahap UI. Token tema saat ini dapat disesuaikan lewat `assets/css/base.css` setelah arah visual ditetapkan.
+Token aktif ada di `assets/css/base.css`: latar `#0c0f11`, permukaan `#191e24`, aksen `#65f8bd`, dan lebar konten 1.120 px. Tema terang tetap tersedia melalui tombol tema.
 
 ## Susunan halaman
 
-**Home:** header dengan Home, Projects, dan About; hero berisi foto, nama, peran, lokasi, serta status ketersediaan; ringkasan About; pengalaman; tech stack; proyek pilihan; kontak. Isi pengalaman dan pendidikan memakai data yang benar-benar tersedia.
+**Home:** header dengan Home, Projects, dan About; foto, nama, peran, lokasi, serta status ketersediaan; ringkasan About; bidang proyek yang dikerjakan; tech stack; proyek pilihan; kontak. Bagian bidang proyek bersumber dari proyek yang tersedia, tanpa menambahkan riwayat pekerjaan atau pendidikan.
 
-**Projects:** pembuka singkat dan grid kartu. Setiap kartu menampilkan gambar, nama proyek, ringkasan, dan tag teknologi. Desktop memakai dua kolom yang lega; mobile memakai satu kolom. Modal yang ada tetap menjadi fondasi detail proyek sampai halaman studi kasus dibuat.
+**Projects:** pembuka singkat dan grid kartu. Setiap kartu menampilkan gambar, nama proyek, ringkasan, serta tag teknologi. Desktop memakai dua kolom; mobile memakai satu kolom. Kartu membuka halaman detail dengan hash tersendiri.
 
-**Detail proyek, tahap lanjutan:** tautan kembali, judul, aksi Visit Website dan Source, gambar utama, Overview, Gallery, Problem, Solution, dan Tech Stack. Daftar isi menempel di sisi kanan pada desktop dan disederhanakan pada mobile. Aksi ditampilkan hanya saat tautan tersedia.
+**Detail proyek:** tautan kembali, judul, aksi Visit Website dan Source Code saat tautannya tersedia, gambar utama, Overview, Gallery, The Problem, How I Built It, dan Tech Stack. Daftar isi menempel di kanan pada desktop. Galeri memiliki thumbnail, navigasi gambar, penghitung, dan viewer layar penuh dengan Escape, tombol panah, serta pengelolaan fokus keyboard.
 
-**About:** judul halaman, foto potret, bio, bidang yang ditekuni, tech stack, serta lini masa pengalaman dan pendidikan. Data pribadi pada gambar referensi tidak dipindahkan ke portofolio.
+**About:** judul halaman, foto potret, bio, bidang yang ditekuni, dan prinsip membangun produk. Data pribadi, pengalaman, dan pendidikan dari pemilik website referensi tidak dipindahkan ke portofolio.
 
 ## Navigasi dan tombol
 
-Header mengambang menyediakan navigasi teks saat halaman berada di atas. Dock ikon muncul ketika pengguna menggulir; status halaman aktif konsisten di kedua navigasi. Dock memberi pembesaran halus pada ikon yang diarahkan pointer dan tooltip yang terbaca, dengan jarak aman dari tepi layar.
+Header mengambang menyediakan navigasi teks saat halaman berada di atas. Dock muncul ketika pengguna menggulir dan selalu tersedia pada layar kecil; status halaman aktif konsisten. Lingkaran ikon membesar berdasarkan jarak pointer dengan interpolasi halus, sementara area klik dan tooltip tetap stabil.
 
 Tombol utama memakai aksen mint dengan teks gelap. Tombol sekunder memakai permukaan gelap dan garis tipis. Hover mengubah warna atau bayangan serta mengangkat tombol sekitar 2 px; keadaan tekan mengecilkan tombol sedikit. Fokus keyboard tetap terlihat. Area sentuh ditargetkan minimal 44 × 44 px.
 
 ## Bahasa animasi
+
+Saat pertama masuk, kelompok konten di area pandang bergerak dari blur 12 px menjadi jernih selama 780 ms, dengan stagger 95 ms. Pergantian halaman memakai versi yang lebih singkat. Konten tetap terlihat jika JavaScript animasi tidak tersedia, dengan fallback pembuka 1,8 detik. Blur diterapkan pada kelompok konten dan tidak membungkus navigasi fixed.
 
 | Interaksi | Durasi usulan | Perilaku |
 | --- | --- | --- |
@@ -46,11 +48,6 @@ Tombol utama memakai aksen mint dengan teks gelap. Tombol sekunder memakai permu
 
 Gunakan easing bersama `cubic-bezier(.22, 1, .36, 1)`. Utamakan animasi `transform` dan `opacity`; batasi efek yang terus berjalan. Hover diterapkan pada perangkat yang mendukung pointer, sedangkan sentuhan mendapat respons tekan. Hormati `prefers-reduced-motion` dengan menonaktifkan gerak dekoratif dan menampilkan konten langsung.
 
-## Urutan pengembangan
+## Pengembangan berikutnya
 
-1. Selesaikan pemisahan data, styling, fitur, dan animasi; verifikasi fitur lama.
-2. Terapkan token warna, tipografi, container, dan jarak antarelemen.
-3. Perbarui header, dock, serta tombol sebagai komponen bersama.
-4. Susun Home, Projects, dan About memakai konten Septian.
-5. Tambahkan halaman detail proyek dan informasi pengalaman setelah datanya tersedia.
-6. Periksa responsivitas, keyboard, kontras, reduced motion, dan kelancaran animasi di browser.
+Riwayat pekerjaan dan pendidikan dapat ditambahkan setelah data tersedia. Pemeriksaan visual di browser tetap diperlukan untuk menilai proporsi, kelancaran gerak, dan kontras pada perangkat sebenarnya. Pemeriksaan otomatis yang tersedia mencakup struktur, aset, server HTTP, dan perilaku navigasi.
