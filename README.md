@@ -84,6 +84,8 @@ Konten dibatasi maksimal 800 px dan berada di tengah. Home dan Semua Proyek mema
 
 Tech stack merender seluruh data sekali dalam grid delapan kolom desktop, enam kolom tablet, dan empat/tiga kolom pada layar kecil. Kotak ikon berukuran 64 px dan label berada di bawahnya. Widget Spotify dan seluruh tautan kontak tetap tersedia pada footer.
 
+Widget musik menggunakan embed resmi **Fix You — Coldplay**. Tekan **Buka pemutar**, lalu Play pada kontrol Spotify. Iframe dimuat hanya saat pertama dibuka dan dipertahankan ketika panel disembunyikan agar posisi pemutaran tidak direset. Gunakan kontrol Pause untuk menghentikan musik; tombol **Tutup panel** hanya menyembunyikan panel. Tautan **Buka di Spotify** selalu tersedia. Ketersediaan pemutaran penuh mengikuti akses Spotify dan dukungan browser.
+
 Intro berjalan setelah struktur aplikasi siap dengan stagger singkat. Fallback 1,8 detik menjaga konten tetap terlihat bila modul gagal dimuat. Animasi menghormati `prefers-reduced-motion`; pembesaran dock hanya aktif pada pointer yang sesuai.
 
 Font Plus Jakarta Sans dimuat dari Google Fonts, sementara Font Awesome dan Devicon dimuat melalui CDN. Font dan ikon eksternal memerlukan koneksi internet. Animasi reveal dibuat dengan `IntersectionObserver`, tanpa library AOS; styling menggunakan CSS native, tanpa Tailwind runtime.

@@ -1,12 +1,21 @@
 /* Existing Spotify player lives in the footer, away from the navigation dock. */
-#sp-widget { align-self: start; min-width: 280px; max-width: 340px; padding: 15px 17px; background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; }
+#sp-widget { align-self: start; width: 320px; min-width: 0; max-width: 100%; padding: 15px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; }
 .spotify-header { display: flex; align-items: center; gap: 12px; }
 .spotify-symbol { display: grid; place-items: center; width: 30px; height: 36px; color: #1db954; font-size: 25px; }
 .spotify-track { min-width: 0; flex: 1; }
 .spotify-eyebrow { color: var(--muted); font-family: Consolas, monospace; font-size: 8px; letter-spacing: .16em; }
-.spotify-track p { color: var(--text); font-size: 11px; font-weight: 600; white-space: nowrap; }
+.spotify-track p { color: var(--text); font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .spotify-track p span { color: var(--muted); font-weight: 400; }
-#sp-btn { padding: 6px 9px; min-height: 34px; border-radius: 8px; border: 1px solid var(--border); background: transparent; font-size: 10px; transition: border-color 200ms, color 200ms; }
+#sp-btn { flex-shrink: 0; padding: 6px 9px; min-height: 34px; border-radius: 8px; border: 1px solid var(--border); background: transparent; font-size: 10px; transition: border-color 200ms, color 200ms; }
 #sp-btn:hover { color: var(--accent); border-color: var(--accent); }
-#sp-wrap { display: none; margin-top: 14px; }
+#sp-wrap { margin-top: 14px; }
 #sp-wrap iframe { display: block; border: none; border-radius: 10px; }
+.spotify-help { margin-top: 9px; color: var(--muted); font-size: 10px; line-height: 1.7; }
+.spotify-external { display: inline-flex; align-items: center; gap: 7px; margin-top: 12px; color: var(--muted); font-size: 10px; transition: color 200ms; }
+.spotify-external:hover { color: var(--accent); }
+.spotify-external i { font-size: 8px; }
+@media (max-width: 359px) {
+  /* Keep 280px for Spotify's controls inside the narrowest supported layout. */
+  #sp-widget { padding-inline: 3px; }
+  .spotify-header, .spotify-help, .spotify-external { margin-inline: 10px; }
+}
