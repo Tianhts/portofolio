@@ -49,6 +49,7 @@ assets/
     animations/            Intro blur, dock, kursor, typewriter, reveal, interaksi
     utils/                 Pemetaan ikon teknologi
   img/                     Foto profil dan gambar proyek
+  icons/                   Logo SVG lokal, termasuk n8n
   audio/                   Aset audio
 scripts/
   serve.mjs                Server lokal tanpa dependensi
@@ -78,7 +79,7 @@ vercel.json                Aturan URL halaman untuk Vercel
 
 Gunakan jalur gambar dari root, misalnya `/assets/img/profile.jpg`, agar aset tetap termuat saat URL detail proyek dibuka langsung. Tambahkan event listener pada modul fitur; atribut `data-*` menghubungkan markup dengan perilakunya.
 
-Foto About berbentuk lingkaran dan memakai dua gambar yang terdaftar di `assets/js/data/profile.js`: `assets/img/profile.jpg` dan `assets/img/profile.png`. Klik atau tekan Enter/Space pada foto About untuk berganti bolak-balik dengan flip singkat; tidak ada pergantian otomatis. Untuk menambah foto lagi, simpan gambarnya dan tambahkan entri pada daftar tersebut. Jika gambar berikutnya gagal dimuat, foto saat ini tetap terlihat. Foto beranda tetap memakai `profile.jpg`.
+Foto About berbentuk lingkaran 200 px pada desktop dan 180 px pada mobile, memakai dua gambar di `assets/js/data/profile.js`: `assets/img/profile.jpg` dan `assets/img/profile.png`. Klik atau tekan Enter/Space langsung pada foto untuk berganti dengan fade, skala kecil, dan blur selama 520 ms, tanpa ikon di atas foto dan tanpa pergantian otomatis. Gambar berikutnya disiapkan setelah halaman About dibuka; hasilnya disimpan agar klik berikutnya lebih cepat. Untuk menambah foto, simpan gambarnya dan tambahkan entri pada daftar. Jika pemuatan gagal, foto saat ini tetap terlihat. Foto beranda tetap memakai `profile.jpg`.
 
 Navigasi memakai URL `/home`, `/projects`, `/about`, dan `/project/<slug>` tanpa hash. History API menjaga tombol Back/Forward tetap berfungsi; tautan hash lama dialihkan ke URL yang baru. Slug berasal dari nama proyek. `initProjectDetail()` dipanggil sebelum `initNavigation()` agar detail dapat dibuka langsung dari URL.
 
@@ -87,6 +88,8 @@ Server lokal, `_redirects` untuk Cloudflare Pages, dan `vercel.json` untuk Verce
 Konten dibatasi maksimal 800 px dan berada di tengah. Home dan Semua Proyek memakai dua kartu per baris pada desktop dan tablet agar kartu lebih lega. Enam proyek beranda menjadi tiga baris, sedangkan delapan proyek lengkap menjadi empat baris. Mobile memakai satu kartu per baris.
 
 Tech stack merender seluruh data sekali dalam grid delapan kolom desktop, enam kolom tablet, dan empat/tiga kolom pada layar kecil. Kotak ikon berukuran 64 px dan label berada di bawahnya. Widget Spotify dan seluruh tautan kontak tetap tersedia pada footer.
+
+Logo n8n connected-node disimpan lokal di `assets/icons/n8n.svg` dan ditampilkan melalui properti `image` pada data skill. Ikon navigasi Projects memakai simbol kode `</>`.
 
 Widget musik menggunakan embed resmi **Mess Is Mine — Vance Joy**, dengan durasi lagu **3:43** ditampilkan pada widget. Tekan **Buka pemutar**, lalu Play pada kontrol Spotify. Iframe dimuat hanya saat pertama dibuka dan dipertahankan ketika panel disembunyikan agar posisi pemutaran tidak direset. Gunakan kontrol Pause untuk menghentikan musik; tombol **Tutup panel** hanya menyembunyikan panel. Tautan **Buka di Spotify** selalu tersedia. Ketersediaan pemutaran penuh mengikuti akses Spotify dan dukungan browser.
 

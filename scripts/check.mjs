@@ -80,6 +80,11 @@ for (const photo of aboutProfilePhotos) {
   await access(localAsset(photo.src));
 }
 assert(skillRows.every(row => row.length && row.every(skill => skill.name && skill.icon)));
+for (const skill of skillRows.flat()) {
+  if (!skill.image) continue;
+  assert(skill.image.startsWith('/assets/'), 'Logo skill harus memakai jalur root');
+  await access(localAsset(skill.image));
+}
 assert.equal(projectDetails.length, projects.length, 'Jumlah detail tidak sesuai proyek');
 assert.equal(new Set(projects.map(projectSlug)).size, projects.length, 'Slug proyek harus unik');
 for (const [index, project] of projects.entries()) {

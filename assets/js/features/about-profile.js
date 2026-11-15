@@ -18,7 +18,6 @@ export function initAboutProfile() {
   let nextImage = document.getElementById('about-photo-next');
   const caption = document.getElementById('about-photo-caption');
   const status = document.getElementById('about-photo-status');
-  const hint = button?.querySelector('.about-photo-hint');
   if (!button || !currentImage || !nextImage || !caption || !status) return;
 
   const photos = aboutProfilePhotos.filter((photo, index, all) =>
@@ -26,19 +25,40 @@ export function initAboutProfile() {
   if (!photos.length) return;
   initialized = true;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const photoCache = new Map();
   let activeIndex = 0;
   let busy = false;
   currentImage.src = photos[0].src;
   currentImage.alt = photos[0].alt || 'Septian Hutasoit';
   button.disabled = photos.length < 2;
-  if (hint) hint.hidden = photos.length < 2;
+
+  function preparedPhoto(source) {
+    if (!photoCache.has(source)) {
+      const request = loadPhoto(source).then(async image => {
+        if (image.decode) await image.decode().catch(() => {});
+        return image;
+      });
+      photoCache.set(source, request);
+      request.catch(() => photoCache.delete(source));
+    }
+    return photoCache.get(source);
+  }
+
+  function prepareNextPhoto() {
+    if (photos.length > 1) preparedPhoto(photos[(activeIndex + 1) % photos.length].src).catch(() => {});
+  }
+
+  // Warm the next image only when About opens, keeping Home lightweight.
+  document.addEventListener('portfolio:route', event => {
+    if (event.detail.page === 'about') prepareNextPhoto();
+  });
 
   function syncCaption(announce = false) {
     const position = `Foto ${activeIndex + 1} dari ${photos.length}`;
     button.setAttribute('aria-label', photos.length > 1
       ? `${position}. Tekan untuk mengganti foto profil.`
       : `Foto profil ${currentImage.alt}`);
-    if (photos.length > 1) caption.textContent = `Klik foto untuk mengganti · ${activeIndex + 1} / ${photos.length}`;
+    caption.textContent = photos.length > 1 ? `${activeIndex + 1} / ${photos.length}` : currentImage.alt;
     if (announce) status.textContent = position;
   }
   syncCaption();
@@ -51,23 +71,18 @@ export function initAboutProfile() {
     const photo = photos[targetIndex];
     const animations = [];
     try {
-      const loaded = await loadPhoto(photo.src);
-      if (loaded.decode) await loaded.decode().catch(() => {});
+      await preparedPhoto(photo.src);
       nextImage.src = photo.src;
       nextImage.alt = photo.alt || 'Septian Hutasoit';
+      currentImage.style.zIndex = '1';
+      nextImage.style.zIndex = '2';
       nextImage.hidden = false;
       if (!reducedMotion.matches && typeof nextImage.animate === 'function') {
-        const timing = { duration: 190, easing: 'cubic-bezier(.4, 0, .2, 1)', fill: 'both' };
-        animations.push(
-          currentImage.animate([
-            { opacity: 1, transform: 'perspective(800px) rotateY(0deg)' },
-            { opacity: .3, transform: 'perspective(800px) rotateY(-90deg)' },
-          ], timing),
-          nextImage.animate([
-            { opacity: .3, transform: 'perspective(800px) rotateY(90deg)' },
-            { opacity: 1, transform: 'perspective(800px) rotateY(0deg)' },
-          ], { ...timing, delay: timing.duration }),
-        );
+        // Keep the previous photo opaque below the new one to avoid a dark flash.
+        animations.push(nextImage.animate([
+          { opacity: 0, transform: 'scale(1.035)', filter: 'blur(2px)' },
+          { opacity: 1, transform: 'scale(1)', filter: 'blur(0px)' },
+        ], { duration: 520, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'both' }));
         await Promise.all(animations.map(animation => animation.finished.catch(() => {})));
       }
       currentImage.hidden = true;
@@ -76,6 +91,7 @@ export function initAboutProfile() {
       [currentImage, nextImage] = [nextImage, currentImage];
       activeIndex = targetIndex;
       syncCaption(true);
+      prepareNextPhoto();
     } catch {
       nextImage.hidden = true;
       status.textContent = 'Foto berikutnya belum dapat dimuat. Coba lagi nanti.';

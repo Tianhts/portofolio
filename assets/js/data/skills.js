@@ -1,4 +1,4 @@
-// Each array is one animated skill row.
+// Skill groups are flattened into one static grid.
 export const skillRows = [
   [
     {
@@ -188,9 +188,10 @@ export const skillRows = [
     },
     {
       "name": "n8n",
-      "icon": "n8n-logo-custom",
-      "background": "rgba(234,98,46,.15)",
-      "border": "rgba(234,98,46,.4)"
+        "icon": "n8n-brand-icon",
+        "image": "/assets/icons/n8n.svg",
+        "background": "rgba(234,75,113,.15)",
+        "border": "rgba(234,75,113,.4)"
     },
     {
       "name": "NeonDB",

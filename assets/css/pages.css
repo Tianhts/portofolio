@@ -550,7 +550,7 @@
 
 .about-photo-wrap {
     position: relative;
-    width: min(100%, 260px);
+    width: min(100%, 200px);
     justify-self: center;
     margin-bottom: 30px;
 }
@@ -563,7 +563,7 @@
     padding: 0;
     overflow: hidden;
     border-radius: 50%;
-    border: 2px solid var(--border);
+    border: 1px solid var(--border);
     background: var(--bg2);
     isolation: isolate;
     transition: border-color var(--duration-fast) var(--ease-soft), box-shadow var(--duration-fast) var(--ease-soft);
@@ -577,7 +577,7 @@
 .about-photo-frame:not(:disabled):hover,
 .about-photo-frame:not(:disabled):focus-visible {
     border-color: var(--accent);
-    box-shadow: 0 0 0 5px var(--accent-soft);
+    box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .about-photo {
@@ -589,24 +589,6 @@
     border-radius: 50%;
     object-fit: cover;
     object-position: 54% center;
-    backface-visibility: hidden;
-}
-
-.about-photo-hint {
-    position: absolute;
-    z-index: 1;
-    bottom: 18px;
-    left: calc(50% - 17px);
-    display: grid;
-    place-items: center;
-    width: 34px;
-    height: 34px;
-    border: 1px solid rgba(255, 255, 255, .2);
-    border-radius: 50%;
-    color: #fff;
-    background: rgba(12, 15, 17, .65);
-    font-size: 12px;
-    pointer-events: none;
 }
 
 .about-photo-status {
@@ -619,18 +601,14 @@
 }
 
 .photo-caption {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    display: block;
     position: relative;
-    margin-top: 19px;
+    margin-top: 14px;
     font-size: 10px;
     color: var(--muted);
-}
-
-.photo-caption .status-dot {
-    width: 5px;
-    height: 5px;
+    text-align: center;
+    letter-spacing: .12em;
+    font-variant-numeric: tabular-nums;
 }
 
 .about-biography {
@@ -811,7 +789,7 @@
     }
 
     .about-photo-wrap {
-        max-width: 260px;
+        max-width: 200px;
         margin-inline: auto;
     }
 

@@ -49,7 +49,7 @@
   .page-heading { margin: 30px auto 46px; }
   .page-heading > p:last-child:not(.eyebrow) { font-size: 15px; }
   .about-layout { grid-template-columns: 1fr; gap: 34px; }
-  .about-photo-wrap { width: min(100%, 260px); margin: 0 auto; }
+  .about-photo-wrap { width: min(100%, 180px); margin: 0 auto; }
   .about-biography h2 { font-size: 31px; }
   .about-byline { font-size: 13px; }
   .about-prose { font-size: 16px; }
@@ -89,6 +89,3 @@
   .tn-links { gap: 18px; }
   .hero-role { max-width: 260px; }
 }
-/* Existing custom icon remains available for the n8n skill. */
-.n8n-logo-custom { display: inline-block; width: 38px; height: 38px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='14' fill='%23ea4b22'/%3E%3Cpath fill='%23fff' d='M10 30a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8-4a4 4 0 1 0 0 8 4 4 0 0 0 0-8z'/%3E%3Cpath fill='%23fff' d='M34 30a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8-4a4 4 0 1 0 0 8 4 4 0 0 0 0-8z'/%3E%3Cpath fill='%23fff' d='M22 30h16v4H22z'/%3E%3C/svg%3E"); background-size: contain; background-repeat: no-repeat; background-position: center; }
-.n8n-logo-custom::before { content: '' !important; }
