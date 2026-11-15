@@ -90,7 +90,8 @@ export const skillRows = [
     },
     {
       "name": "PostgreSQL",
-      "icon": "devicon-postgresql-plain colored",
+      "icon": "postgresql-brand-icon",
+      "image": "/assets/icons/postgresql.svg",
       "background": "rgba(51,103,145,.15)",
       "border": "rgba(51,103,145,.4)"
     },
@@ -188,16 +189,24 @@ export const skillRows = [
     },
     {
       "name": "n8n",
-        "icon": "n8n-brand-icon",
-        "image": "/assets/icons/n8n.svg",
-        "background": "rgba(234,75,113,.15)",
-        "border": "rgba(234,75,113,.4)"
+      "icon": "n8n-brand-icon",
+      "image": "/assets/icons/n8n.svg",
+      "background": "rgba(234,75,113,.15)",
+      "border": "rgba(234,75,113,.4)"
     },
     {
       "name": "NeonDB",
-      "icon": "fa-solid fa-database",
-      "background": "rgba(0,230,130,.12)",
-      "border": "rgba(0,230,130,.35)"
+      "icon": "neon-brand-icon",
+      "image": "/assets/icons/neon.svg",
+      "background": "rgba(55,195,143,.12)",
+      "border": "rgba(55,195,143,.35)"
+    },
+    {
+      "name": "Hugging Face",
+      "icon": "hugging-face-brand-icon",
+      "image": "/assets/icons/hugging-face.svg",
+      "background": "rgba(255,210,30,.12)",
+      "border": "rgba(255,210,30,.35)"
     },
     {
       "name": "Jupyter",

@@ -163,7 +163,8 @@
     border-radius: 50%;
     object-fit: cover;
     object-position: 53% 38%;
-    border: 1px solid var(--border);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
 }
 
 .profile-status {
