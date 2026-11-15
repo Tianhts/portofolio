@@ -124,7 +124,8 @@ export function initDock() {
     let growthBefore = 0;
 
     for (const { item, bounds, size } of measurements) {
-      const focused = item.element === document.activeElement;
+      // Mouse clicks retain focus too; only keyboard-visible focus holds the effect.
+      const focused = item.element === document.activeElement && item.element.matches(':focus-visible');
       item.size = size;
       const centerX = bounds.left + bounds.width / 2
         + (dockBounds.width - baselineWidth) / 2 - growthBefore - item.growth / 2;

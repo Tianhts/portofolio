@@ -14,6 +14,7 @@ export async function checkDock() {
   let nextFrame = 0;
   let time = performance.now();
   let mobile = false;
+  let focusVisible = false;
 
   function eventTarget() {
     const listeners = new Map();
@@ -56,7 +57,7 @@ export async function checkDock() {
         return rect(left, 700 + (dockHeight() - itemSize()) / 2, itemSize() + growth(items[index]), itemSize());
       },
       querySelector: selector => selector === '.bn-icon' ? icon : null,
-      matches: selector => selector === ':focus-visible' && document.activeElement === element,
+      matches: selector => selector === ':focus-visible' && focusVisible && document.activeElement === element,
     };
     icon.getBoundingClientRect = () => {
       const bounds = element.getBoundingClientRect();
@@ -87,6 +88,14 @@ export async function checkDock() {
     clientY: 700 + dockHeight() / 2, target: items[index].element,
   });
   const move = index => dock.dispatch('pointermove', pointerAt(index));
+  function mouseClick(index) {
+    const element = items[index].element;
+    dock.dispatch('pointerdown', { pointerType: 'mouse', target: element });
+    focusVisible = false;
+    document.activeElement = element;
+    dock.dispatch('focusin', { target: element });
+    dock.dispatch('click', { button: 0, target: element });
+  }
   function tick(elapsed = 1000 / 60) {
     time += elapsed;
     const pending = [...frames];
@@ -181,6 +190,23 @@ export async function checkDock() {
       dock.dispatch('pointerleave'); settle(); neutral();
     }
 
+    for (let index = 0; index < items.length; index++) {
+      move(index); mouseClick(index); settle();
+      const clicked = items[index];
+      dock.dispatch('pointerleave'); settle();
+      assert.equal(document.activeElement, clicked.element, 'Leaving hover must preserve native mouse-click focus');
+      assert.equal(num(clicked.icon, '--dock-lift'), 0,
+        `Mouse-click focus must not keep icon ${index} raised after the pointer leaves`);
+      neutral();
+      move((index + 3) % items.length); settle();
+      assert.equal(growth(clicked), 0, 'A clicked icon must not retain an independent keyboard-focus target');
+      assert.equal(num(clicked.icon, '--dock-scale', 1), 1);
+      assert.equal(document.activeElement, clicked.element, 'Hovering another icon must preserve native focus');
+      dock.dispatch('pointerleave'); settle(); neutral();
+    }
+    document.activeElement = null;
+    dock.dispatch('focusout'); await Promise.resolve(); settle(); neutral();
+
     const centerPointer = pointerAt(2);
     dock.dispatch('pointermove', { ...centerPointer, clientX: centerPointer.clientX - 16 }); settle();
     assert(num(items[2].icon, '--dock-tilt') < 0 && num(items[2].icon, '--dock-glyph-x') < 0,
@@ -221,11 +247,20 @@ export async function checkDock() {
     window.dispatch('focus'); settle(); neutral();
 
     document.activeElement = items[1].element;
+    focusVisible = true;
     dock.dispatch('focusin');
     settle();
     assert(num(items[1].icon, '--dock-scale') > 1, 'Keyboard focus must receive the dock effect');
     assert(dockWidth() > baseWidth(), 'Keyboard focus must expand the actual navbar');
+    mouseClick(1);
+    dock.dispatch('pointerleave'); settle();
+    assert.equal(document.activeElement, items[1].element);
+    neutral();
+    focusVisible = true;
+    dock.dispatch('focusin'); settle();
+    assert(num(items[1].icon, '--dock-scale') > 1, 'Keyboard-visible focus must still animate after mouse interaction');
     document.activeElement = null;
+    focusVisible = false;
     dock.dispatch('focusout');
     await Promise.resolve();
     settle();
@@ -304,7 +339,7 @@ export async function checkDock() {
       'Icon lift must affect the rendered transform');
     const labelRule = navigation.match(/\.bn-label\s*\{([^}]+)\}/)?.[1];
     assert(labelRule && labelRule.includes('--dock-label-lift'), 'Tooltip positioning must follow icon lift');
-    console.log('OK: compact dock - raised icons, tracking tooltips, spring flex growth, fixed navbar height, mobile budget, reset states, finite animation frames.');
+    console.log('OK: compact dock - pointer/keyboard focus separation, raised icons, tracking tooltips, spring flex growth, fixed height, mobile budget, finite animation frames.');
   } finally {
     for (const [name, descriptor] of originals) {
       if (descriptor) Object.defineProperty(globalThis, name, descriptor);
