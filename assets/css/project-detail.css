@@ -90,7 +90,7 @@
 .pd-sidebar-contact > span { color: var(--muted); font-size: 11px; }
 .pd-sidebar-contact strong { display: flex; align-items: center; justify-content: space-between; color: var(--text); font-size: 16px; letter-spacing: -.03em; font-weight: 600; }
 .pd-sidebar-contact i { color: var(--accent); font-size: 12px; }
-.pd-not-found { max-width: var(--content-width, 960px); padding: 180px 32px; margin: 0 auto; }
+.pd-not-found { max-width: var(--content-width, 800px); padding: 180px 32px; margin: 0 auto; }
 .pd-not-found h1 { margin: 20px 0 30px; }
 
 .pd-lightbox { position: fixed; inset: 0; z-index: 1200; padding: 24px 36px 22px; background: rgba(7, 10, 12, .97); backdrop-filter: blur(16px); color: #edf4f1; display: flex; flex-direction: column; gap: 18px; animation: pdLightboxIn .25s var(--ease-out, ease) both; }

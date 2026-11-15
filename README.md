@@ -77,7 +77,9 @@ Pertahankan jalur gambar sebagai `assets/img/...`, relatif terhadap `index.html`
 
 Navigasi memakai hash `#home`, `#projects`, `#about`, dan `#project/<slug>`, sehingga tautan detail bisa dibagikan dan tombol Back/Forward browser tetap berfungsi. Slug berasal dari nama proyek. `initProjectDetail()` dipanggil sebelum `initNavigation()` agar detail dapat dibuka langsung dari URL.
 
-Tech stack merender seluruh data sekali dalam grid delapan kolom desktop, enam kolom tablet, dan empat/tiga kolom pada layar kecil. Kotak ikon berukuran 80 px dan label berada di bawahnya. Widget Spotify dan seluruh tautan kontak tetap tersedia pada footer.
+Konten dibatasi maksimal 800 px dan berada di tengah. Pada desktop, kartu proyek memakai tiga kolom: enam proyek beranda menjadi dua baris, sedangkan delapan proyek lengkap menjadi tiga baris. Tablet memakai dua kolom dan mobile satu kolom.
+
+Tech stack merender seluruh data sekali dalam grid delapan kolom desktop, enam kolom tablet, dan empat/tiga kolom pada layar kecil. Kotak ikon berukuran 64 px dan label berada di bawahnya. Widget Spotify dan seluruh tautan kontak tetap tersedia pada footer.
 
 Intro berjalan setelah struktur aplikasi siap dengan stagger singkat. Fallback 1,8 detik menjaga konten tetap terlihat bila modul gagal dimuat. Animasi menghormati `prefers-reduced-motion`; pembesaran dock hanya aktif pada pointer yang sesuai.
 

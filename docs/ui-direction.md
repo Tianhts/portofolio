@@ -10,19 +10,19 @@ Pertahankan identitas **Septian Hutasoit**, foto, proyek, serta tautan yang suda
 | --- | --- |
 | Latar | Hampir hitam, `#0c0f11` |
 | Permukaan | Abu gelap, `#191e24`, garis pembatas tipis |
-| Aksen | Mint lembut, `#8fc7ad`, untuk status aktif dan aksi utama |
+| Aksen | Hijau terang, `#4ade80`, untuk status aktif dan aksi utama |
 | Tipografi | Plus Jakarta Sans; judul kuat, paragraf lega, metadata lebih tenang |
-| Lebar konten | Maksimal 960 px, rata tengah dengan ruang kiri–kanan seimbang; header dan detail proyek mengikuti batas yang sama |
+| Lebar konten | Maksimal 800 px, rata tengah dengan ruang kiri–kanan seimbang; header dan detail proyek mengikuti batas yang sama |
 | Bentuk | Kartu dan navigasi bersudut membulat, bayangan ringan |
 | Kepadatan | Ruang antarseksi lebih luas dengan hierarki judul yang konsisten |
 
-Token aktif ada di `assets/css/base.css`: latar `#0c0f11`, permukaan `#191e24`, aksen `#8fc7ad`, dan lebar konten 960 px. Margin minimum mengikuti token `--page-gutter`: 32 px pada desktop, 20 px pada mobile, dan 16 px pada layar paling kecil. Tema terang tetap tersedia melalui tombol tema.
+Token aktif ada di `assets/css/base.css`: latar `#0c0f11`, permukaan `#191e24`, aksen `#4ade80`, dan lebar konten 800 px. Margin minimum mengikuti token `--page-gutter`: 32 px pada desktop, 20 px pada mobile, dan 16 px pada layar paling kecil. Tema terang tetap tersedia melalui tombol tema.
 
 ## Susunan halaman
 
 **Home:** header dengan Home, Projects, dan About; foto, nama, peran, lokasi, serta status ketersediaan; ringkasan About; bidang proyek yang dikerjakan; tech stack; proyek pilihan; kontak. Bagian bidang proyek bersumber dari proyek yang tersedia, tanpa menambahkan riwayat pekerjaan atau pendidikan.
 
-**Projects:** pembuka singkat dan grid kartu. Setiap kartu menampilkan gambar, nama proyek, ringkasan, serta tag teknologi. Desktop memakai dua kolom; mobile memakai satu kolom. Kartu membuka halaman detail dengan hash tersendiri.
+**Projects:** pembuka singkat dan grid kartu. Setiap kartu menampilkan gambar, nama proyek, ringkasan, serta tag teknologi. Desktop memakai tiga kolom: enam proyek beranda menjadi dua baris, dan delapan proyek lengkap menjadi tiga baris (3 + 3 + 2). Tablet memakai dua kolom dan mobile satu kolom. Kartu membuka halaman detail dengan hash tersendiri.
 
 **Detail proyek:** tautan kembali, judul, aksi Visit Website dan Source Code saat tautannya tersedia, gambar utama, Overview, Gallery, The Problem, How I Built It, dan Tech Stack. Daftar isi menempel di kanan pada desktop. Galeri memiliki thumbnail, navigasi gambar, penghitung, dan viewer layar penuh dengan Escape, tombol panah, serta pengelolaan fokus keyboard.
 
