@@ -32,6 +32,7 @@ assets/
     base.css               Variabel tema, reset, dan aturan dasar
     cursor.css             Tampilan kursor khusus
     navigation.css         Header, dock, dan tombol kembali ke atas
+    theme-icon.css         Ikon matahari/bulan SVG dan transisi pergantian tema
     components.css         Kartu proyek, tag, dan tech stack
     hero.css               Elemen visual hero
     overlays.css           Widget Spotify
@@ -96,7 +97,9 @@ Widget musik menggunakan embed resmi **Mess Is Mine — Vance Joy**, dengan dura
 
 Intro berjalan setelah struktur aplikasi siap dengan stagger singkat. Fallback 1,8 detik menjaga konten tetap terlihat bila modul gagal dimuat. Animasi menghormati `prefers-reduced-motion`; pembesaran dock hanya aktif pada pointer yang sesuai.
 
-Dock bawah memakai lingkaran ikon 44 px pada desktop dan 40/38 px pada mobile. Lebar tombol bertambah saat ikon didekati kursor atau mendapat fokus keyboard, sehingga navbar benar-benar melebar ke kiri dan kanan. Tinggi navbar tetap 64 px pada desktop dan 60 px pada mobile, dengan posisi tengah serta posisi vertikal yang tetap. Ikon membesar dari pusatnya maksimal 32% tanpa naik; lingkaran desktop mencapai sekitar 58 px. Pertumbuhan dibatasi ruang viewport, dan perhitungan hover memakai posisi saat diam untuk mencegah gerakan bergetar. Aksen hijau tampil pada ikon dan garis tombol. Perilakunya diatur oleh `assets/js/animations/dock.js` dan styling oleh `assets/css/navigation.css` serta `responsive.css`.
+Dock bawah memakai lingkaran ikon 44 px pada desktop dan 40/38 px pada mobile. Lebar tombol bertambah saat ikon didekati kursor atau mendapat fokus keyboard, sehingga navbar benar-benar melebar ke kiri dan kanan. Tinggi navbar tetap 64 px pada desktop dan 60 px pada mobile, dengan posisi tengah serta posisi vertikal yang tetap. Ikon membesar maksimal 32% dan naik hingga 14 px, sehingga melewati batas atas navbar; lingkaran desktop mencapai sekitar 58 px. Tooltip ikut naik agar tetap berjarak dari ikon. Pertumbuhan dibatasi ruang viewport, dan perhitungan hover memakai posisi saat diam untuk mencegah gerakan bergetar. Aksen hijau tampil pada ikon dan garis tombol. Perilakunya diatur oleh `assets/js/animations/dock.js` dan styling oleh `assets/css/navigation.css` serta `responsive.css`.
+
+Sudut navbar memakai radius 18 px pada desktop dan 16 px pada mobile. Animasi spring memberi respons elastis saat kursor berpindah; glyph mengikuti arah kursor dengan gerak horizontal maksimal 2 px dan kemiringan 5 derajat. Tekanan tombol memberi respons kecil yang kembali halus. Ikon tema berupa SVG matahari/bulan bergaris, dengan rotasi dan fade melalui `theme-icon.css`. Seluruh gerak kembali netral dan berhenti setelah selesai, serta mengikuti pengaturan reduced motion.
 
 Font Plus Jakarta Sans dimuat dari Google Fonts, sementara Font Awesome dan Devicon dimuat melalui CDN. Font dan ikon eksternal memerlukan koneksi internet. Animasi reveal dibuat dengan `IntersectionObserver`, tanpa library AOS; styling menggunakan CSS native, tanpa Tailwind runtime.
 

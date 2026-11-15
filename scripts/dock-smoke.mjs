@@ -61,7 +61,8 @@ export async function checkDock() {
     icon.getBoundingClientRect = () => {
       const bounds = element.getBoundingClientRect();
       const size = iconSize() * (Number.parseFloat(icon.style.getPropertyValue('--dock-scale')) || 1);
-      return rect(bounds.left + (bounds.width - size) / 2, 700 + (dockHeight() - size) / 2, size, size);
+      const lift = Number.parseFloat(icon.style.getPropertyValue('--dock-lift')) || 0;
+      return rect(bounds.left + (bounds.width - size) / 2, 700 + (dockHeight() - size) / 2 + lift, size, size);
     };
     return { element, icon };
   });
@@ -86,11 +87,24 @@ export async function checkDock() {
     clientY: 700 + dockHeight() / 2, target: items[index].element,
   });
   const move = index => dock.dispatch('pointermove', pointerAt(index));
-  function tick() {
-    time += 1000 / 60;
+  function tick(elapsed = 1000 / 60) {
+    time += elapsed;
     const pending = [...frames];
     frames.clear();
     for (const [, callback] of pending) callback(time);
+    assert(dockWidth() <= window.innerWidth - 20 + .005, 'Every animation frame must respect the viewport width budget');
+    for (const item of items) {
+      const scale = num(item.icon, '--dock-scale', 1);
+      assert(scale >= 1 && scale <= 1.3201, 'Spring motion must keep magnification within its compact bounds');
+      assert(growth(item) >= 0 && growth(item) <= iconSize() * .32 + .001,
+        'Spring motion must not produce negative or oversized flex growth');
+      assert(Math.abs(num(item.icon, '--dock-tilt')) <= 5.001, 'Pointer tilt must stay subtle');
+      assert(Math.abs(num(item.icon, '--dock-glyph-x')) <= 2.001, 'Glyph movement must stay inside its button');
+      const lift = num(item.icon, '--dock-lift');
+      assert(lift >= -14.001 && lift <= .001, 'Icon lift must stay within its compact upward range');
+      assert(Math.abs(num(item.element, '--dock-label-lift') + lift) <= .001,
+        'Tooltip lift must track the visible icon throughout the animation');
+    }
   }
   function settle() {
     for (let count = 0; frames.size && count < 400; count++) tick();
@@ -102,7 +116,10 @@ export async function checkDock() {
       const { icon } = item;
       assert.equal(growth(item), 0);
       assert.equal(num(icon, '--dock-scale', 1), 1);
-      assert.equal(icon.style.getPropertyValue('--dock-lift'), '', 'Magnification must not lift icons vertically');
+      assert.equal(num(icon, '--dock-tilt'), 0, 'Inactive icons must reset pointer tilt');
+      assert.equal(num(icon, '--dock-glyph-x'), 0, 'Inactive icons must reset glyph movement');
+      assert.equal(num(icon, '--dock-lift'), 0, 'Inactive icons must return to their original height');
+      assert.equal(num(item.element, '--dock-label-lift'), 0, 'Inactive tooltips must reset their lift');
     }
   }
   function preference(media, value) {
@@ -149,6 +166,30 @@ export async function checkDock() {
     settle();
     neutral();
 
+    for (let index = 0; index < items.length; index++) {
+      move(index); settle();
+      const bar = dock.getBoundingClientRect();
+      assert(items[index].icon.getBoundingClientRect().top < bar.top,
+        `Hovered icon ${index} must visibly rise above the navbar top`);
+      assert.equal(bar.top, restingBounds.top, 'Only icons may lift; the navbar must stay at its original top');
+      assert.equal(bar.height, restingBounds.height, 'Icon lift must not change the navbar height');
+      items.forEach((item, otherIndex) => {
+        if (otherIndex === index) return;
+        assert(num(item.icon, '--dock-lift') > num(items[index].icon, '--dock-lift'),
+          'Neighboring icons must respond more gently than the hovered icon');
+      });
+      dock.dispatch('pointerleave'); settle(); neutral();
+    }
+
+    const centerPointer = pointerAt(2);
+    dock.dispatch('pointermove', { ...centerPointer, clientX: centerPointer.clientX - 16 }); settle();
+    assert(num(items[2].icon, '--dock-tilt') < 0 && num(items[2].icon, '--dock-glyph-x') < 0,
+      'The glyph must tilt and move toward the left side of the cursor');
+    dock.dispatch('pointermove', { ...centerPointer, clientX: centerPointer.clientX + 16 }); settle();
+    assert(num(items[2].icon, '--dock-tilt') > 0 && num(items[2].icon, '--dock-glyph-x') > 0,
+      'The glyph must reverse its tilt and movement toward the right side of the cursor');
+    dock.dispatch('pointerleave'); settle(); neutral();
+
     for (const index of [0, 5]) {
       const pointer = pointerAt(index);
       dock.dispatch('pointermove', pointer); settle();
@@ -167,6 +208,12 @@ export async function checkDock() {
     assert.equal(frames.size, 1, 'Rapid pointer movement must reuse one animation loop');
     settle();
     dock.dispatch('pointercancel'); settle(); neutral();
+    for (let reversal = 0; reversal < 18; reversal++) {
+      move(reversal % 2 ? 0 : 5);
+      tick(reversal % 3 === 0 ? 120 : 1000 / 60);
+    }
+    settle();
+    dock.dispatch('pointerleave'); settle(); neutral();
     move(3); settle();
     window.dispatch('blur');
     neutral();
@@ -223,6 +270,10 @@ export async function checkDock() {
     preference(fine, false); settle();
     move(2); settle(); neutral();
     preference(fine, true); settle();
+    for (let reversal = 0; reversal < 12; reversal++) {
+      move(reversal % 2 ? 0 : 5);
+      tick(reversal % 3 === 0 ? 120 : 1000 / 60);
+    }
     move(2); settle();
     assert(dockWidth() <= 300.001, 'Fine-pointer animation must fit inside a 320px viewport with side margins');
     assert.equal(dock.getBoundingClientRect().height, 60);
@@ -244,7 +295,16 @@ export async function checkDock() {
     const itemRule = navigation.match(/\.bn-item\s*\{([^}]+)\}/)?.[1];
     assert(itemRule && /\bwidth\s*:\s*calc\(/.test(itemRule) && itemRule.includes('--dock-growth'),
       'Item growth must participate in actual flex width');
-    console.log('OK: compact dock - real flex growth, fixed height, stable edge hover, mobile budget, focus/reset states, finite animation frames.');
+    const slotRules = [...(navigation + responsive).matchAll(/(?:#bot-nav|\.bn-item)\s*\{([^}]+)\}/g)]
+      .map(match => match[1]).join('');
+    assert(!/\boverflow(?:-[xy])?\s*:\s*(?:hidden|clip)/.test(slotRules),
+      'The navbar and clickable slots must not clip raised icons');
+    const iconRule = navigation.match(/\.bn-icon\s*\{([^}]+)\}/)?.[1];
+    assert(iconRule && /translateY\s*\(\s*var\s*\(\s*--dock-lift\b/.test(iconRule),
+      'Icon lift must affect the rendered transform');
+    const labelRule = navigation.match(/\.bn-label\s*\{([^}]+)\}/)?.[1];
+    assert(labelRule && labelRule.includes('--dock-label-lift'), 'Tooltip positioning must follow icon lift');
+    console.log('OK: compact dock - raised icons, tracking tooltips, spring flex growth, fixed navbar height, mobile budget, reset states, finite animation frames.');
   } finally {
     for (const [name, descriptor] of originals) {
       if (descriptor) Object.defineProperty(globalThis, name, descriptor);

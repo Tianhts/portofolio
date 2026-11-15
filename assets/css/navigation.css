@@ -10,20 +10,31 @@
 .tn-ico { display: grid; place-items: center; width: 34px; height: 42px; background: transparent; border: 0; color: var(--muted); font-size: 17px; border-radius: 10px; transition: color 200ms, background-color 200ms, transform 200ms var(--ease-out); }
 .tn-ico:hover { color: var(--text); background: var(--surface-high); transform: translateY(-1px); }
 .tn-sep { width: 1px; height: 26px; background: var(--border); margin-inline: 7px; }
-#bot-nav { position: fixed; z-index: 700; left: 50%; bottom: max(22px, env(safe-area-inset-bottom)); display: flex; align-items: center; width: max-content; max-width: calc(100% - 20px); height: 64px; gap: 6px; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--nav-bg); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); box-shadow: var(--shadow); opacity: 0; transform: translateX(-50%) translateY(calc(100% + 45px)); visibility: hidden; transition: opacity 350ms, transform 500ms var(--ease-out), visibility 350ms, background-color var(--duration-normal); }
+#bot-nav { position: fixed; z-index: 700; left: 50%; bottom: max(22px, env(safe-area-inset-bottom)); display: flex; align-items: center; width: max-content; max-width: calc(100% - 20px); height: 64px; gap: 6px; padding: 7px 12px; border-radius: 18px; border: 1px solid var(--border); background: var(--nav-bg); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); box-shadow: var(--shadow); opacity: 0; transform: translateX(-50%) translateY(calc(100% + 45px)); visibility: hidden; transition: opacity 350ms, transform 500ms var(--ease-out), visibility 350ms, background-color var(--duration-normal); }
 #bot-nav.show { transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible; }
+#bot-nav { overflow: visible; }
 /* Item widths expand together, so the whole bar grows sideways at one height. */
 .bn-item { position: relative; z-index: 1; display: grid; place-items: center; width: calc(48px + var(--dock-growth, 0px)); height: 48px; flex-shrink: 0; padding: 0; border: none; background: transparent; border-radius: 50%; }
-.bn-icon { display: grid; place-items: center; width: 44px; height: 44px; background: var(--surface-high); color: var(--text); border: 1px solid color-mix(in srgb, var(--border) 65%, transparent); border-radius: 50%; font-size: 19px; transform: scale(var(--dock-scale, 1)); transform-origin: center; transition: background-color 220ms, color 220ms, border-color 220ms, box-shadow 220ms; }
+.bn-item:is(:hover, :focus-visible) { z-index: 2; }
+.bn-icon { display: grid; place-items: center; width: 44px; height: 44px; background: var(--surface-high); color: var(--text); border: 1px solid color-mix(in srgb, var(--border) 65%, transparent); border-radius: 50%; font-size: 19px; transform: translateY(var(--dock-lift, 0px)) scale(var(--dock-scale, 1)); transform-origin: center; transition: background-color 220ms, color 220ms, border-color 220ms, box-shadow 220ms; }
+.bn-icon > i,
+.bn-icon > .theme-icon {
+  transform: translateX(var(--dock-glyph-x, 0px)) rotate(var(--dock-tilt, 0deg));
+  scale: 1;
+  transition: scale 260ms cubic-bezier(.22, 1.35, .36, 1);
+}
+.bn-item:active .bn-icon > i,
+.bn-item:active .bn-icon > .theme-icon { scale: .88; }
 .bn-item.on .bn-icon { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 35%, var(--border)); background: color-mix(in srgb, var(--accent) 5%, var(--surface-high)); }
 .bn-item:hover .bn-icon, .bn-item:focus-visible .bn-icon { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); background: color-mix(in srgb, var(--accent) 10%, var(--surface-high)); box-shadow: 0 0 20px -10px color-mix(in srgb, var(--accent) 60%, transparent); }
 .bn-item:active .bn-icon { background: var(--accent-soft); }
-.bn-label { position: absolute; bottom: calc(100% + 12px); left: 50%; padding: 4px 9px; font-size: 10px; font-weight: 600; line-height: 1.5; white-space: nowrap; border: 1px solid var(--border); border-radius: 10px; background: var(--bg2); color: var(--text); opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, 5px); transition: opacity 180ms, transform 220ms var(--ease-out), visibility 180ms; }
+.bn-label { position: absolute; bottom: calc(100% + 12px + var(--dock-label-lift, 0px)); left: 50%; padding: 4px 9px; font-size: 10px; font-weight: 600; line-height: 1.5; white-space: nowrap; border: 1px solid var(--border); border-radius: 10px; background: var(--bg2); color: var(--text); opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, 5px); transition: opacity 180ms, transform 220ms var(--ease-out), visibility 180ms; }
 .bn-item:hover .bn-label, .bn-item:focus-visible .bn-label { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
 .bn-sep { position: relative; z-index: 1; flex-shrink: 0; width: 1px; height: 28px; background: var(--border); margin-inline: 6px; }
 @media (prefers-reduced-motion: reduce) {
   .bn-item { width: 48px; }
   .bn-icon { transform: none; }
+  .bn-icon > i, .bn-icon > .theme-icon { transform: none; scale: 1 !important; }
 }
 #scr-top { position: fixed; z-index: 600; bottom: 40px; right: 30px; width: 42px; height: 42px; display: grid; place-items: center; background: var(--bg2); color: var(--muted); border: 1px solid var(--border); border-radius: 14px; font-size: 13px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity 250ms, transform 300ms var(--ease-out), visibility 250ms, color 200ms; }
 #scr-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
