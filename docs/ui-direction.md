@@ -30,7 +30,9 @@ Token aktif ada di `assets/css/base.css`: latar `#0c0f11`, permukaan `#191e24`, 
 
 ## Navigasi dan tombol
 
-Header mengambang menyediakan navigasi teks saat halaman berada di atas. Dock muncul ketika pengguna menggulir dan selalu tersedia pada layar kecil; status halaman aktif konsisten. Lingkaran ikon membesar berdasarkan jarak pointer dengan interpolasi halus, sementara area klik dan tooltip tetap stabil.
+Header mengambang menyediakan navigasi teks saat halaman berada di atas. Dock muncul ketika pengguna menggulir dan selalu tersedia pada layar kecil; status halaman aktif konsisten. Dock memakai area tombol 52 px dengan lingkaran ikon 48 px pada desktop. Pada mobile, area tombol 44 × 46 px menjaga akses sentuh dengan lingkaran ikon 40 px, atau 38 px pada layar terkecil.
+
+Sorotan hijau di dalam dock dan halo lembut di belakangnya mengikuti tombol terdekat dengan interpolasi halus. Lingkaran ikon membesar maksimal 18% dan naik maksimal 5 px, sementara area klik tetap stabil. Fokus keyboard mendapat sorotan yang sama. Efek kembali netral saat kursor keluar, halaman berganti, pengguna menggulir, atau dock disembunyikan. Animasi berhenti setelah gerakan selesai; pointer sentuh dan reduced motion memakai tampilan statis.
 
 Tombol utama memakai aksen mint dengan teks gelap. Tombol sekunder memakai permukaan gelap dan garis tipis. Hover mengubah warna atau bayangan serta mengangkat tombol sekitar 2 px; keadaan tekan mengecilkan tombol sedikit. Fokus keyboard tetap terlihat. Area sentuh ditargetkan minimal 44 × 44 px.
 

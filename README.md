@@ -18,7 +18,7 @@ Jalankan melalui HTTP karena JavaScript menggunakan ES modules. Membuka `index.h
 npm run check
 ```
 
-Perintah pemeriksaan memvalidasi struktur, sintaks, import, aset detail proyek, dan server HTTP. Smoke test navigasi memeriksa pembukaan URL langsung seluruh proyek, migrasi tautan lama, status aktif, Back/Forward, modifier click, serta dock desktop/mobile. Pemeriksaan visual tetap perlu dilakukan di browser.
+Perintah pemeriksaan memvalidasi struktur, sintaks, import, aset detail proyek, dan server HTTP. Smoke test navigasi memeriksa pembukaan URL langsung seluruh proyek, migrasi tautan lama, status aktif, Back/Forward, modifier click, serta dock desktop/mobile. Smoke test dock memeriksa batas pembesaran, latar yang mengikuti pointer/fokus, reset efek, reduced motion, dan animasi yang berhenti setelah selesai. Pemeriksaan visual tetap perlu dilakukan di browser.
 
 Tiga jalur gambar ChatBot AI Klinik dari data lama belum tersedia. Data asli tetap disimpan; halaman detail menggunakan cover yang tersedia. Gambar galeri lain tetap bisa dibuka dalam viewer layar penuh.
 
@@ -55,6 +55,7 @@ scripts/
   serve.mjs                Server lokal tanpa dependensi
   check.mjs                Pemeriksaan struktur proyek
   navigation-smoke.mjs     Pengujian perilaku navigasi tanpa dependensi browser
+  dock-smoke.mjs           Pengujian animasi dock dan preferensi gerak
 docs/
   ui-direction.md          Catatan UI dan perilaku animasi
 _redirects                 Aturan URL halaman untuk Cloudflare Pages
@@ -94,6 +95,8 @@ Logo n8n, Hugging Face, Neon, dan PostgreSQL disimpan lokal di `assets/icons/` d
 Widget musik menggunakan embed resmi **Mess Is Mine — Vance Joy**, dengan durasi lagu **3:43** ditampilkan pada widget. Tekan **Buka pemutar**, lalu Play pada kontrol Spotify. Iframe dimuat hanya saat pertama dibuka dan dipertahankan ketika panel disembunyikan agar posisi pemutaran tidak direset. Gunakan kontrol Pause untuk menghentikan musik; tombol **Tutup panel** hanya menyembunyikan panel. Tautan **Buka di Spotify** selalu tersedia. Ketersediaan pemutaran penuh mengikuti akses Spotify dan dukungan browser.
 
 Intro berjalan setelah struktur aplikasi siap dengan stagger singkat. Fallback 1,8 detik menjaga konten tetap terlihat bila modul gagal dimuat. Animasi menghormati `prefers-reduced-motion`; pembesaran dock hanya aktif pada pointer yang sesuai.
+
+Dock bawah memakai lingkaran ikon 48 px pada desktop dan 40/38 px pada mobile. Sorotan hijau dan halo di belakang navbar mengikuti tombol yang didekati kursor atau mendapat fokus keyboard. Pembesaran dibatasi 18% dan kenaikan 5 px agar tetap ringkas; area klik tetap diam. Perilakunya diatur oleh `assets/js/animations/dock.js` dan styling oleh `assets/css/navigation.css` serta `responsive.css`.
 
 Font Plus Jakarta Sans dimuat dari Google Fonts, sementara Font Awesome dan Devicon dimuat melalui CDN. Font dan ikon eksternal memerlukan koneksi internet. Animasi reveal dibuat dengan `IntersectionObserver`, tanpa library AOS; styling menggunakan CSS native, tanpa Tailwind runtime.
 

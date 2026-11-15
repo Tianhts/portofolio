@@ -9,6 +9,7 @@ import { projectDetails, projectSlug } from '../assets/js/data/project-details.j
 import { aboutProfilePhotos } from '../assets/js/data/profile.js';
 import { createPreviewServer } from './serve.mjs';
 import { checkNavigation } from './navigation-smoke.mjs';
+import { checkDock } from './dock-smoke.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const pagePaths = new Set(['/','/index.html','/home','/projects','/about', ...projects.map(project => `/project/${projectSlug(project)}`)]);
@@ -129,6 +130,7 @@ try {
 
 let missingGallery = 0;
 await checkNavigation();
+await checkDock();
 for (const project of projects) {
   for (const image of project.images) {
     try { await access(localAsset(image)); }
