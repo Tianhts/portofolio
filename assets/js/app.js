@@ -4,6 +4,7 @@ import { initNavigation } from './features/navigation.js';
 import { initProjectDetail } from './features/project-detail.js';
 import { initTheme } from './features/theme.js';
 import { initSpotify } from './features/spotify.js';
+import { initAboutProfile } from './features/about-profile.js';
 import { initCursor } from './animations/cursor.js';
 import { initTypewriter } from './animations/typewriter.js';
 import { initIntro } from './animations/intro.js';
@@ -14,6 +15,7 @@ import { initInteractions } from './animations/interactions.js';
 // Module scripts run after HTML parsing. Render before attaching feature behavior.
 renderProjects();
 renderSkills();
+initAboutProfile();
 initProjectDetail();
 initNavigation();
 initIntro();

@@ -49,8 +49,7 @@
   .page-heading { margin: 30px auto 46px; }
   .page-heading > p:last-child:not(.eyebrow) { font-size: 15px; }
   .about-layout { grid-template-columns: 1fr; gap: 34px; }
-  .about-photo-wrap { width: min(100%, 370px); margin: 0 auto; }
-  .about-photo, .about-photo-back { aspect-ratio: 4/4.5; }
+  .about-photo-wrap { width: min(100%, 260px); margin: 0 auto; }
   .about-biography h2 { font-size: 31px; }
   .about-byline { font-size: 13px; }
   .about-prose { font-size: 16px; }

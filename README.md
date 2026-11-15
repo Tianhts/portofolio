@@ -67,6 +67,7 @@ docs/
 | Nama, ikon, dan warna skill | `assets/js/data/skills.js` |
 | Susunan kartu proyek dan skill | `assets/js/components/` |
 | Konten hero, About, dan kontak | `index.html` |
+| Daftar foto yang dapat diganti pada About | `assets/js/data/profile.js` |
 | Warna tema dan styling dasar | `assets/css/base.css` |
 | Styling halaman | `assets/css/pages.css` |
 | Header dan dock | `assets/css/navigation.css`, `assets/js/features/navigation.js` |
@@ -74,6 +75,8 @@ docs/
 | Efek dan animasi | `assets/js/animations/`, `assets/css/animations.css` |
 
 Pertahankan jalur gambar sebagai `assets/img/...`, relatif terhadap `index.html`. Tambahkan event listener pada modul fitur; atribut `data-*` menghubungkan markup dengan perilakunya.
+
+Foto About berbentuk lingkaran dan terpisah dari foto beranda. Untuk menambahkan foto kedua, simpan gambar (misalnya `assets/img/profile-2.jpg`), lalu aktifkan entri kedua di `assets/js/data/profile.js`. Setelah ada minimal dua foto, klik atau tekan Enter/Space pada foto About untuk berpindah dengan slide singkat; tidak ada pergantian otomatis. Jika gambar berikutnya gagal dimuat, foto saat ini tetap terlihat.
 
 Navigasi memakai hash `#home`, `#projects`, `#about`, dan `#project/<slug>`, sehingga tautan detail bisa dibagikan dan tombol Back/Forward browser tetap berfungsi. Slug berasal dari nama proyek. `initProjectDetail()` dipanggil sebelum `initNavigation()` agar detail dapat dibuka langsung dari URL.
 
