@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -38,7 +39,7 @@ export async function checkDock() {
   }
   const items = Array.from({ length: 6 }, (_, index) => {
     const bounds = rect(118 + index * 58, 709, 52, 52);
-    const icon = { style: style(), getBoundingClientRect: () => bounds };
+    const icon = { style: style(), offsetWidth: 48, getBoundingClientRect: () => bounds };
     const element = {
       ...eventTarget(), style: style(),
       getBoundingClientRect: () => bounds,
@@ -77,7 +78,9 @@ export async function checkDock() {
     assert.equal(frames.size, 0, 'Dock must stop requesting frames once its animation settles');
   }
   function neutral() {
-    assert.equal(num(dock, '--dock-glow'), 0, 'Inactive dock must not retain its moving background');
+    for (const property of ['--dock-spread', '--dock-rise', '--dock-sway']) {
+      assert.equal(num(dock, property), 0, `Inactive dock must reset ${property}`);
+    }
     for (const { icon } of items) {
       assert.equal(num(icon, '--dock-scale', 1), 1);
       assert.equal(num(icon, '--dock-lift'), 0);
@@ -112,15 +115,21 @@ export async function checkDock() {
     move(2);
     tick();
     assert(num(items[2].icon, '--dock-scale') > 1, 'Pointer proximity must animate the icon');
-    assert(num(items[2].icon, '--dock-scale') < 1.18, 'The first frame must interpolate rather than jump');
+    assert(num(items[2].icon, '--dock-scale') < 1.24, 'The first frame must interpolate rather than jump');
+    const initialSpread = num(dock, '--dock-spread');
+    assert(initialSpread > 0, 'The navbar skin must expand with the first visible icon growth');
     settle();
-    assert(num(items[2].icon, '--dock-scale') <= 1.1801, 'Hover magnification must stay compact');
+    assert(num(items[2].icon, '--dock-scale') <= 1.2401, 'Hover magnification must stay compact');
     assert(num(items[2].icon, '--dock-lift') >= -5.001, 'Hover lift must stay compact');
-    assert(num(dock, '--dock-glow') > 0 && num(dock, '--dock-glow') <= 1);
-    const firstX = num(dock, '--dock-x');
+    assert(num(dock, '--dock-spread') > initialSpread, 'The skin must continue growing with eased magnification');
+    assert(num(dock, '--dock-rise') > 0, 'The skin must grow upward around the lifted icons');
+    move(0);
+    settle();
+    assert(num(dock, '--dock-sway') < 0, 'The navbar skin must follow the leftmost button');
     move(5);
     settle();
-    assert(num(dock, '--dock-x') > firstX + 100, 'Background must follow the hovered button');
+    assert(num(dock, '--dock-sway') > 0, 'The navbar skin must follow the rightmost button');
+    assert(Math.abs(num(dock, '--dock-sway')) <= 3.001, 'The skin must sway gently');
     assert.equal(items[2].element.style.getPropertyValue('transform'), '', 'Clickable hit areas must remain stationary');
     dock.dispatch('pointerleave');
     settle();
@@ -140,7 +149,7 @@ export async function checkDock() {
     dock.dispatch('focusin');
     settle();
     assert(num(items[1].icon, '--dock-scale') > 1, 'Keyboard focus must receive the dock effect');
-    assert(num(dock, '--dock-glow') > 0);
+    assert(num(dock, '--dock-spread') > 0 && num(dock, '--dock-rise') > 0);
     document.activeElement = null;
     dock.dispatch('focusout');
     await Promise.resolve();
@@ -179,7 +188,20 @@ export async function checkDock() {
       for (const callback of mutations) callback([{ type: 'attributes', target: dock }]);
       settle();
     }
-    console.log('OK: compact dock - pointer/focus effects, following background, reset states, reduced motion, touch, finite animation frames.');
+    const [navigation, responsive] = await Promise.all([
+      readFile(new URL('../assets/css/navigation.css', import.meta.url), 'utf8'),
+      readFile(new URL('../assets/css/responsive.css', import.meta.url), 'utf8'),
+    ]);
+    assert(!/#bot-nav::after/.test(navigation + responsive), 'The dock must not retain the old spotlight overlay');
+    const skin = navigation.match(/#bot-nav::before\s*\{([^}]+)\}/)?.[1];
+    assert(skin, 'The full navbar skin must be present');
+    assert(/\bbackground\s*:/.test(skin) && /\bborder\s*:/.test(skin) && /\bbackdrop-filter\s*:/.test(skin),
+      'The expanding skin must carry the navbar background, border, and backdrop blur');
+    assert(/\binset\s*:/.test(skin) || ['top', 'right', 'bottom', 'left'].every(side => new RegExp(`\\b${side}\\s*:`).test(skin)),
+      'The skin must cover the full navbar rather than a small spotlight box');
+    assert(!/#bot-nav::before[^{}]*\{[^}]*display\s*:\s*none/.test(navigation + responsive),
+      'Reduced motion must preserve the visible navbar skin');
+    console.log('OK: compact dock - expanding navbar skin, pointer/focus effects, reset states, reduced motion, touch, finite animation frames.');
   } finally {
     for (const [name, descriptor] of originals) {
       if (descriptor) Object.defineProperty(globalThis, name, descriptor);

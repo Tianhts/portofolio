@@ -1,6 +1,6 @@
 let initialized = false;
 
-// Keep hit areas still while the icons and green backdrop follow the pointer.
+// The rounded navbar surface grows around magnified icons; hit areas stay still.
 export function initDock() {
   if (initialized) return;
   const dock = document.getElementById('bot-nav');
@@ -8,6 +8,7 @@ export function initDock() {
   const items = [...dock.querySelectorAll('.bn-item')].map(element => ({
     element,
     icon: element.querySelector('.bn-icon'),
+    size: 48,
     current: 0,
     target: 0,
   })).filter(item => item.icon);
@@ -19,7 +20,7 @@ export function initDock() {
   let previousTime = 0;
   let pointer = null;
   let windowActive = true;
-  const glow = { x: 0, y: 0, targetX: 0, targetY: 0, current: 0, target: 0 };
+  const surface = { current: 0, target: 0 };
 
   function canAnimate() {
     return finePointer.matches && !reducedMotion.matches && !document.hidden
@@ -27,26 +28,35 @@ export function initDock() {
   }
 
   function paintIcon(item) {
-    item.icon.style.setProperty('--dock-scale', (1 + item.current * .18).toFixed(4));
+    item.icon.style.setProperty('--dock-scale', (1 + item.current * .24).toFixed(4));
     item.icon.style.setProperty('--dock-lift', `${(-item.current * 5).toFixed(3)}px`);
   }
 
-  function paintGlow() {
-    dock.style.setProperty('--dock-x', `${glow.x.toFixed(3)}px`);
-    dock.style.setProperty('--dock-y', `${glow.y.toFixed(3)}px`);
-    dock.style.setProperty('--dock-glow', glow.current.toFixed(4));
+  function paintSurface() {
+    let spread = 0;
+    let rise = 0;
+    let peak = 0;
+    for (const item of items) {
+      const growth = item.current * item.size * .24;
+      spread += growth / 2;
+      rise = Math.max(rise, growth + item.current * 5);
+      peak = Math.max(peak, item.current);
+    }
+    dock.style.setProperty('--dock-spread', `${spread.toFixed(3)}px`);
+    dock.style.setProperty('--dock-rise', `${rise.toFixed(3)}px`);
+    dock.style.setProperty('--dock-sway', `${(surface.current * peak * 3).toFixed(3)}px`);
   }
 
   function reset() {
     cancelAnimationFrame(frame);
     frame = 0;
     previousTime = 0;
-    glow.current = glow.target = 0;
+    surface.current = surface.target = 0;
     items.forEach(item => {
       item.current = item.target = 0;
       paintIcon(item);
     });
-    paintGlow();
+    paintSurface();
   }
 
   function draw(time) {
@@ -67,10 +77,8 @@ export function initDock() {
       item.current = approach(item.current, item.target, .001);
       paintIcon(item);
     }
-    glow.x = approach(glow.x, glow.targetX, .05);
-    glow.y = approach(glow.y, glow.targetY, .05);
-    glow.current = approach(glow.current, glow.target, .001);
-    paintGlow();
+    surface.current = approach(surface.current, surface.target, .001);
+    paintSurface();
     frame = moving ? requestAnimationFrame(draw) : 0;
     if (!moving) previousTime = 0;
   }
@@ -84,12 +92,12 @@ export function initDock() {
     for (const item of items) {
       const focused = item.element === document.activeElement;
       const bounds = item.element.getBoundingClientRect();
+      item.size = item.icon.offsetWidth || 48;
       const centerX = bounds.left + bounds.width / 2;
-      const centerY = bounds.top + bounds.height / 2;
       const distance = pointer ? Math.abs(pointer.x - centerX) : Infinity;
       const proximity = Math.max(0, 1 - distance / 96);
       item.target = Math.max(focused ? .8 : 0, proximity * proximity);
-      const position = { x: centerX - dockBounds.left, y: centerY - dockBounds.top };
+      const position = { x: centerX - dockBounds.left };
       if (focused) focusedItem = position;
       if (distance < nearestDistance) {
         nearestDistance = distance;
@@ -97,16 +105,7 @@ export function initDock() {
       }
     }
     const target = pointer ? nearest : focusedItem;
-    glow.target = target ? 1 : 0;
-    if (target) {
-      // Follow the button with a small amount of cursor movement inside it.
-      glow.targetX = target.x + (pointer ? (pointer.x - dockBounds.left - target.x) * .22 : 0);
-      glow.targetY = target.y + (pointer ? (pointer.y - dockBounds.top - target.y) * .12 : 0);
-      if (!glow.current) {
-        glow.x = glow.targetX;
-        glow.y = glow.targetY;
-      }
-    }
+    surface.target = target ? Math.max(-1, Math.min(1, target.x / dockBounds.width * 2 - 1)) : 0;
     if (!frame) {
       frame = requestAnimationFrame(draw);
     }
@@ -116,7 +115,7 @@ export function initDock() {
 
   dock.addEventListener('pointermove', event => {
     if (event.pointerType === 'touch' || !canAnimate()) return;
-    pointer = { x: event.clientX, y: event.clientY };
+    pointer = { x: event.clientX };
     updateTargets();
   }, { passive: true });
   dock.addEventListener('pointerleave', clearPointer);

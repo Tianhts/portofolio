@@ -66,12 +66,11 @@
   .tn-right .tn-sep { display: none; }
   #top-nav { padding-inline: 20px 12px; }
   .tn-links { gap: 24px; }
-  #bot-nav { width: max-content; max-width: calc(100% - 20px); gap: 2px; padding: 7px; border-radius: 19px; bottom: max(14px, env(safe-area-inset-bottom)); }
-  #bot-nav::after { width: 48px; height: 48px; border-radius: 15px; transform: translate3d(calc(var(--dock-x, 0px) - 24px), calc(var(--dock-y, 0px) - 24px), 0); }
+  #bot-nav { width: max-content; max-width: calc(100% - 20px); gap: 2px; padding: 7px; bottom: max(14px, env(safe-area-inset-bottom)); }
   .bn-item { width: 44px; height: 46px; }
   .bn-icon { width: 40px; height: 40px; font-size: 18px; }
   .bn-sep { height: 24px; margin-inline: 3px; }
-  .bn-label { bottom: calc(100% + 15px); }
+  .bn-label { bottom: calc(100% + 18px); }
   .hero-role .role-separator { margin-inline: 2px; }
   #role-txt { min-width: 11.5em; }
   .hero-role { font-size: 12px; }
