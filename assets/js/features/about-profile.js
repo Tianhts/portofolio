@@ -38,7 +38,7 @@ export function initAboutProfile() {
     button.setAttribute('aria-label', photos.length > 1
       ? `${position}. Tekan untuk mengganti foto profil.`
       : `Foto profil ${currentImage.alt}`);
-    if (photos.length > 1) caption.textContent = `Click photo to switch · ${activeIndex + 1} / ${photos.length}`;
+    if (photos.length > 1) caption.textContent = `Klik foto untuk mengganti · ${activeIndex + 1} / ${photos.length}`;
     if (announce) status.textContent = position;
   }
   syncCaption();
@@ -57,16 +57,16 @@ export function initAboutProfile() {
       nextImage.alt = photo.alt || 'Septian Hutasoit';
       nextImage.hidden = false;
       if (!reducedMotion.matches && typeof nextImage.animate === 'function') {
-        const timing = { duration: 380, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'both' };
+        const timing = { duration: 190, easing: 'cubic-bezier(.4, 0, .2, 1)', fill: 'both' };
         animations.push(
           currentImage.animate([
-            { opacity: 1, transform: 'translateX(0)' },
-            { opacity: 0, transform: 'translateX(-18%)' },
+            { opacity: 1, transform: 'perspective(800px) rotateY(0deg)' },
+            { opacity: .3, transform: 'perspective(800px) rotateY(-90deg)' },
           ], timing),
           nextImage.animate([
-            { opacity: 0, transform: 'translateX(18%)' },
-            { opacity: 1, transform: 'translateX(0)' },
-          ], timing),
+            { opacity: .3, transform: 'perspective(800px) rotateY(90deg)' },
+            { opacity: 1, transform: 'perspective(800px) rotateY(0deg)' },
+          ], { ...timing, delay: timing.duration }),
         );
         await Promise.all(animations.map(animation => animation.finished.catch(() => {})));
       }

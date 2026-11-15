@@ -589,6 +589,7 @@
     border-radius: 50%;
     object-fit: cover;
     object-position: 54% center;
+    backface-visibility: hidden;
 }
 
 .about-photo-hint {
