@@ -13,8 +13,8 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
-  <script src="assets/js/intro-boot.js"></script>
-  <link rel="stylesheet" href="assets/css/main.css" />
+  <script src="/assets/js/intro-boot.js"></script>
+  <link rel="stylesheet" href="/assets/css/main.css" />
 </head>
 
 <body>
@@ -25,9 +25,9 @@
   <header>
     <nav id="top-nav" aria-label="Main navigation">
       <div class="tn-links">
-        <a href="#home" data-page="home" class="tn-link on" id="tn-home" aria-current="page">Home</a>
-        <a href="#projects" data-page="projects" class="tn-link" id="tn-projects">Projects</a>
-        <a href="#about" data-page="about" class="tn-link" id="tn-about">About</a>
+        <a href="/home" data-page="home" class="tn-link on" id="tn-home" aria-current="page">Home</a>
+        <a href="/projects" data-page="projects" class="tn-link" id="tn-projects">Projects</a>
+        <a href="/about" data-page="about" class="tn-link" id="tn-about">About</a>
       </div>
       <div class="tn-right">
         <a href="https://github.com/Septianhutasoit" target="_blank" rel="noopener noreferrer" class="tn-ico" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
@@ -40,22 +40,22 @@
   </header>
 
   <nav id="bot-nav" aria-label="Quick navigation">
-    <a href="#home" data-page="home" class="bn-item on" id="bn-home" aria-label="Home" aria-current="page"><span class="bn-icon"><i class="fas fa-house" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">Home</span></a>
-    <a href="#projects" data-page="projects" class="bn-item" id="bn-projects" aria-label="Projects"><span class="bn-icon"><i class="far fa-folder-open" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">Projects</span></a>
-    <a href="#about" data-page="about" class="bn-item" id="bn-about" aria-label="About"><span class="bn-icon"><i class="far fa-user" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">About</span></a>
+    <a href="/home" data-page="home" class="bn-item on" id="bn-home" aria-label="Home" aria-current="page"><span class="bn-icon"><i class="fas fa-house" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">Home</span></a>
+    <a href="/projects" data-page="projects" class="bn-item" id="bn-projects" aria-label="Projects"><span class="bn-icon"><i class="far fa-folder-open" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">Projects</span></a>
+    <a href="/about" data-page="about" class="bn-item" id="bn-about" aria-label="About"><span class="bn-icon"><i class="far fa-user" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">About</span></a>
     <span class="bn-sep" aria-hidden="true"></span>
     <a href="https://github.com/Septianhutasoit" target="_blank" rel="noopener noreferrer" class="bn-item" aria-label="GitHub"><span class="bn-icon"><i class="fab fa-github" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">GitHub</span></a>
     <a href="https://www.linkedin.com/in/septian-a-hutasoit/" target="_blank" rel="noopener noreferrer" class="bn-item" aria-label="LinkedIn"><span class="bn-icon"><i class="fab fa-linkedin-in" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">LinkedIn</span></a>
     <button type="button" class="bn-item" data-action="toggle-theme" aria-label="Aktifkan tema terang"><span class="bn-icon"><i class="fas fa-sun" id="bth-icon" aria-hidden="true"></i></span><span class="bn-label" aria-hidden="true">Theme</span></button>
   </nav>
 
-  <a href="#" data-action="scroll-top" id="scr-top" aria-label="Back to top"><i class="fas fa-arrow-up" aria-hidden="true"></i></a>
+  <button type="button" data-action="scroll-top" id="scr-top" aria-label="Back to top"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
 
   <main id="main-content" tabindex="-1">
     <div id="pg-home" class="pg on">
       <section class="hero-section container" aria-labelledby="home-title">
         <div class="hero-profile-wrap" data-intro>
-          <img src="assets/img/profile.jpg" alt="Septian Hutasoit" width="148" height="148" class="hero-profile" fetchpriority="high" data-image-fallback="profile" />
+          <img src="/assets/img/profile.jpg" alt="Septian Hutasoit" width="148" height="148" class="hero-profile" fetchpriority="high" data-image-fallback="profile" />
           <span class="profile-status" role="img" aria-label="Available for projects"></span>
         </div>
         <div class="hero-copy">
@@ -69,11 +69,11 @@
       </section>
 
       <section class="home-about container section" aria-labelledby="home-about-title">
-        <div class="section-heading" data-aos><h2 id="home-about-title">About</h2><a href="#about" data-page="about" class="text-link">More about me <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
+        <div class="section-heading" data-aos><h2 id="home-about-title">About</h2><a href="/about" data-page="about" class="text-link">More about me <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
         <div class="about-summary" data-aos>
           <p> I&#39;m passionate about <strong class="text-underline">fullstack development, AI/ML, and software systems</strong> &mdash; turning ideas into products with clean interfaces and thoughtful architecture.</p>
           <p>My projects span healthcare, e-commerce, and automation. I enjoy connecting the pieces, from the backend and database to the experience people use every day.</p>
-          <a href="#projects" data-page="projects" class="inline-note"><i class="fas fa-code" aria-hidden="true"></i><span>Explore the things I&#39;ve built</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+          <a href="/projects" data-page="projects" class="inline-note"><i class="fas fa-code" aria-hidden="true"></i><span>Explore the things I&#39;ve built</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
         </div>
       </section>
 
@@ -82,15 +82,15 @@
         <div class="work-timeline">
           <article class="work-item" data-aos>
             <div class="work-icon"><i class="far fa-hospital" aria-hidden="true"></i></div>
-            <div class="work-content"><div class="work-heading"><h3>Healthcare &amp; digital care</h3><span class="work-category">WEB APPLICATIONS</span></div><p class="work-role">Nauli Dental Care &mdash; Kawan Pulih</p><p>Clinic booking, doctor schedules, and digital information for patients &mdash; making care easier to access through the web.</p><div class="work-bottom"><div class="tag-list"><span class="tag">Laravel</span><span class="tag">Next.js</span><span class="tag">MySQL</span></div><a href="#project/nauli-dental-care" data-project="0" class="text-link" aria-label="Explore Nauli Dental Care">Explore <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div>
+            <div class="work-content"><div class="work-heading"><h3>Healthcare &amp; digital care</h3><span class="work-category">WEB APPLICATIONS</span></div><p class="work-role">Nauli Dental Care &mdash; Kawan Pulih</p><p>Clinic booking, doctor schedules, and digital information for patients &mdash; making care easier to access through the web.</p><div class="work-bottom"><div class="tag-list"><span class="tag">Laravel</span><span class="tag">Next.js</span><span class="tag">MySQL</span></div><a href="/project/nauli-dental-care" data-project="0" class="text-link" aria-label="Explore Nauli Dental Care">Explore <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div>
           </article>
           <article class="work-item" data-aos>
             <div class="work-icon"><i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i></div>
-            <div class="work-content"><div class="work-heading"><h3>AI &amp; workflow automation</h3><span class="work-category">INTELLIGENT SYSTEMS</span></div><p class="work-role">Support Ticket Triage &mdash; Clinic AI Chatbot</p><p>AI-assisted support classification, real-time dashboards, and connected workflows that turn information into useful actions.</p><div class="work-bottom"><div class="tag-list"><span class="tag">FastAPI</span><span class="tag">Python</span><span class="tag">n8n</span></div><a href="#project/ai-support-ticket-triage" data-project="6" class="text-link" aria-label="Explore AI Support Ticket Triage">Explore <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div>
+            <div class="work-content"><div class="work-heading"><h3>AI &amp; workflow automation</h3><span class="work-category">INTELLIGENT SYSTEMS</span></div><p class="work-role">Support Ticket Triage &mdash; Clinic AI Chatbot</p><p>AI-assisted support classification, real-time dashboards, and connected workflows that turn information into useful actions.</p><div class="work-bottom"><div class="tag-list"><span class="tag">FastAPI</span><span class="tag">Python</span><span class="tag">n8n</span></div><a href="/project/ai-support-ticket-triage" data-project="6" class="text-link" aria-label="Explore AI Support Ticket Triage">Explore <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div>
           </article>
           <article class="work-item" data-aos>
             <div class="work-icon"><i class="fas fa-bag-shopping" aria-hidden="true"></i></div>
-            <div class="work-content"><div class="work-heading"><h3>Commerce &amp; web experiences</h3><span class="work-category">FULLSTACK DEVELOPMENT</span></div><p class="work-role">Delshoop &mdash; Aksara Batak</p><p>From product catalogs and shopping carts to multilingual cultural learning &mdash; practical web experiences built around their users.</p><div class="work-bottom"><div class="tag-list"><span class="tag">React</span><span class="tag">Laravel</span><span class="tag">PostgreSQL</span></div><a href="#project/delshoop-e-commerce" data-project="1" class="text-link" aria-label="Explore Delshoop">Explore <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div>
+            <div class="work-content"><div class="work-heading"><h3>Commerce &amp; web experiences</h3><span class="work-category">FULLSTACK DEVELOPMENT</span></div><p class="work-role">Delshoop &mdash; Aksara Batak</p><p>From product catalogs and shopping carts to multilingual cultural learning &mdash; practical web experiences built around their users.</p><div class="work-bottom"><div class="tag-list"><span class="tag">React</span><span class="tag">Laravel</span><span class="tag">PostgreSQL</span></div><a href="/project/delshoop-e-commerce" data-project="1" class="text-link" aria-label="Explore Delshoop">Explore <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div>
           </article>
         </div>
       </section>
@@ -108,7 +108,7 @@
       <section class="featured-section container section" aria-labelledby="featured-title">
         <div class="section-heading-centered" data-aos><p class="eyebrow">FEATURED PROJECTS</p><h2 id="featured-title">Check out my latest work</h2><p>I&#39;ve worked on a variety of projects, from useful websites to connected web applications. Take a closer look.</p></div>
         <div id="feat-grid" class="project-grid"></div>
-        <div class="section-action" data-aos><a href="#projects" data-page="projects" class="button button-secondary">View all projects <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div>
+        <div class="section-action" data-aos><a href="/projects" data-page="projects" class="button button-secondary">View all projects <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div>
       </section>
 
       <section class="contact-section container section" aria-labelledby="contact-title">
@@ -118,7 +118,7 @@
 
     <div id="pg-projects" class="pg">
       <div class="container page-container">
-        <a href="#home" data-page="home" class="back-link" data-intro><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to home</a>
+        <a href="/home" data-page="home" class="back-link" data-intro><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to home</a>
         <div class="page-heading" data-intro><p class="eyebrow">IDEAS, BUILT INTO REALITY</p><h1>My <span class="text-accent">Projects</span></h1><p>A collection of what I&#39;ve been building.<br />Explore the story, process, and technology behind each project.</p></div>
         <div class="projects-bar" data-intro><span><span class="status-dot" aria-hidden="true"></span> <span id="project-count">8</span> projects &amp; counting</span><a href="https://github.com/Septianhutasoit" target="_blank" rel="noopener noreferrer" class="text-link">More on GitHub <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
         <div id="all-grid" class="project-grid"></div>
@@ -127,19 +127,19 @@
 
     <div id="pg-about" class="pg">
       <div class="container page-container">
-        <a href="#home" data-page="home" class="back-link" data-intro><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to home</a>
+        <a href="/home" data-page="home" class="back-link" data-intro><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to home</a>
         <div class="page-heading" data-intro><p class="eyebrow">A STORY OF BUILDING AND DISCOVERY</p><h1>About <span class="text-accent">Me</span></h1></div>
         <section class="about-layout" aria-labelledby="about-name">
           <div class="about-photo-wrap" data-intro>
             <button id="about-photo-switch" class="about-photo-frame" type="button" aria-label="Foto profil Septian Hutasoit" disabled>
-              <img id="about-photo-image" src="assets/img/profile.jpg" alt="Septian Hutasoit" class="about-photo" width="320" height="320" loading="lazy" data-image-fallback="profile" />
-              <img id="about-photo-next" src="assets/img/profile.png" loading="lazy" alt="" class="about-photo" width="320" height="320" aria-hidden="true" hidden />
+              <img id="about-photo-image" src="/assets/img/profile.jpg" alt="Septian Hutasoit" class="about-photo" width="320" height="320" loading="lazy" data-image-fallback="profile" />
+              <img id="about-photo-next" src="/assets/img/profile.png" loading="lazy" alt="" class="about-photo" width="320" height="320" aria-hidden="true" hidden />
               <span class="about-photo-hint" aria-hidden="true" hidden><i class="fas fa-arrows-rotate"></i></span>
             </button>
             <p class="photo-caption"><span class="status-dot" aria-hidden="true"></span><span id="about-photo-caption">A little about the person behind the code.</span></p>
             <p id="about-photo-status" class="about-photo-status" role="status" aria-live="polite" aria-atomic="true"></p>
           </div>
-          <div class="about-biography" data-intro><h2 id="about-name">Septian Hutasoit</h2><p class="about-byline">Software Engineer &mdash; Fullstack Developer <span class="about-location"><i class="fas fa-location-dot" aria-hidden="true"></i> Indonesia</span></p><div class="about-prose"><p>Hello! You can call me <strong>Septian</strong>. I&#39;m a developer interested in <strong class="text-underline">software engineering, fullstack development, and AI</strong>. I enjoy building useful products with clean architecture and interfaces that feel good to use.</p><p>My work brings together the frontend, backend, and database. I build with tools such as <strong>Laravel, React, Next.js, Python, and FastAPI</strong>, and explore how AI and workflow automation can connect them.</p><p>Through clinic systems, e-commerce applications, and AI-assisted tools, I keep learning how to turn an idea into a working experience &mdash; one thoughtful detail at a time.</p></div><div class="about-actions"><a href="#projects" data-page="projects" class="button button-primary">Explore my work <i class="fas fa-arrow-right" aria-hidden="true"></i></a><a href="mailto:septianhts95@gmail.com" class="button button-secondary"><i class="far fa-envelope" aria-hidden="true"></i> Get in touch</a></div></div>
+          <div class="about-biography" data-intro><h2 id="about-name">Septian Hutasoit</h2><p class="about-byline">Software Engineer &mdash; Fullstack Developer <span class="about-location"><i class="fas fa-location-dot" aria-hidden="true"></i> Indonesia</span></p><div class="about-prose"><p>Hello! You can call me <strong>Septian</strong>. I&#39;m a developer interested in <strong class="text-underline">software engineering, fullstack development, and AI</strong>. I enjoy building useful products with clean architecture and interfaces that feel good to use.</p><p>My work brings together the frontend, backend, and database. I build with tools such as <strong>Laravel, React, Next.js, Python, and FastAPI</strong>, and explore how AI and workflow automation can connect them.</p><p>Through clinic systems, e-commerce applications, and AI-assisted tools, I keep learning how to turn an idea into a working experience &mdash; one thoughtful detail at a time.</p></div><div class="about-actions"><a href="/projects" data-page="projects" class="button button-primary">Explore my work <i class="fas fa-arrow-right" aria-hidden="true"></i></a><a href="mailto:septianhts95@gmail.com" class="button button-secondary"><i class="far fa-envelope" aria-hidden="true"></i> Get in touch</a></div></div>
         </section>
         <section class="about-principles section" aria-labelledby="approach-title"><div class="section-heading" data-aos><div><h2 id="approach-title">How I like to build</h2><p class="section-subtitle">A few things I care about along the way.</p></div></div><div class="principles-grid"><article data-aos><span class="principle-number">01 /</span><h3>Start with the problem</h3><p>Understand what people need before choosing the tools and shaping the interface.</p></article><article data-aos><span class="principle-number">02 /</span><h3>Connect the whole system</h3><p>Think through the journey from data and backend logic to the details people interact with.</p></article><article data-aos><span class="principle-number">03 /</span><h3>Keep learning by building</h3><p>Explore new ideas through practical projects, then improve them one step at a time.</p></article></div></section>
       </div>
@@ -149,11 +149,11 @@
   </main>
 
   <footer class="site-footer container">
-    <div class="footer-main"><a href="#home" data-page="home" class="footer-brand">Septian Hutasoit<span class="text-accent">.</span></a><p>Building ideas into useful experiences.</p><div class="footer-socials"><a href="https://github.com/Septianhutasoit" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a><a href="https://www.linkedin.com/in/septian-a-hutasoit/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a><a href="https://www.instagram.com/tianhts_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a><a href="mailto:septianhts95@gmail.com" aria-label="Email"><i class="far fa-envelope" aria-hidden="true"></i></a></div></div>
+    <div class="footer-main"><a href="/home" data-page="home" class="footer-brand">Septian Hutasoit<span class="text-accent">.</span></a><p>Building ideas into useful experiences.</p><div class="footer-socials"><a href="https://github.com/Septianhutasoit" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a><a href="https://www.linkedin.com/in/septian-a-hutasoit/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a><a href="https://www.instagram.com/tianhts_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a><a href="mailto:septianhts95@gmail.com" aria-label="Email"><i class="far fa-envelope" aria-hidden="true"></i></a></div></div>
     <aside id="sp-widget" aria-label="Music on repeat: Mess Is Mine by Vance Joy">
       <div class="spotify-header">
         <span class="spotify-symbol"><i class="fab fa-spotify" aria-hidden="true"></i></span>
-        <div class="spotify-track"><span class="spotify-eyebrow">ON REPEAT</span><p>Mess Is Mine <span>&mdash; Vance Joy</span></p></div>
+        <div class="spotify-track"><span class="spotify-eyebrow">ON REPEAT</span><p>Mess Is Mine <span>&mdash; Vance Joy</span></p><span class="spotify-duration" aria-label="Durasi lagu 3 menit 43 detik"><i class="far fa-clock" aria-hidden="true"></i> 3:43</span></div>
         <button type="button" id="sp-btn" aria-controls="sp-wrap" aria-expanded="false">Buka pemutar</button>
       </div>
       <div id="sp-wrap" hidden>
@@ -165,6 +165,6 @@
     <div class="footer-bottom"><p>&copy; <span id="footer-year">2026</span> Septian Hutasoit</p><a href="mailto:septianhts95@gmail.com">Let&#39;s connect <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
   </footer>
   <noscript><p class="noscript-note container">Aktifkan JavaScript untuk menampilkan daftar proyek, tech stack, dan navigasi halaman.</p></noscript>
-  <script type="module" src="assets/js/app.js"></script>
+  <script type="module" src="/assets/js/app.js"></script>
 </body>
 </html>

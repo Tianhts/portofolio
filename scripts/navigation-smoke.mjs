@@ -4,7 +4,9 @@ import { pathToFileURL } from 'node:url';
 import { projects } from '../assets/js/data/projects.js';
 import { projectSlug } from '../assets/js/data/project-details.js';
 
-// Exercise the real route/controller module without a browser dependency.
+let smokeRuns = 0;
+
+// Exercise the real route controller with URL-backed history, without a browser.
 export async function checkNavigation() {
   const globalNames = ['document', 'window', 'CustomEvent', 'requestAnimationFrame'];
   const originalGlobals = new Map(globalNames.map(name => [name, Object.getOwnPropertyDescriptor(globalThis, name)]));
@@ -14,6 +16,10 @@ export async function checkNavigation() {
   const mediaListeners = new Map();
   const elements = new Map();
   let mobile = false;
+  let currentUrl = new URL(`https://portfolio.test/project/${projectSlug(projects[0])}`);
+  const entries = [currentUrl.href];
+  let historyIndex = 0;
+  let pushed = 0;
 
   function listen(listeners, name, callback) {
     if (!listeners.has(name)) listeners.set(name, []);
@@ -21,6 +27,10 @@ export async function checkNavigation() {
   }
   function dispatch(listeners, name, event = {}) {
     for (const callback of listeners.get(name) || []) callback(event);
+  }
+  function visit(path, event = 'popstate') {
+    currentUrl = new URL(path, currentUrl.origin);
+    dispatch(windowListeners, event);
   }
   function createElement() {
     const classes = new Set();
@@ -62,11 +72,34 @@ export async function checkNavigation() {
       },
     };
     globalThis.window = {
-      location: { hash: `#project/${projectSlug(projects[0])}` },
+      location: {
+        get pathname() { return currentUrl.pathname; },
+        get search() { return currentUrl.search; },
+        get hash() { return currentUrl.hash; },
+      },
       scrollY: 0,
       history: {
-        pushState(_state, _title, hash) { window.location.hash = hash; },
-        replaceState(_state, _title, hash) { window.location.hash = hash; },
+        pushState(_state, _title, path) {
+          currentUrl = new URL(path, currentUrl);
+          entries.splice(historyIndex + 1);
+          entries.push(currentUrl.href);
+          historyIndex++;
+          pushed++;
+        },
+        replaceState(_state, _title, path) {
+          currentUrl = new URL(path, currentUrl);
+          entries[historyIndex] = currentUrl.href;
+        },
+        back() {
+          if (historyIndex === 0) return;
+          currentUrl = new URL(entries[--historyIndex]);
+          dispatch(windowListeners, 'popstate');
+        },
+        forward() {
+          if (historyIndex >= entries.length - 1) return;
+          currentUrl = new URL(entries[++historyIndex]);
+          dispatch(windowListeners, 'popstate');
+        },
       },
       scrollTo() { window.scrollY = 0; },
       addEventListener: (name, callback) => listen(windowListeners, name, callback),
@@ -79,7 +112,7 @@ export async function checkNavigation() {
     };
     globalThis.requestAnimationFrame = callback => { callback(); return 1; };
 
-    const { initNavigation, showPage } = await import('../assets/js/features/navigation.js');
+    const { initNavigation, showPage } = await import(`../assets/js/features/navigation.js?smoke=${++smokeRuns}`);
     initNavigation();
     assert.equal(routes().at(-1).detail.initial, true, 'Initial deep link must emit a route');
     assert.equal(routes().at(-1).detail.projectIndex, 0);
@@ -87,69 +120,107 @@ export async function checkNavigation() {
 
     for (let index = 0; index < projects.length; index++) {
       const slug = projectSlug(projects[index]);
-      window.location.hash = `#project/${slug}`;
-      dispatch(windowListeners, 'hashchange');
+      visit(`/project/${slug}`);
       assert(isActive('project'), `Project ${index} must show its detail page`);
       assert.equal(routes().at(-1).detail.projectIndex, index);
       assert.equal(routes().at(-1).detail.slug, slug);
+      assert.equal(window.location.hash, '');
       for (const prefix of ['tn', 'bn']) {
         assert(elements.get(`${prefix}-projects`).classList.contains('on'));
         assert.equal(elements.get(`${prefix}-projects`).getAttribute('aria-current'), 'page');
       }
     }
 
-    window.location.hash = '#project/project-that-does-not-exist';
-    dispatch(windowListeners, 'hashchange');
+    visit('/project/project-that-does-not-exist');
     assert(isActive('projects'), 'Unknown project slug must return to the project list');
+    assert.equal(window.location.pathname, '/projects');
+    visit('/project/%E0%A4%A');
+    assert(isActive('projects'), 'Invalid encoded slug must not throw');
+    visit('/project');
+    assert.equal(window.location.pathname, '/projects');
     showPage('project', { projectIndex: projects.length + 1 });
-    assert.equal(window.location.hash, '#projects');
-    assert(isActive('projects'), 'Invalid project index must return to the project list');
+    assert.equal(window.location.pathname, '/projects');
 
-    function clickPage(page, modifiers = {}) {
-      const link = { dataset: { page } };
+    function click(selector, dataset, modifiers = {}) {
+      const link = { dataset };
       const event = {
         button: 0,
         defaultPrevented: false,
-        target: { closest: selector => selector === '[data-page]' ? link : null },
+        target: { closest: query => query === selector ? link : null },
         preventDefault() { this.defaultPrevented = true; },
         ...modifiers,
       };
       dispatch(documentListeners, 'click', event);
       return event;
     }
-    assert(clickPage('about').defaultPrevented, 'Normal navigation click must be handled');
-    assert.equal(window.location.hash, '#about');
+    assert(click('[data-page]', { page: 'about' }).defaultPrevented);
+    assert.equal(window.location.pathname, '/about');
+    assert.equal(window.location.hash, '');
     assert(isActive('about'));
+    const beforeSamePage = pushed;
+    click('[data-page]', { page: 'about' });
+    assert.equal(pushed, beforeSamePage, 'Repeated current-page clicks must not add history');
     for (const modifier of ['ctrlKey', 'metaKey', 'shiftKey', 'altKey']) {
       const before = routes().length;
-      assert.equal(clickPage('home', { [modifier]: true }).defaultPrevented, false);
-      assert.equal(window.location.hash, '#about', 'Modified link clicks must keep native browser behavior');
+      assert.equal(click('[data-page]', { page: 'home' }, { [modifier]: true }).defaultPrevented, false);
+      assert.equal(window.location.pathname, '/about');
       assert.equal(routes().length, before);
     }
+    click('[data-project]', { project: '2' });
+    assert.equal(window.location.pathname, `/project/${projectSlug(projects[2])}`);
+    assert(isActive('project'));
 
-    window.location.hash = '#home';
-    const beforeHistory = transitions().length;
-    dispatch(windowListeners, 'popstate');
-    dispatch(windowListeners, 'hashchange');
+    showPage('home');
+    showPage('projects');
+    window.history.back();
+    assert.equal(window.location.pathname, '/home');
     assert(isActive('home'));
-    assert.equal(transitions().length, beforeHistory + 1, 'History events must not duplicate the transition');
-    assert.equal(elements.get('bot-nav').inert, true, 'Desktop dock starts hidden at the top');
+    window.history.forward();
+    assert.equal(window.location.pathname, '/projects');
+    assert(isActive('projects'));
+    const afterPopstate = transitions().length;
+    dispatch(windowListeners, 'hashchange');
+    assert.equal(transitions().length, afterPopstate, 'Companion history events must not duplicate transitions');
 
+    visit('/?source=old#about', 'hashchange');
+    assert.equal(window.location.pathname, '/about');
+    assert.equal(window.location.search, '?source=old');
+    assert.equal(window.location.hash, '');
+    visit(`/#project/${projectSlug(projects[1])}`, 'hashchange');
+    assert.equal(window.location.pathname, `/project/${projectSlug(projects[1])}`);
+    assert.equal(window.location.hash, '');
+    for (const path of ['/', '/index.html', '/unknown-page']) {
+      visit(path);
+      assert.equal(window.location.pathname, '/home');
+      assert(isActive('home'));
+    }
+    visit('/about/');
+    assert.equal(window.location.pathname, '/about');
+    const beforeAnchor = routes().length;
+    visit('/about#main-content', 'hashchange');
+    assert.equal(routes().length, beforeAnchor, 'Same-page anchor must not rerender');
+    assert.equal(window.location.hash, '#main-content');
+    visit('/about?campaign=test');
+    showPage('projects');
+    assert.equal(window.location.search, '?campaign=test', 'Navigation preserves query parameters');
+    assert.equal(window.location.hash, '');
+
+    showPage('home');
+    assert.equal(elements.get('bot-nav').inert, true, 'Desktop dock starts hidden at the top');
     window.scrollY = 180;
     dispatch(windowListeners, 'scroll');
-    assert(elements.get('top-nav').inert, 'Scrolled header must not accept hidden focus');
+    assert(elements.get('top-nav').inert);
     assert.equal(elements.get('bot-nav').inert, false);
     assert(elements.get('bot-nav').classList.contains('show'));
     window.scrollY = 0;
     dispatch(windowListeners, 'scroll');
     assert.equal(elements.get('top-nav').inert, false);
     assert.equal(elements.get('bot-nav').inert, true);
-
     mobile = true;
     dispatch(mediaListeners, '(max-width: 640px):change');
-    assert.equal(elements.get('bot-nav').inert, false, 'Mobile dock must remain available at the top');
+    assert.equal(elements.get('bot-nav').inert, false);
     assert(elements.get('bot-nav').classList.contains('show'));
-    console.log(`OK: navigation smoke — ${projects.length} deep links, active states, invalid projects, clicks, history, desktop/mobile dock.`);
+    console.log(`OK: clean URL navigation - ${projects.length} direct project paths, legacy links, query/anchor handling, clicks, Back/Forward, desktop/mobile dock.`);
   } finally {
     for (const [name, descriptor] of originalGlobals) {
       if (descriptor) Object.defineProperty(globalThis, name, descriptor);

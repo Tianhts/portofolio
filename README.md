@@ -18,7 +18,7 @@ Jalankan melalui HTTP karena JavaScript menggunakan ES modules. Membuka `index.h
 npm run check
 ```
 
-Perintah pemeriksaan memvalidasi struktur, sintaks, import, aset detail proyek, dan server HTTP. Smoke test navigasi memeriksa deep link seluruh proyek, status aktif, history, modifier click, serta dock desktop/mobile. Pemeriksaan visual tetap perlu dilakukan di browser.
+Perintah pemeriksaan memvalidasi struktur, sintaks, import, aset detail proyek, dan server HTTP. Smoke test navigasi memeriksa pembukaan URL langsung seluruh proyek, migrasi tautan lama, status aktif, Back/Forward, modifier click, serta dock desktop/mobile. Pemeriksaan visual tetap perlu dilakukan di browser.
 
 Tiga jalur gambar ChatBot AI Klinik dari data lama belum tersedia. Data asli tetap disimpan; halaman detail menggunakan cover yang tersedia. Gambar galeri lain tetap bisa dibuka dalam viewer layar penuh.
 
@@ -56,6 +56,8 @@ scripts/
   navigation-smoke.mjs     Pengujian perilaku navigasi tanpa dependensi browser
 docs/
   ui-direction.md          Catatan UI dan perilaku animasi
+_redirects                 Aturan URL halaman untuk Cloudflare Pages
+vercel.json                Aturan URL halaman untuk Vercel
 ```
 
 ## Mengembangkan portofolio
@@ -74,17 +76,19 @@ docs/
 | Halaman detail dan viewer galeri | `assets/js/features/project-detail.js`, `assets/css/project-detail.css` |
 | Efek dan animasi | `assets/js/animations/`, `assets/css/animations.css` |
 
-Pertahankan jalur gambar sebagai `assets/img/...`, relatif terhadap `index.html`. Tambahkan event listener pada modul fitur; atribut `data-*` menghubungkan markup dengan perilakunya.
+Gunakan jalur gambar dari root, misalnya `/assets/img/profile.jpg`, agar aset tetap termuat saat URL detail proyek dibuka langsung. Tambahkan event listener pada modul fitur; atribut `data-*` menghubungkan markup dengan perilakunya.
 
 Foto About berbentuk lingkaran dan memakai dua gambar yang terdaftar di `assets/js/data/profile.js`: `assets/img/profile.jpg` dan `assets/img/profile.png`. Klik atau tekan Enter/Space pada foto About untuk berganti bolak-balik dengan flip singkat; tidak ada pergantian otomatis. Untuk menambah foto lagi, simpan gambarnya dan tambahkan entri pada daftar tersebut. Jika gambar berikutnya gagal dimuat, foto saat ini tetap terlihat. Foto beranda tetap memakai `profile.jpg`.
 
-Navigasi memakai hash `#home`, `#projects`, `#about`, dan `#project/<slug>`, sehingga tautan detail bisa dibagikan dan tombol Back/Forward browser tetap berfungsi. Slug berasal dari nama proyek. `initProjectDetail()` dipanggil sebelum `initNavigation()` agar detail dapat dibuka langsung dari URL.
+Navigasi memakai URL `/home`, `/projects`, `/about`, dan `/project/<slug>` tanpa hash. History API menjaga tombol Back/Forward tetap berfungsi; tautan hash lama dialihkan ke URL yang baru. Slug berasal dari nama proyek. `initProjectDetail()` dipanggil sebelum `initNavigation()` agar detail dapat dibuka langsung dari URL.
+
+Server lokal, `_redirects` untuk Cloudflare Pages, dan `vercel.json` untuk Vercel menyajikan `index.html` pada URL halaman tersebut. Sertakan konfigurasi hosting ini pada deployment supaya reload, tautan langsung, dan membuka tab baru tetap bekerja. Untuk preview URL tanpa hash, gunakan `npm start` atau server lain dengan aturan fallback yang setara.
 
 Konten dibatasi maksimal 800 px dan berada di tengah. Home dan Semua Proyek memakai dua kartu per baris pada desktop dan tablet agar kartu lebih lega. Enam proyek beranda menjadi tiga baris, sedangkan delapan proyek lengkap menjadi empat baris. Mobile memakai satu kartu per baris.
 
 Tech stack merender seluruh data sekali dalam grid delapan kolom desktop, enam kolom tablet, dan empat/tiga kolom pada layar kecil. Kotak ikon berukuran 64 px dan label berada di bawahnya. Widget Spotify dan seluruh tautan kontak tetap tersedia pada footer.
 
-Widget musik menggunakan embed resmi **Mess Is Mine — Vance Joy**. Tekan **Buka pemutar**, lalu Play pada kontrol Spotify. Iframe dimuat hanya saat pertama dibuka dan dipertahankan ketika panel disembunyikan agar posisi pemutaran tidak direset. Gunakan kontrol Pause untuk menghentikan musik; tombol **Tutup panel** hanya menyembunyikan panel. Tautan **Buka di Spotify** selalu tersedia. Ketersediaan pemutaran penuh mengikuti akses Spotify dan dukungan browser.
+Widget musik menggunakan embed resmi **Mess Is Mine — Vance Joy**, dengan durasi lagu **3:43** ditampilkan pada widget. Tekan **Buka pemutar**, lalu Play pada kontrol Spotify. Iframe dimuat hanya saat pertama dibuka dan dipertahankan ketika panel disembunyikan agar posisi pemutaran tidak direset. Gunakan kontrol Pause untuk menghentikan musik; tombol **Tutup panel** hanya menyembunyikan panel. Tautan **Buka di Spotify** selalu tersedia. Ketersediaan pemutaran penuh mengikuti akses Spotify dan dukungan browser.
 
 Intro berjalan setelah struktur aplikasi siap dengan stagger singkat. Fallback 1,8 detik menjaga konten tetap terlihat bila modul gagal dimuat. Animasi menghormati `prefers-reduced-motion`; pembesaran dock hanya aktif pada pointer yang sesuai.
 

@@ -6,10 +6,13 @@ import { execFileSync } from 'node:child_process';
 import { projects } from '../assets/js/data/projects.js';
 import { skillRows } from '../assets/js/data/skills.js';
 import { projectDetails, projectSlug } from '../assets/js/data/project-details.js';
+import { aboutProfilePhotos } from '../assets/js/data/profile.js';
 import { createPreviewServer } from './serve.mjs';
 import { checkNavigation } from './navigation-smoke.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const pagePaths = new Set(['/','/index.html','/home','/projects','/about', ...projects.map(project => `/project/${projectSlug(project)}`)]);
+const localAsset = path => resolve(root, `.${decodeURIComponent(new URL(path, 'http://localhost/').pathname)}`);
 const html = await readFile(resolve(root, 'index.html'), 'utf8');
 assert(!/<style\b|\sstyle=|\son\w+=/i.test(html), 'HTML masih berisi inline style atau event handler');
 assert(!/<script(?![^>]*\bsrc=)[^>]*>/i.test(html), 'HTML masih berisi inline script');
@@ -19,7 +22,7 @@ for (const match of html.matchAll(/<a\b[^>]*>/g)) {
   const page = match[0].match(/\bdata-page="([^"]+)"/)?.[1];
   if (!page) continue;
   const href = match[0].match(/\bhref="([^"]+)"/)?.[1];
-  assert.equal(href, `#${page}`, `Navigasi ${page} harus memakai hash #${page}`);
+  assert.equal(href, `/${page}`, `Navigasi ${page} harus memakai URL /${page}`);
 }
 for (const match of html.matchAll(/<img\b[^>]*>/g)) {
   assert(/\s(?:src|srcset)="[^"]+"/.test(match[0]), 'Elemen img harus memiliki src atau srcset');
@@ -27,7 +30,9 @@ for (const match of html.matchAll(/<img\b[^>]*>/g)) {
 for (const match of html.matchAll(/\b(?:src|href)="([^"]+)"/g)) {
   const path = match[1];
   if (/^(?:https?:|data:|mailto:|#)/.test(path)) continue;
-  await access(resolve(root, path));
+  if (pagePaths.has(path)) continue;
+  assert(path.startsWith('/assets/'), `Aset harus memakai jalur root /assets/: ${path}`);
+  await access(localAsset(path));
 }
 
 async function walk(directory) {
@@ -67,7 +72,12 @@ for (const file of cssFiles) {
 
 for (const project of projects) {
   assert(project.name && project.title && project.description && Array.isArray(project.tags));
-  await access(resolve(root, project.cover));
+  assert(project.cover.startsWith('/assets/'), 'Cover proyek harus memakai jalur root');
+  await access(localAsset(project.cover));
+}
+for (const photo of aboutProfilePhotos) {
+  assert(photo.src.startsWith('/assets/'), 'Foto About harus memakai jalur root');
+  await access(localAsset(photo.src));
 }
 assert(skillRows.every(row => row.length && row.every(skill => skill.name && skill.icon)));
 assert.equal(projectDetails.length, projects.length, 'Jumlah detail tidak sesuai proyek');
@@ -76,26 +86,35 @@ for (const [index, project] of projects.entries()) {
   const details = projectDetails[index];
   assert(details.problem && details.approach && details.highlights.length, `Detail proyek ${project.name} belum lengkap`);
   for (const image of [project.cover, ...(details.gallery ?? project.images)]) {
-    await access(resolve(root, image));
+    assert(image.startsWith('/assets/'), 'Gambar galeri harus memakai jalur root');
+    await access(localAsset(image));
   }
 }
 for (const match of html.matchAll(/<a\b[^>]*data-project="(\d+)"[^>]*>/g)) {
   const project = projects[Number(match[1])];
   assert(project, 'Indeks proyek tidak valid');
-  assert(match[0].includes(`#project/${projectSlug(project)}`), 'Tautan proyek tidak sesuai slug');
+  assert(match[0].includes(`/project/${projectSlug(project)}`), 'Tautan proyek tidak sesuai slug');
 }
 
 const server = createPreviewServer();
+const redirects = await readFile(resolve(root, '_redirects'), 'utf8');
+const hosting = JSON.parse(await readFile(resolve(root, 'vercel.json'), 'utf8'));
+for (const path of ['/home', '/projects', '/about']) {
+  assert(redirects.split(/\r?\n/).some(line => line.trim() === `${path} /index.html 200`), `Rewrite Cloudflare tidak tersedia untuk ${path}`);
+  assert(hosting.rewrites.some(rule => rule.source === path && rule.destination === '/index.html'), `Rewrite Vercel tidak tersedia untuk ${path}`);
+}
+assert(redirects.includes('/project/* /index.html 200'));
+assert(hosting.rewrites.some(rule => rule.source === '/project/:slug' && rule.destination === '/index.html'));
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const base = `http://127.0.0.1:${server.address().port}`;
 try {
-  for (const [path, type] of [['/', 'text/html'], ['/assets/js/app.js', 'text/javascript'], ['/assets/css/main.css', 'text/css'], ['/assets/img/Delshop%20Home.png', 'image/png']]) {
+  for (const [path, type] of [['/', 'text/html'], ['/home', 'text/html'], ['/projects', 'text/html'], ['/about', 'text/html'], ...projects.map(project => [`/project/${projectSlug(project)}`, 'text/html']), ['/assets/js/app.js', 'text/javascript'], ['/assets/css/main.css', 'text/css'], ['/assets/img/Delshop%20Home.png', 'image/png']]) {
     const response = await fetch(base + path);
     assert.equal(response.status, 200, `HTTP gagal untuk ${path}`);
     assert(response.headers.get('content-type').startsWith(type), `MIME tidak sesuai untuk ${path}`);
     await response.arrayBuffer();
   }
-  for (const path of ['/.git/config', '/package.json', '/assets/../README.md', '/assets/missing.png']) {
+  for (const path of ['/.git/config', '/package.json', '/assets/../README.md', '/assets/missing.png', '/not-a-page', '/project/example/extra']) {
     assert.equal((await fetch(base + path)).status, 404, `Akses tidak sesuai untuk ${path}`);
   }
 } finally {
@@ -107,7 +126,7 @@ let missingGallery = 0;
 await checkNavigation();
 for (const project of projects) {
   for (const image of project.images) {
-    try { await access(resolve(root, image)); }
+    try { await access(localAsset(image)); }
     catch { missingGallery++; }
   }
 }

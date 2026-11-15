@@ -7,17 +7,34 @@ let initialized = false;
 let activeRoute;
 let updateNavigation = () => {};
 
-function routeFromHash() {
-  const hash = window.location.hash;
-  if (!hash || hash === '#') return { page: 'home' };
-  if (/^#(?:home|projects|about)$/.test(hash)) return { page: hash.slice(1) };
-  const match = hash.match(/^#project\/([^/?#]+)\/?$/);
-  if (!match) return null;
+function projectRoute(encodedSlug) {
   let slug;
-  try { slug = decodeURIComponent(match[1]); }
+  try { slug = decodeURIComponent(encodedSlug); }
   catch { return { page: 'projects' }; }
   const projectIndex = projects.findIndex(project => projectSlug(project) === slug);
   return projectIndex < 0 ? { page: 'projects' } : { page: 'project', projectIndex, slug };
+}
+
+function legacyRoute() {
+  const hash = window.location.hash;
+  if (/^#(?:home|projects|about)$/.test(hash)) return { page: hash.slice(1) };
+  const match = hash.match(/^#project\/([^/?#]+)\/?$/);
+  return match ? projectRoute(match[1]) : null;
+}
+
+function routeFromLocation() {
+  const legacy = legacyRoute();
+  if (legacy) return legacy;
+  const path = window.location.pathname.replace(/\/+$/, '') || '/';
+  if (path === '/' || path === '/index.html') return { page: 'home' };
+  if (/^\/(?:home|projects|about)$/.test(path)) return { page: path.slice(1) };
+  const match = path.match(/^\/project\/([^/]+)$/);
+  if (match) return projectRoute(match[1]);
+  return { page: path.startsWith('/project') ? 'projects' : 'home' };
+}
+
+function routePath(route) {
+  return route.page === 'project' ? '/project/' + encodeURIComponent(route.slug) : '/' + route.page;
 }
 
 function normalizeRoute(page, options) {
@@ -31,10 +48,13 @@ function normalizeRoute(page, options) {
 export function showPage(page, options = {}) {
   const route = normalizeRoute(page, options);
   if (!route) return;
-  const hash = route.page === 'project' ? `#project/${encodeURIComponent(route.slug)}` : `#${route.page}`;
+  const path = routePath(route);
+  const fragment = options.preserveHash && !legacyRoute() ? window.location.hash : '';
+  const target = path + window.location.search + fragment;
+  const current = window.location.pathname + window.location.search + window.location.hash;
   const method = options.history || 'push';
-  if (method !== 'none' && window.location.hash !== hash) {
-    window.history[method === 'replace' ? 'replaceState' : 'pushState'](null, '', hash);
+  if (method !== 'none' && current !== target) {
+    window.history[method === 'replace' ? 'replaceState' : 'pushState'](null, '', target);
   }
   const changed = !activeRoute || activeRoute.page !== route.page || activeRoute.slug !== route.slug;
   activeRoute = route;
@@ -96,10 +116,12 @@ export function initNavigation() {
     showPage('project', { projectIndex: Number(trigger.dataset.project) });
   });
   const onHistory = () => {
-    const route = routeFromHash();
-    // Traversing a hash entry can emit both popstate and hashchange.
-    if (route && (route.page !== activeRoute?.page || route.slug !== activeRoute?.slug)) {
-      showPage(route.page, { ...route, history: 'none', focus: false });
+    const route = routeFromLocation();
+    const normalizeUrl = window.location.pathname !== routePath(route) || !!legacyRoute();
+    const changed = route.page !== activeRoute?.page || route.slug !== activeRoute?.slug;
+    // Same-page anchors keep their native scroll and do not rerender content.
+    if (changed || normalizeUrl) {
+      showPage(route.page, { ...route, history: normalizeUrl ? 'replace' : 'none', preserveHash: true, focus: false });
     }
   };
   window.addEventListener('hashchange', onHistory);
@@ -133,6 +155,6 @@ export function initNavigation() {
     requestAnimationFrame(updateNavigation);
   }, { passive: true });
   compact.addEventListener('change', updateNavigation);
-  const route = routeFromHash() || { page: 'home' };
-  showPage(route.page, { ...route, history: 'replace', initial: true, focus: false });
+  const route = routeFromLocation();
+  showPage(route.page, { ...route, history: 'replace', preserveHash: true, initial: true, focus: false });
 }

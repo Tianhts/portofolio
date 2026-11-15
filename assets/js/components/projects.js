@@ -7,7 +7,7 @@ function projectCard(project, index) {
   const extraTags = project.tags.length - visibleTags.length;
   return `
     <article class="project-card-wrap" data-aos>
-      <a class="project-card" data-project="${index}" href="#project/${projectSlug(project)}"
+      <a class="project-card" data-project="${index}" href="/project/${projectSlug(project)}"
         aria-label="Lihat detail ${escapeHtml(project.name)}">
         <div class="project-card-image">
           <img src="${escapeHtml(project.cover)}" alt="${escapeHtml(project.name)}"

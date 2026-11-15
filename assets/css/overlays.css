@@ -6,6 +6,8 @@
 .spotify-eyebrow { color: var(--muted); font-family: Consolas, monospace; font-size: 8px; letter-spacing: .16em; }
 .spotify-track p { color: var(--text); font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .spotify-track p span { color: var(--muted); font-weight: 400; }
+.spotify-duration { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: 10px; line-height: 1.6; font-variant-numeric: tabular-nums; }
+.spotify-duration i { font-size: 9px; }
 #sp-btn { flex-shrink: 0; padding: 6px 9px; min-height: 34px; border-radius: 8px; border: 1px solid var(--border); background: transparent; font-size: 10px; transition: border-color 200ms, color 200ms; }
 #sp-btn:hover { color: var(--accent); border-color: var(--accent); }
 #sp-wrap { margin-top: 14px; }

@@ -19,7 +19,7 @@ const sectionNames = [
 ];
 
 function projectLink(project, index, className = '') {
-  return `<a class="${className}" href="#project/${projectSlug(project)}" data-project="${index}">${escapeHtml(project.name)}</a>`;
+  return `<a class="${className}" href="/project/${projectSlug(project)}" data-project="${index}">${escapeHtml(project.name)}</a>`;
 }
 
 function actionLink(url, label, icon, primary = false) {
@@ -90,7 +90,7 @@ export function renderProjectDetail(index) {
   const project = projects[index];
   if (!project) {
     currentIndex = -1;
-    detailContainer.innerHTML = '<div class="pd-not-found"><p class="eyebrow">PROJECT NOT FOUND</p><h1>This project could not be found.</h1><a class="pd-back" href="#projects" data-page="projects"><i class="fas fa-arrow-left" aria-hidden="true"></i>All projects</a></div>';
+    detailContainer.innerHTML = '<div class="pd-not-found"><p class="eyebrow">PROJECT NOT FOUND</p><h1>This project could not be found.</h1><a class="pd-back" href="/projects" data-page="projects"><i class="fas fa-arrow-left" aria-hidden="true"></i>All projects</a></div>';
     return;
   }
   currentIndex = index;
@@ -106,11 +106,11 @@ export function renderProjectDetail(index) {
     <div class="pd-layout">
       <article class="pd-main">
         <div class="pd-topline" data-intro>
-          <a class="pd-back" href="#projects" data-page="projects"><i class="fas fa-arrow-left" aria-hidden="true"></i>All projects</a>
+          <a class="pd-back" href="/projects" data-page="projects"><i class="fas fa-arrow-left" aria-hidden="true"></i>All projects</a>
           <div class="pd-project-switcher" aria-label="Browse projects">
-            <a href="#project/${projectSlug(projects[previousIndex])}" data-project="${previousIndex}" aria-label="Previous project: ${escapeHtml(projects[previousIndex].name)}"><i class="fas fa-chevron-left" aria-hidden="true"></i></a>
+            <a href="/project/${projectSlug(projects[previousIndex])}" data-project="${previousIndex}" aria-label="Previous project: ${escapeHtml(projects[previousIndex].name)}"><i class="fas fa-chevron-left" aria-hidden="true"></i></a>
             ${projectLink(projects[nextIndex], nextIndex, 'pd-next-name')}
-            <a href="#project/${projectSlug(projects[nextIndex])}" data-project="${nextIndex}" aria-label="Next project: ${escapeHtml(projects[nextIndex].name)}"><i class="fas fa-chevron-right" aria-hidden="true"></i></a>
+            <a href="/project/${projectSlug(projects[nextIndex])}" data-project="${nextIndex}" aria-label="Next project: ${escapeHtml(projects[nextIndex].name)}"><i class="fas fa-chevron-right" aria-hidden="true"></i></a>
           </div>
         </div>
         <header class="pd-header" data-intro>

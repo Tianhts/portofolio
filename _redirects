@@ -1,0 +1,8 @@
+# Preserve clean page URLs while serving the static application entry point.
+/home /index.html 200
+/home/ /index.html 200
+/projects /index.html 200
+/projects/ /index.html 200
+/about /index.html 200
+/about/ /index.html 200
+/project/* /index.html 200
