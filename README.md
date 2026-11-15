@@ -1,46 +1,75 @@
-<p align="center">
-    <strong>Software Engineer | Backend Developer | Fullstack Developer | Cloud | AI/ML Enthusiast</strong>
-  </p>
-  
-  <p align="center">
-    <a href="https://your-portfolio-url.vercel.app" target="_blank">
-      <img src="https://img.shields.io/badge/Live_Demo-22c55e?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo">
-    </a>
-    <a href="https://github.com/Septianhutasoit" target="_blank">
-      <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
-    </a>
-    <a href="https://www.linkedin.com/in/septian-a-hutasoit/" target="_blank">
-      <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
-    </a>
-    <a href="https://www.instagram.com/tianhts_/" target="_blank">
-      <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram">
-    </a>
-  </p>
-</div>
+# Septian Hutasoit — Portfolio
 
-## 🚀 About The Project
+Website portofolio dengan HTML, CSS, dan JavaScript native. Kode dipisahkan menjadi modul agar konten, komponen, dan animasi dapat dikembangkan secara terpisah. Tahap ini menyiapkan fondasi kode; arah pembaruan UI berdasarkan referensi tersedia di [docs/ui-direction.md](docs/ui-direction.md).
 
-A modern, interactive portfolio website showcasing my journey as a Software Engineer, Backend Developer, Fullstack Developer, and AI/ML Enthusiast. Built with cutting-edge web technologies and featuring stunning visual effects, smooth animations, and a responsive design that works seamlessly across all devices.
+## Menjalankan secara lokal
 
+Gunakan Node.js 18 atau lebih baru. Tidak ada dependensi npm yang perlu dipasang.
 
-<div align="center">
-  
-### Frontend
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+```sh
+npm start
+```
 
-### Libraries & Tools
-![AOS](https://img.shields.io/badge/AOS-8B5CF6?style=for-the-badge&logo=aos&logoColor=white)
-![FontAwesome](https://img.shields.io/badge/Font_Awesome-528DD7?style=for-the-badge&logo=fontawesome&logoColor=white)
-![Devicon](https://img.shields.io/badge/Devicon-2C3E50?style=for-the-badge&logo=devicon&logoColor=white)
+Buka **http://localhost:4173**. Di PowerShell, gunakan `npm.cmd start` jika kebijakan eksekusi memblokir `npm.ps1`. Alternatifnya, buka folder proyek melalui VS Code Live Server.
 
-### Deployment
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
-![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-222222?style=for-the-badge&logo=githubpages&logoColor=white)
-</div>
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Septianhutasoit&show_icons=true&theme=radical&hide_border=true&bg_color=000000&title_color=22c55e&icon_color=22c55e" alt="GitHub Stats" width="48%" />
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Septianhutasoit&theme=radical&hide_border=true&background=000000&stroke=22c55e&ring=22c55e&fire=22c55e&currStreakLabel=22c55e" alt="GitHub Streak" width="48%" />
-</div>
+Jalankan melalui HTTP karena JavaScript menggunakan ES modules. Membuka `index.html` langsung melalui `file://` tidak didukung.
+
+```sh
+npm run check
+```
+
+Perintah pemeriksaan memvalidasi struktur dan referensi lokal. Pemeriksaan visual serta interaksi tetap perlu dilakukan di browser.
+
+## Struktur kode
+
+```text
+index.html                 Markup halaman dan elemen interaksi
+assets/
+  css/
+    main.css               Titik masuk stylesheet dan urutan import
+    base.css               Variabel tema, reset, dan aturan dasar
+    cursor.css             Tampilan kursor khusus
+    navigation.css         Header, dock, dan tombol kembali ke atas
+    components.css         Kartu proyek, tag, dan tech stack
+    hero.css               Elemen visual hero
+    overlays.css           Modal proyek dan widget Spotify
+    animations.css         Keyframe dan animasi reveal
+    responsive.css         Penyesuaian ukuran layar
+    pages.css              Styling markup halaman
+  js/
+    app.js                 Inisialisasi aplikasi
+    data/                  Data proyek dan skill
+    components/            Render kartu proyek dan daftar skill
+    features/              Navigasi, modal, tema, dan Spotify
+    animations/            Kursor, partikel, typewriter, reveal, interaksi
+    utils/                 Pemetaan ikon teknologi
+  img/                     Foto profil dan gambar proyek
+  audio/                   Aset audio
+scripts/
+  serve.mjs                Server lokal tanpa dependensi
+  check.mjs                Pemeriksaan struktur proyek
+docs/
+  ui-direction.md          Rancangan arah UI dan animasi berikutnya
+```
+
+## Mengembangkan portofolio
+
+| Perubahan | Lokasi utama |
+| --- | --- |
+| Judul, deskripsi, gambar, dan tautan proyek | `assets/js/data/projects.js` |
+| Nama, ikon, dan warna skill | `assets/js/data/skills.js` |
+| Susunan kartu proyek dan skill | `assets/js/components/` |
+| Konten hero, About, dan kontak | `index.html` |
+| Warna tema dan styling dasar | `assets/css/base.css` |
+| Styling halaman | `assets/css/pages.css` |
+| Header dan dock | `assets/css/navigation.css`, `assets/js/features/navigation.js` |
+| Galeri dan modal detail proyek | `assets/js/features/modal.js`, `assets/css/overlays.css` |
+| Efek dan animasi | `assets/js/animations/`, `assets/css/animations.css` |
+
+Pertahankan jalur gambar sebagai `assets/img/...`, relatif terhadap `index.html`. Tambahkan event listener pada modul fitur; atribut `data-*` menghubungkan markup dengan perilakunya.
+
+Font Plus Jakarta Sans dimuat dari Google Fonts, sementara Font Awesome dan Devicon dimuat melalui CDN. Font dan ikon eksternal memerlukan koneksi internet. Animasi reveal dibuat dengan `IntersectionObserver`, tanpa library AOS; styling menggunakan CSS native, tanpa Tailwind runtime.
+
+## Kontak
+
+[GitHub](https://github.com/Septianhutasoit) · [LinkedIn](https://www.linkedin.com/in/septian-a-hutasoit/) · [Instagram](https://www.instagram.com/tianhts_/) · [Email](mailto:septianhts95@gmail.com)

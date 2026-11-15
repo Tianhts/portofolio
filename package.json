@@ -1,0 +1,14 @@
+{
+  "name": "septian-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Portfolio Septian Hutasoit dengan HTML, CSS, dan JavaScript modular.",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "check": "node scripts/check.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

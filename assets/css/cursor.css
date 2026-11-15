@@ -1,0 +1,42 @@
+/* CURSOR */
+#c-dot {
+  position: fixed;
+  z-index: 99999;
+  pointer-events: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+  transition: width .1s, height .1s;
+}
+
+#c-ring {
+  position: fixed;
+  z-index: 99998;
+  pointer-events: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(34, 197, 94, .5);
+  transform: translate(-50%, -50%);
+  transition: width .2s, height .2s, border-color .2s;
+}
+
+.c-tr {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99997;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--accent);
+  opacity: .4;
+  animation: trFade .55s ease forwards;
+}
+
+@keyframes trFade {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+}
